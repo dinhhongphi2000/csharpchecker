@@ -1,6 +1,0 @@
-C:\Users\HONG PHI\source\repos\Caculator\AnalysticCSharpFile\obj\Debug\CSharpLexer.cs
-C:\Users\HONG PHI\source\repos\Caculator\AnalysticCSharpFile\obj\Debug\CSharpParser.cs
-C:\Users\HONG PHI\source\repos\Caculator\AnalysticCSharpFile\obj\Debug\CSharpParserListener.cs
-C:\Users\HONG PHI\source\repos\Caculator\AnalysticCSharpFile\obj\Debug\CSharpParserBaseListener.cs
-C:\Users\HONG PHI\source\repos\Caculator\AnalysticCSharpFile\obj\Debug\CSharpParserVisitor.cs
-C:\Users\HONG PHI\source\repos\Caculator\AnalysticCSharpFile\obj\Debug\CSharpParserBaseVisitor.cs
