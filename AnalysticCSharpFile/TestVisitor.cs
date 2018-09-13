@@ -9,22 +9,39 @@ namespace AnalysticCSharpFile
 {
     class TestVisitor : CSharpParserBaseVisitor<object>
     {
-        //public override object VisitNamespace_declaration([NotNull] CSharpParser.Namespace_declarationContext context)
-        //{
-        //    Console.WriteLine("Namespace {0}",context.qi.GetText());
-        //    return base.VisitNamespace_declaration(context);
-        //}
+        private List<String> NamespaceName = new List<string>();
+        private List<Tuple<String, String>> MethodNames = new List<Tuple<string, string>>();
 
-        //public override object VisitClass_definition([NotNull] CSharpParser.Class_definitionContext context)
-        //{
-        //    Console.WriteLine("\tClass {0}", context.identifier().GetText());
-        //    return base.VisitClass_definition(context);
-        //}
-
-        public override object VisitUsing_directive([NotNull] CSharpParser.Using_directiveContext context)
+        public override object VisitNamespace([NotNull] CSharpParser.NamespaceContext context)
         {
-            Console.WriteLine(context.ToStringTree());
-            return base.VisitUsing_directive(context);
+            NamespaceName.Add(context.qualified_identifier().GetText());
+            return base.VisitNamespace(context);
+        }
+
+        public void ListNameSpace(System.IO.TextWriter output)
+        {
+            NamespaceName.ToList().GroupBy(d => d).ToList().ForEach(d =>
+            {
+                output.WriteLine(d.Key);
+                ListMethodOfNamespace(d.Key, output);
+            });
+
+        }
+
+        private void ListMethodOfNamespace(string namespaceName, System.IO.TextWriter output)
+        {
+            List<string> values = new List<string>();
+            MethodNames.ForEach(d =>
+            {
+                if (d.Item1 == namespaceName)
+                    output.WriteLine("\t{0}", d.Item2);
+            });
+        }
+
+        public override object VisitClass_definition([NotNull] CSharpParser.Class_definitionContext context)
+        {
+            MethodNames.Add(new Tuple<string, string>(NamespaceName.Last(), context.identifier().GetText()));
+            return null;
         }
     }
 }
