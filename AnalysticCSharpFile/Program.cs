@@ -11,13 +11,14 @@ namespace AnalysticCSharpFile
     {
         static void Main(string[] args)
         {
-            AntlrFileStream stream = new AntlrFileStream(@"C:\Users\HONG PHI\source\repos\Caculator\AnalysticCSharpFile\bin\Debug\a.cs");
+            AntlrFileStream stream = new AntlrFileStream(AppDomain.CurrentDomain.BaseDirectory + @"\a.cs");
             CSharpLexer lexer = new CSharpLexer(stream);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             CSharpParser parser = new CSharpParser(tokens);
             CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
             TestVisitor visitor = new TestVisitor();
             visitor.Visit(startContext);
+            Console.ReadLine();
         }
     }
 }

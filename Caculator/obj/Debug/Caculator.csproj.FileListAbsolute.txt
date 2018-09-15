@@ -16,3 +16,21 @@ C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\CaculatorVisitor.cs
 C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\CaculatorBaseVisitor.cs
 C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\Common.cs
 C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\Caculator.csproj.Antlr4GeneratedCodeFileListAbsolute.txt
+D:\UIT\KLTN\CSharpParser\Caculator\bin\Debug\Caculator.exe.config
+D:\UIT\KLTN\CSharpParser\Caculator\bin\Debug\Caculator.exe
+D:\UIT\KLTN\CSharpParser\Caculator\bin\Debug\Caculator.pdb
+D:\UIT\KLTN\CSharpParser\Caculator\bin\Debug\Antlr4.Runtime.dll
+D:\UIT\KLTN\CSharpParser\Caculator\bin\Debug\Antlr4.Runtime.xml
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\Caculator.csprojAssemblyReference.cache
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorLexer.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorParser.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorListener.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorBaseListener.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorVisitor.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorBaseVisitor.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\Common.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\Caculator.csproj.Antlr4GeneratedCodeFileListAbsolute.txt
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\Caculator.csproj.CoreCompileInputs.cache
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\Caculator.csproj.CopyComplete
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\Caculator.exe
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\Caculator.pdb

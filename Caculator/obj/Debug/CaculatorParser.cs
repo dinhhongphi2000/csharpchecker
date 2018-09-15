@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\HONG PHI\source\repos\Caculator\Caculator\Caculator.g4 by ANTLR 4.6.5
+// Generated from D:\UIT\KLTN\CSharpParser\Caculator\Caculator.g4 by ANTLR 4.6.5
 
 // Unreachable code detected
 #pragma warning disable 0162

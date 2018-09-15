@@ -1,7 +1,7 @@
-C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\CaculatorLexer.cs
-C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\CaculatorParser.cs
-C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\CaculatorListener.cs
-C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\CaculatorBaseListener.cs
-C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\CaculatorVisitor.cs
-C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\CaculatorBaseVisitor.cs
-C:\Users\HONG PHI\source\repos\Caculator\Caculator\obj\Debug\Common.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorLexer.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorParser.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorListener.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorBaseListener.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorVisitor.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorBaseVisitor.cs
+D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\Common.cs
