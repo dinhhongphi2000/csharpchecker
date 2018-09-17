@@ -477,7 +477,7 @@ resource_acquisition
 
 //B.2.6 Namespaces;
 namespace_declaration
-	: NAMESPACE qi=qualified_identifier namespace_body ';'?
+	: NAMESPACE qi=qualified_identifier namespace_body ';'?  # Namespace
 	;
 
 qualified_identifier
@@ -1051,7 +1051,7 @@ keyword
 
 class_definition
 	: CLASS identifier type_parameter_list? class_base? type_parameter_constraints_clauses?
-	    class_body ';'?
+	    class_body ';'?				
 	;
 
 struct_definition
