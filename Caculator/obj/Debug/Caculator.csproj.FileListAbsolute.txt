@@ -21,7 +21,6 @@ D:\UIT\KLTN\CSharpParser\Caculator\bin\Debug\Caculator.exe
 D:\UIT\KLTN\CSharpParser\Caculator\bin\Debug\Caculator.pdb
 D:\UIT\KLTN\CSharpParser\Caculator\bin\Debug\Antlr4.Runtime.dll
 D:\UIT\KLTN\CSharpParser\Caculator\bin\Debug\Antlr4.Runtime.xml
-D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\Caculator.csprojAssemblyReference.cache
 D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorLexer.cs
 D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorParser.cs
 D:\UIT\KLTN\CSharpParser\Caculator\obj\Debug\CaculatorListener.cs

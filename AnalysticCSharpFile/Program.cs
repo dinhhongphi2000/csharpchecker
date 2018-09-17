@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Antlr4.Runtime.Tree;
 
 namespace AnalysticCSharpFile
 {
@@ -13,9 +14,9 @@ namespace AnalysticCSharpFile
         static void Main(string[] args)
         {
             TestVisitor visitor = new TestVisitor();
-
             List<string> folderPaths = new List<string>();
-            folderPaths.Add(@"D:\baitap\dau_tieng\QuanLySanLuong\WindowsFormsApplication6\WindowsFormsApplication6");
+            folderPaths.Add(@"D:\UIT\KLTN\build");
+            //folderPaths.Add(@"D:\baitap\dau_tieng\QuanLySanLuong\WindowsFormsApplication6\WindowsFormsApplication6");
             while (folderPaths.Count > 0)
             {
                 var directories = Directory.GetDirectories(folderPaths[0]);
@@ -29,8 +30,8 @@ namespace AnalysticCSharpFile
                 });
             }
 
-            visitor.ListNameSpace(Console.Out);
-
+            //visitor.ListNameSpace(Console.Out);
+            visitor.ListMethodName(Console.Out);
         }
 
         static void HandleFileCs(TestVisitor visitor, string filePath)
@@ -43,7 +44,19 @@ namespace AnalysticCSharpFile
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 CSharpParser parser = new CSharpParser(tokens);
                 CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
-                visitor.Visit(startContext);
+                TestListener listener = new TestListener(parser);
+                IParseTree tree = parser.compilation_unit();
+                ParseTreeWalker walker = new ParseTreeWalker();
+                walker.Walk(listener, startContext);
+                StringBuilder streamwritter = new StringBuilder(stream.ToString());
+                foreach(Tuple<int,string> tup in listener.GetTuples())
+                {
+                    streamwritter.Remove(tup.Item1, tup.Item2.Length).Insert(tup.Item1, tup.Item2);
+                }
+                //visitor.Visit(startContext);
+                StreamWriter writer = new StreamWriter(filePath);
+                writer.Write(streamwritter);
+                writer.Dispose();
             }
         }
     }
