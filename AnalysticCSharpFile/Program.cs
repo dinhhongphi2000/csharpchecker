@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Antlr4.Runtime.Tree;
 
 namespace AnalysticCSharpFile
 {
@@ -12,7 +13,8 @@ namespace AnalysticCSharpFile
     {
         static void Main(string[] args)
         {
-            TestVisitor visitor = new TestVisitor();
+            TreeScope root = new TreeScope(null, "root", "root");
+            TestListener listener = new TestListener(root);
 
             List<string> folderPaths = new List<string>();
             folderPaths.Add(@"D:\baitap\dau_tieng\QuanLySanLuong\WindowsFormsApplication6\WindowsFormsApplication6");
@@ -25,15 +27,15 @@ namespace AnalysticCSharpFile
                 folderPaths.RemoveAt(0);
                 files.ToList().ForEach(fp =>
                 {
-                    HandleFileCs(visitor, fp);
+                    HandleFileCs(listener, fp);
                 });
             }
 
-            visitor.ListNameSpace(Console.Out);
+            listener.ShowTree(root, Console.Out);
 
         }
 
-        static void HandleFileCs(TestVisitor visitor, string filePath)
+        static void HandleFileCs(TestListener listener, string filePath)
         {
             FileInfo info = new FileInfo(filePath);
             if (info.Extension == ".cs")
@@ -42,8 +44,11 @@ namespace AnalysticCSharpFile
                 CSharpLexer lexer = new CSharpLexer(stream);
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 CSharpParser parser = new CSharpParser(tokens);
+                //parser.RemoveErrorListeners();
+                //parser.AddErrorListener(new CustomError());
                 CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
-                visitor.Visit(startContext);
+                ParseTreeWalker walker = new ParseTreeWalker();
+                walker.Walk(listener, startContext);
             }
         }
     }
