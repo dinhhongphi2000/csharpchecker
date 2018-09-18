@@ -52,17 +52,23 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestListener.cs" />
-    <Compile Include="TreeScope.cs" />
+    <Compile Include="TestVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <Antlr4 Include="CSharpLexer.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>AnalysticCSharpFile</CustomToolNamespace>
+      <Visitor>True</Visitor>
+      <Listener>True</Listener>
+      <TargetLanguage>CSharp</TargetLanguage>
     </Antlr4>
     <Antlr4 Include="CSharpParser.g4">
       <Generator>MSBuild:Compile</Generator>
       <CustomToolNamespace>AnalysticCSharpFile</CustomToolNamespace>
+      <Listener>True</Listener>
+      <Visitor>True</Visitor>
+      <TargetLanguage>CSharp</TargetLanguage>
     </Antlr4>
     <None Include="packages.config" />
   </ItemGroup>
