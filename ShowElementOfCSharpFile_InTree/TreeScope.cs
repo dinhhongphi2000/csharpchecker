@@ -17,7 +17,6 @@ namespace ShowElementOfCSharpFile_InTree
 
         public TreeScope(TreeScope parent, string name, string type)
         {
-            Console.WriteLine(parent);
             this.Parent = parent;
             this.Name = name;
             this.Type = type;

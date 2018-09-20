@@ -27,7 +27,7 @@ SINGLE_LINE_COMMENT:     '//'  InputCharacter*    -> channel(COMMENTS_CHANNEL);
 DELIMITED_COMMENT:       '/*'  .*? '*/'           -> channel(COMMENTS_CHANNEL);
 
 WHITESPACES:   (Whitespace | NewLine)+            -> channel(HIDDEN);
-SHARP:         '#'                                -> mode(DIRECTIVE_MODE);
+SHARP:         '#'                                -> channel(DIRECTIVE_MODE), mode(DIRECTIVE_MODE);
 
 ABSTRACT:      'abstract';
 ADD:           'add';
