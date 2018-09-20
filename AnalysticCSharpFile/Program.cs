@@ -15,7 +15,7 @@ namespace AnalysticCSharpFile
         {
             TestVisitor visitor = new TestVisitor();
             List<string> folderPaths = new List<string>();
-            folderPaths.Add(@"D:\UIT\KLTN\build");
+            folderPaths.Add(@"C:\Users\HONG PHI\source\repos\Caculator\AnalysticCSharpFile\bin\Debug\build");
             //folderPaths.Add(@"D:\baitap\dau_tieng\QuanLySanLuong\WindowsFormsApplication6\WindowsFormsApplication6");
             while (folderPaths.Count > 0)
             {
@@ -26,7 +26,7 @@ namespace AnalysticCSharpFile
                 folderPaths.RemoveAt(0);
                 files.ToList().ForEach(fp =>
                 {
-                    HandleFileCs(listener, fp);
+                    HandleFileCs(visitor, fp);
                 });
             }
 
@@ -34,7 +34,7 @@ namespace AnalysticCSharpFile
             visitor.ListMethodName(Console.Out);
         }
 
-        static void HandleFileCs(TestListener listener, string filePath)
+        static void HandleFileCs(TestVisitor visitor, string filePath)
         {
             FileInfo info = new FileInfo(filePath);
             if (info.Extension == ".cs")
@@ -43,15 +43,13 @@ namespace AnalysticCSharpFile
                 CSharpLexer lexer = new CSharpLexer(stream);
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 CSharpParser parser = new CSharpParser(tokens);
-                //parser.RemoveErrorListeners();
-                //parser.AddErrorListener(new CustomError());
                 CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
                 TestListener listener = new TestListener(parser);
                 IParseTree tree = parser.compilation_unit();
                 ParseTreeWalker walker = new ParseTreeWalker();
                 walker.Walk(listener, startContext);
                 StringBuilder streamwritter = new StringBuilder(stream.ToString());
-                foreach(Tuple<int,string> tup in listener.GetTuples())
+                foreach (Tuple<int, string> tup in listener.GetTuples())
                 {
                     streamwritter.Remove(tup.Item1, tup.Item2.Length).Insert(tup.Item1, tup.Item2);
                 }

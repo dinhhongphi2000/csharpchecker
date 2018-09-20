@@ -44,8 +44,8 @@ namespace ShowElementOfCSharpFile_InTree
                 CSharpLexer lexer = new CSharpLexer(stream);
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 CSharpParser parser = new CSharpParser(tokens);
-                //parser.RemoveErrorListeners();
-                //parser.AddErrorListener(new CustomError());
+                parser.RemoveErrorListeners();
+                parser.AddErrorListener(new CustomError());
                 CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
                 ParseTreeWalker walker = new ParseTreeWalker();
                 walker.Walk(listener, startContext);

@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-<<<<<<< HEAD
-=======
 using Antlr4.Runtime;
->>>>>>> dff8c5da7827b8fbd9f04d053ebc31936e6acfa0
 using Antlr4.Runtime.Misc;
 
 namespace AnalysticCSharpFile
