@@ -750,7 +750,7 @@ overloadable_operator
 	| '>'
 	| '<'
 	| '>='
-	| '<=' 
+	| '<='
 	;
 
 conversion_operator_declarator

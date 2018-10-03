@@ -17,8 +17,8 @@ namespace ShowElementOfCSharpFile_InTree
             TestListener listener = new TestListener(root);
 
             List<string> folderPaths = new List<string>();
-            folderPaths.Add(@"D:\baitap\dau_tieng\QuanLySanLuong\WindowsFormsApplication6\WindowsFormsApplication6");
-            //folderPaths.Add(@"C:\Users\HONG PHI\Desktop\check preprocessing directive");
+            //folderPaths.Add(@"D:\baitap\dau_tieng\QuanLySanLuong\WindowsFormsApplication6\WindowsFormsApplication6");
+            folderPaths.Add(@"C:\Users\HONG PHI\Desktop\check preprocessing directive");
             while (folderPaths.Count > 0)
             {
                 var directories = Directory.GetDirectories(folderPaths[0]);
