@@ -16,11 +16,14 @@ namespace BuildArchitecture.Gui
         public override void EnterEveryRule([NotNull] ParserRuleContext context)
         {
             base.EnterEveryRule(context);
+            TreeViewerNodeMeta node = new TreeViewerNodeMeta();
+            node.StartIndex = context.Start.StartIndex;
+            node.StopIndex = context.Stop.StopIndex;
             if (_currentNode.Text == context.Parent?.GetType().Name)
             {
                 _currentNode.Nodes.Add(context.GetType().Name);
                 _currentNode = _currentNode.Nodes[_currentNode.Nodes.Count - 1];
-                _currentNode.Tag = context.Start.StartIndex;
+                _currentNode.Tag = node;
             }
             else
             {
@@ -28,18 +31,20 @@ namespace BuildArchitecture.Gui
                 {
                     _currentNode.Nodes.Add(context.GetType().Name);
                     _currentNode = _currentNode.Nodes[_currentNode.Nodes.Count - 1];
-                    _currentNode.Tag = context.Start.StartIndex;
+                    _currentNode.Tag = node;
                 }
                 else
                 {
                     _currentNode.Parent.Nodes.Add(context.GetType().Name);
                     _currentNode = _currentNode.Parent.Nodes[_currentNode.Parent.Nodes.Count - 1];
-                    _currentNode.Tag = context.Start.StartIndex;
+                    _currentNode.Tag = node;
                 }
             }
             if (context.ChildCount == 1 && context.GetChild(0).ChildCount <= 0)
             {
+                node.Token = context.GetText();
                 _currentNode.Nodes.Add(context.GetText());
+                _currentNode.Nodes[0].Tag = node;
             }
         }
 
@@ -78,9 +83,15 @@ namespace BuildArchitecture.Gui
             try
             {
                 var current = tree;
-                if ((current.Tag != null) && (int.Parse(current.Tag.ToString()) >= tokenStart))
+                TreeViewerNodeMeta meta = current.Tag as TreeViewerNodeMeta;
+                if ((current.Tag != null) && meta.StartIndex >= tokenStart)
                 {
-                    return tree;
+                    if(current.PrevNode != null)
+                        return current.PrevNode;
+                    else
+                    {
+                        return current.Parent;
+                    }
                 }
                 else
                 {
