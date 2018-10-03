@@ -19,12 +19,12 @@ namespace BuildArchitecture
             CSharpParser parser = new CSharpParser(tokens);
             CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
             IParseTree tree = parser.compilation_unit();
-            Include_Buildin_Rule(Provider.Instance);
+            Include_Buildin_Rule(ListenerProvider.Instance);
             ParseTreeWalker walker = new ParseTreeWalker();
-            walker.Walk(Provider.Instance, startContext);
+            walker.Walk(ListenerProvider.Instance, startContext);
         }
 
-        private void Include_Buildin_Rule(Provider provider)
+        private void Include_Buildin_Rule(ListenerProvider provider)
         {
             var ruleClass = Assembly.GetExecutingAssembly().GetTypes();
             var filter = from r in ruleClass

@@ -8,10 +8,10 @@ namespace BuildArchitecture
 {
     public class BaseRule
     {
-        private static Provider _provider;
+        private static ListenerProvider _provider;
         public BaseRule()
         {
-            _provider = Provider.Instance;
+            _provider = ListenerProvider.Instance;
             _provider.EnterNode += EnterNode;
             _provider.ExitNode += ExitNode;
         }

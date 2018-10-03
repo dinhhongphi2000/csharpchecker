@@ -12,7 +12,7 @@ namespace TestBuildArchitecture
         static void Main(string[] args)
         {
             Startup startup = new Startup();
-            startup.CheckFile(@"C:\Users\HONG PHI\source\repos\Caculator\BuildArchitecture\Provider.cs");
+            startup.CheckFile(@"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs");
         }
     }
 }
