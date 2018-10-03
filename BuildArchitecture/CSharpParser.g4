@@ -374,7 +374,7 @@ simple_embedded_statement
     // iteration statements
 	| WHILE OPEN_PARENS expression CLOSE_PARENS embedded_statement                                        #whileStatement
 	| DO embedded_statement WHILE OPEN_PARENS expression CLOSE_PARENS ';'                                 #doStatement
-	| FOR OPEN_PARENS for_initializer? ';' expression? ';' for_iterator? CLOSE_PARENS embedded_statement  #forStatement
+	| FOR OPEN_PARENS for_initializer? ';' for_condition? ';' for_iterator? CLOSE_PARENS embedded_statement  #forStatement
 	| FOREACH OPEN_PARENS local_variable_type identifier IN expression CLOSE_PARENS embedded_statement    #foreachStatement
 
     // jump statements
@@ -443,6 +443,10 @@ statement_list
 for_initializer
 	: local_variable_declaration
 	| expression (','  expression)*
+	;
+
+for_condition
+	: expression
 	;
 
 for_iterator

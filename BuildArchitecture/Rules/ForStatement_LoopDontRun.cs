@@ -11,12 +11,11 @@ namespace BuildArchitecture.Rules
 {
     class ForStatement_LoopDontRun : BaseRule
     {
+        private bool isInForLoop = false;
+        private int initValue;
         public override void EnterNode([NotNull] ParserRuleContext context)
         {
             base.EnterNode(context);
-            if (!(context is ForStatementContext)) return;
-            var a = context as ForStatementContext;
-            Console.WriteLine(a?.for_initializer()?.GetChild(0).GetChild(1).GetChild(2).GetText());
         }
     }
 }

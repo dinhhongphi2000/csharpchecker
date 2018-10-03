@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildArchitecture", "BuildA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBuildArchitecture", "TestBuildArchitecture\TestBuildArchitecture.csproj", "{8280A014-0EB4-43A9-9FF8-EAD113C0A4CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "antlr4ShowTree", "antlr4ShowTree\antlr4ShowTree.csproj", "{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8280A014-0EB4-43A9-9FF8-EAD113C0A4CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8280A014-0EB4-43A9-9FF8-EAD113C0A4CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8280A014-0EB4-43A9-9FF8-EAD113C0A4CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
