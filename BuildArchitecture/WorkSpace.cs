@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace BuildArchitecture
 {
-    public class Startup
+    public class WorkSpace
     {
         public void CheckFile(string path)
         {
@@ -15,12 +15,12 @@ namespace BuildArchitecture
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             CSharpParser parser = new CSharpParser(tokens);
             CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
-            Include_Buildin_Rule(ListenerProvider.Instance);
+            Include_Buildin_Rule(NodeVisitedListener.Instance);
             ParseTreeWalker walker = new ParseTreeWalker();
-            walker.Walk(ListenerProvider.Instance, startContext);
+            walker.Walk(NodeVisitedListener.Instance, startContext);
         }
 
-        private void Include_Buildin_Rule(ListenerProvider provider)
+        private void Include_Buildin_Rule(NodeVisitedListener provider)
         {
             var ruleClass = Assembly.GetExecutingAssembly().GetTypes();
             var filter = from r in ruleClass
@@ -29,6 +29,7 @@ namespace BuildArchitecture
             filter.ToList().ForEach(rule =>
             {
                 BaseRule instance = (BaseRule)Activator.CreateInstance(rule);
+                instance.SetupRuleInfo();
             });
         }
     }

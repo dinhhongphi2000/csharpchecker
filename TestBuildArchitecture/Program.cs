@@ -8,8 +8,8 @@ namespace TestBuildArchitecture
     {
         static void Main(string[] args)
         {
-            Startup startup = new Startup();
-            startup.CheckFile(@"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs");
+            WorkSpace WorkSpace = new WorkSpace();
+            WorkSpace.CheckFile(@"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs");
             //GetContext();
         }
 

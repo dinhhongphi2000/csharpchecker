@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Misc;
-using static BuildArchitecture.CSharpParser;
+﻿using Antlr4.Runtime;
+using System;
 
 namespace BuildArchitecture.Rules
 {
@@ -13,39 +7,46 @@ namespace BuildArchitecture.Rules
     {
         int start;
         int end;
-        public override void EnterNode([NotNull] ParserRuleContext context)
+
+        public override void SetupRuleInfo()
         {
-            if(context is LiteralContext)
+            this.RegisterRule(RuleContextType.LITERALCONTEXT, VisitLiteralContext);
+            this.RegisterRule(RuleContextType.FOR_ITERATORCONTEXT, VisitFor_iteratorContext);
+        }
+
+        public void VisitLiteralContext(ParserRuleContext context)
+        {
+            if (context.InRule(RuleContextType.LOCAL_VARIABLE_DECLARATORCONTEXT))
             {
-                if(context.InRule(RuleContextType.LOCAL_VARIABLE_DECLARATORCONTEXT))
+                start = int.Parse(context.GetText());
+            }
+            if (context.InRule(RuleContextType.FOR_CONDITIONCONTEXT))
+            {
+                end = int.Parse(context.GetText());
+            }
+        }
+
+        public void VisitFor_iteratorContext(ParserRuleContext context)
+        {
+            string text = context.GetText();
+            if (text.Contains("++"))
+            {
+                if (start > end)
                 {
-                    start = int.Parse(context.GetText());
-                }
-                if (context.InRule(RuleContextType.FOR_CONDITIONCONTEXT))
-                {
-                    end = int.Parse(context.GetText());
+                    Console.WriteLine("Error");
                 }
             }
-            if(context is For_iteratorContext)
+            else
             {
-                string text = context.GetText();
-                if (text.Contains("++"))
-                {
-                    if(start > end)
-                    {
-                        Console.WriteLine("Error");
-                    }
-                }
-                else
-                {
-                    if(start < end)
+                if (start < end)
 
 
-                    {
-                        Console.WriteLine("Error");
-                    }
+                {
+                    Console.WriteLine("Error");
                 }
             }
         }
+
+
     }
 }
