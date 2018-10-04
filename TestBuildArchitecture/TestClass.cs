@@ -10,7 +10,7 @@ namespace TestBuildArchitecture
     {
         public void method()
         {
-            for(int i = 10; i < 10; i++)
+            for(int i = 9; i < 10; i--)
             {
                 var x = 100;
             }

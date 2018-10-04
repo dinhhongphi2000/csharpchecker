@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Antlr4.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace BuildArchitecture
 {
     public class BaseRule
     {
+
         private static ListenerProvider _provider;
         public BaseRule()
         {
