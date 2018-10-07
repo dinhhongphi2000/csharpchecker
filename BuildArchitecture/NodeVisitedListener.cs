@@ -1,14 +1,15 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 
 namespace BuildArchitecture
 {
     internal sealed class NodeVisitedListener : CSharpParserBaseListener
     {
-        private Dictionary<RuleContextType, EventHandler<ParserRuleContext>> _eventList = new Dictionary<RuleContextType, EventHandler<ParserRuleContext>>();
+        private NodeHandlerContainer _eventList;
+        private CompositionContainer _container;
 
         private static NodeVisitedListener _instance = null;
         public static NodeVisitedListener Instance
@@ -25,6 +26,20 @@ namespace BuildArchitecture
         }
         private NodeVisitedListener()
         {
+            var catalog = new AggregateCatalog();
+            catalog.Catalogs.Add(new AssemblyCatalog(typeof(NodeVisitedListener).Assembly));
+            _container = new CompositionContainer(catalog);
+
+            //Fill the imports of this object
+            try
+            {
+                _eventList = new NodeHandlerContainer();
+                this._container.ComposeParts(_eventList);
+            }
+            catch (CompositionException compositionException)
+            {
+                Console.WriteLine(compositionException.ToString());
+            }
         }
 
         public override void EnterEveryRule([NotNull] ParserRuleContext context)
@@ -32,31 +47,11 @@ namespace BuildArchitecture
             base.EnterEveryRule(context);
             try
             {
-                string contextTypeName = context.GetType().Name.ToUpper();
-                RuleContextType contextType = (RuleContextType)Enum.Parse(typeof(RuleContextType), contextTypeName);
-                _eventList[contextType].Invoke(null, context);
-            }catch(Exception ex)
+                _eventList.RaiseAction(context);
+            }
+            catch (Exception ex)
             {
 
-            }
-        }
-
-        public void RegisterEventContext(RuleContextType contextType, Action<ParserRuleContext> method)
-        {
-            Debug.WriteLine("Regiser method {0} for visit event context {1}", method.Method.Name, contextType.ToString());
-            if (_eventList.ContainsKey(contextType))
-            {
-                _eventList[contextType] += (sender, context) =>
-                {
-                    method(context);
-                };
-            }
-            else
-            {
-                _eventList.Add(contextType, (sender, context) =>
-                {
-                    method(context);
-                });
             }
         }
     }

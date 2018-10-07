@@ -8,6 +8,7 @@ namespace antlr4ShowTree
     public partial class Form1 : Form
     {
         TreeNode root;
+        TreeViewerNodeMeta _previousSelection;
         public Form1()
         {
             InitializeComponent();
@@ -28,14 +29,6 @@ namespace antlr4ShowTree
             }
         }
 
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            root = new TreeNode();
-            TreeViewer.GetTree(richTextBox1.Text, root);
-            treeViewer.Nodes.Clear();
-            treeViewer.Nodes.Add(root);
-        }
-
         private void treeViewer_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
             //remove backcolor of previous node
@@ -44,6 +37,49 @@ namespace antlr4ShowTree
                 treeViewer.SelectedNode.BackColor = Color.White;
             }
             e.Node.BackColor = Color.Blue;
+        }
+
+        private void goToTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedNode = treeViewer.SelectedNode;
+            if (_previousSelection != null)
+            {
+                richTextBox1.Select(_previousSelection.StartIndex, _previousSelection.StopIndex - _previousSelection.StartIndex + 1);
+                richTextBox1.SelectionBackColor = Color.White;
+            }
+            if (selectedNode != null)
+            {
+                var nodeinfo = (TreeViewerNodeMeta)selectedNode.Tag;
+                richTextBox1.Select(nodeinfo.StartIndex, nodeinfo.StopIndex - nodeinfo.StartIndex + 1);
+                richTextBox1.SelectionBackColor = Color.Yellow;
+                _previousSelection = nodeinfo;
+            }
+        }
+
+        private void btnReloadTree_Click(object sender, EventArgs e)
+        {
+            root = new TreeNode();
+            TreeViewer.GetTree(richTextBox1.Text, root);
+            treeViewer.Nodes.Clear();
+            treeViewer.Nodes.Add(root);
+        }
+
+        private void expandAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedNode = treeViewer.SelectedNode;
+            if(selectedNode != null)
+            {
+                selectedNode.ExpandAll();
+            }
+        }
+
+        private void collapseAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedNode = treeViewer.SelectedNode;
+            if (selectedNode != null)
+            {
+                selectedNode.Collapse(false);
+            }
         }
     }
 }

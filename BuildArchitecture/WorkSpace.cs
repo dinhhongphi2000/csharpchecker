@@ -15,22 +15,9 @@ namespace BuildArchitecture
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             CSharpParser parser = new CSharpParser(tokens);
             CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
-            Include_Buildin_Rule(NodeVisitedListener.Instance);
             ParseTreeWalker walker = new ParseTreeWalker();
-            walker.Walk(NodeVisitedListener.Instance, startContext);
-        }
 
-        private void Include_Buildin_Rule(NodeVisitedListener provider)
-        {
-            var ruleClass = Assembly.GetExecutingAssembly().GetTypes();
-            var filter = from r in ruleClass
-                         where r.IsSubclassOf(typeof(BaseRule))
-                         select r;
-            filter.ToList().ForEach(rule =>
-            {
-                BaseRule instance = (BaseRule)Activator.CreateInstance(rule);
-                instance.SetupRuleInfo();
-            });
+            walker.Walk(NodeVisitedListener.Instance, startContext);
         }
     }
 }

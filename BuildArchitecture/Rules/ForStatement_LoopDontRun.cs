@@ -1,19 +1,16 @@
 ﻿using Antlr4.Runtime;
 using System;
+using System.ComponentModel.Composition;
+using static BuildArchitecture.CSharpParser;
 
 namespace BuildArchitecture.Rules
 {
-    class ForStatement_LoopDontRun : BaseRule
+    class ForStatement_LoopDontRun
     {
         int start;
         int end;
 
-        public override void SetupRuleInfo()
-        {
-            this.RegisterRule(RuleContextType.LITERALCONTEXT, VisitLiteralContext);
-            this.RegisterRule(RuleContextType.FOR_ITERATORCONTEXT, VisitFor_iteratorContext);
-        }
-
+        [Export(typeof(LiteralContext))]
         public void VisitLiteralContext(ParserRuleContext context)
         {
             if (context.InRule(RuleContextType.LOCAL_VARIABLE_DECLARATORCONTEXT))
@@ -26,6 +23,7 @@ namespace BuildArchitecture.Rules
             }
         }
 
+        [Export(typeof(For_iteratorContext))]
         public void VisitFor_iteratorContext(ParserRuleContext context)
         {
             string text = context.GetText();
@@ -39,8 +37,6 @@ namespace BuildArchitecture.Rules
             else
             {
                 if (start < end)
-
-
                 {
                     Console.WriteLine("Error");
                 }

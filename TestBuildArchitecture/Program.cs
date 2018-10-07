@@ -20,8 +20,12 @@ namespace TestBuildArchitecture
             {
                 if (e.FullName.Contains("BuildArchitecture.CSharpParser+"))
                 {
+                    
                     var b = e.FullName.Remove(0, "BuildArchitecture.CSharpParser+".Length);
-                    Console.WriteLine("{0},", b.ToUpper());
+                    Console.WriteLine("[ImportMany(typeof({0}))]", b);
+                    Console.Write("public IEnumerable<Lazy<Action<ParserRuleContext>>> {0} ", b);
+                    Console.WriteLine("{get;set;}");
+                    Console.WriteLine();
                 }
             });
         }
