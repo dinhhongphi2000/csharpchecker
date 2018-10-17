@@ -8,23 +8,10 @@ namespace BuildArchitecture
 {
     internal sealed class NodeVisitedListener : CSharpParserBaseListener
     {
-        private NodeHandlerContainer _eventList;
+        private RuleActionContainer _eventList;
         private CompositionContainer _container;
 
-        private static NodeVisitedListener _instance = null;
-        public static NodeVisitedListener Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new NodeVisitedListener();
-                }
-                return _instance;
-            }
-            private set { }
-        }
-        private NodeVisitedListener()
+        public NodeVisitedListener()
         {
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(NodeVisitedListener).Assembly));
@@ -33,7 +20,7 @@ namespace BuildArchitecture
             //Fill the imports of this object
             try
             {
-                _eventList = new NodeHandlerContainer();
+                _eventList = new RuleActionContainer();
                 this._container.ComposeParts(_eventList);
             }
             catch (CompositionException compositionException)

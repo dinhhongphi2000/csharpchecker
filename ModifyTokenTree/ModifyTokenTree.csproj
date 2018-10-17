@@ -5,10 +5,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E21A7F6C-208D-470E-8878-21C808CB4DBE}</ProjectGuid>
+    <ProjectGuid>{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ShowElementOfCSharpFile_InTree</RootNamespace>
-    <AssemblyName>ShowElementOfCSharpFile_InTree</AssemblyName>
+    <RootNamespace>ModifyTokenTree</RootNamespace>
+    <AssemblyName>ModifyTokenTree</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -48,25 +48,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomError.cs" />
-    <Compile Include="FileStream.cs" />
+    <Compile Include="MyToken.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TerminalListener.cs" />
-    <Compile Include="TestListener.cs" />
-    <Compile Include="TreeScope.cs" />
-    <Compile Include="UpperCaseClassName.cs" />
-    <None Include="UpperCaseTestFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Antlr4 Include="CSharpLexer.g4">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>ShowElementOfCSharpFile_InTree</CustomToolNamespace>
-    </Antlr4>
     <Antlr4 Include="CSharpParser.g4">
       <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>ShowElementOfCSharpFile_InTree</CustomToolNamespace>
+      <CustomToolNamespace>BuildArchitecture</CustomToolNamespace>
+    </Antlr4>
+    <Antlr4 Include="CSharpLexer.g4">
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>BuildArchitecture</CustomToolNamespace>
     </Antlr4>
     <None Include="packages.config" />
   </ItemGroup>

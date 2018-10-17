@@ -13,27 +13,36 @@ namespace ShowElementOfCSharpFile_InTree
     {
         static void Main(string[] args)
         {
-            TreeScope root = new TreeScope(null, "root", "root");
-            TestListener listener = new TestListener(root);
+            //TreeScope root = new TreeScope(null, "root", "root");
+            //TestListener listener = new TestListener(root);
 
-            List<string> folderPaths = new List<string>();
-            //folderPaths.Add(@"D:\baitap\dau_tieng\QuanLySanLuong\WindowsFormsApplication6\WindowsFormsApplication6");
-            folderPaths.Add(@"C:\Users\HONG PHI\Desktop\check preprocessing directive");
-            while (folderPaths.Count > 0)
-            {
-                var directories = Directory.GetDirectories(folderPaths[0]);
-                if (directories.Length > 0)
-                    folderPaths.AddRange(directories);
-                var files = Directory.GetFiles(folderPaths[0]);
-                folderPaths.RemoveAt(0);
-                files.ToList().ForEach(fp =>
-                {
-                    HandleFileCs(listener, fp);
-                });
-            }
+            //List<string> folderPaths = new List<string>();
+            ////folderPaths.Add(@"D:\baitap\dau_tieng\QuanLySanLuong\WindowsFormsApplication6\WindowsFormsApplication6");
+            //folderPaths.Add(@"C:\Users\HONG PHI\Desktop\check preprocessing directive");
+            //while (folderPaths.Count > 0)
+            //{
+            //    var directories = Directory.GetDirectories(folderPaths[0]);
+            //    if (directories.Length > 0)
+            //        folderPaths.AddRange(directories);
+            //    var files = Directory.GetFiles(folderPaths[0]);
+            //    folderPaths.RemoveAt(0);
+            //    files.ToList().ForEach(fp =>
+            //    {
+            //        HandleFileCs(listener, fp);
+            //    });
+            //}
 
-            listener.ShowTree(root, Console.Out);
+            //listener.ShowTree(root, Console.Out);
 
+            FileStream stream = new FileStream(@"C:\Users\HONG PHI\source\repos\Caculator\ShowElementOfCSharpFile_InTree\UpperCaseTestFile.cs");
+            CSharpLexer lexer = new CSharpLexer(stream);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            CSharpParser parser = new CSharpParser(tokens);
+            RuleContext context = parser.compilation_unit();
+            UpperCaseClassName listener = new UpperCaseClassName(tokens);
+            ParseTreeWalker walker = new ParseTreeWalker();
+            walker.Walk(listener, context);
+            stream.UpdateFile(listener.ValidCode);
         }
 
         static void HandleFileCs(TestListener listener, string filePath)

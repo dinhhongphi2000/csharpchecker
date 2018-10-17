@@ -7,8 +7,7 @@ using static BuildArchitecture.CSharpParser;
 
 namespace BuildArchitecture
 {
-
-    internal sealed class NodeHandlerContainer
+    internal sealed class RuleActionContainer
     {
         [ImportMany(typeof(Compilation_unitContext))]
         public IEnumerable<Lazy<Action<ParserRuleContext>>> Compilation_unitContext { get; set; }

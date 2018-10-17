@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBuildArchitecture", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "antlr4ShowTree", "antlr4ShowTree\antlr4ShowTree.csproj", "{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModifyTokenTree", "ModifyTokenTree\ModifyTokenTree.csproj", "{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 ﻿using BuildArchitecture;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace TestBuildArchitecture
@@ -8,9 +9,21 @@ namespace TestBuildArchitecture
     {
         static void Main(string[] args)
         {
-            WorkSpace WorkSpace = new WorkSpace();
-            WorkSpace.CheckFile(@"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs");
+            string currentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
+            WorkSpace workSpace = new WorkSpace();
+            Program program = new Program();
+            workSpace.UpdateTree(currentFile, program.GetFileContent(currentFile));
+            workSpace.RunRules(currentFile);
+
             //GetContext();
+        }
+
+        public string GetFileContent(string filePath)
+        {
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                return reader.ReadToEnd();
+            }
         }
 
         static void GetContext()
