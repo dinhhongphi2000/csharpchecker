@@ -42,18 +42,20 @@ namespace antlr4ShowTree
         private void goToTextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selectedNode = treeViewer.SelectedNode;
+            var nodeinfo = (TreeViewerNodeMeta)selectedNode.Tag ?? null;
+            //remove old selection highlight
             if (_previousSelection != null)
             {
                 richTextBox1.Select(_previousSelection.StartIndex, _previousSelection.StopIndex - _previousSelection.StartIndex + 1);
                 richTextBox1.SelectionBackColor = Color.White;
             }
-            if (selectedNode != null)
+            if (nodeinfo != null)
             {
-                var nodeinfo = (TreeViewerNodeMeta)selectedNode.Tag;
                 richTextBox1.Select(nodeinfo.StartIndex, nodeinfo.StopIndex - nodeinfo.StartIndex + 1);
                 richTextBox1.SelectionBackColor = Color.Yellow;
                 _previousSelection = nodeinfo;
             }
+            treeViewer.SelectedNode = selectedNode;
         }
 
         private void btnReloadTree_Click(object sender, EventArgs e)

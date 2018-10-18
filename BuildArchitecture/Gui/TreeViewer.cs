@@ -44,7 +44,7 @@ namespace BuildArchitecture.Gui
             {
                 var current = tree;
                 TreeViewerNodeMeta meta = current.Tag as TreeViewerNodeMeta;
-                if ((current.Tag != null) && meta.StartIndex >= tokenStart)
+                if ((current.Tag != null) && meta.StartIndex <= tokenStart && meta.StopIndex >= tokenStart && tree.Nodes.Count == 0)
                 {
                     if(current.PrevNode != null)
                         return current.PrevNode;
