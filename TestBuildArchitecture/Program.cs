@@ -1,5 +1,7 @@
 ﻿using BuildArchitecture;
+using BuildArchitecture.Context;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -10,11 +12,16 @@ namespace TestBuildArchitecture
         static void Main(string[] args)
         {
             string currentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
-            WorkSpace workSpace = new WorkSpace();
-            Program program = new Program();
-            workSpace.UpdateTree(currentFile, program.GetFileContent(currentFile));
-            workSpace.RunRules(currentFile);
 
+            var solution = InitSolutionContext();
+            IWorkSpace workSpace = new WorkSpace(solution);
+            workSpace.CurrentProject = solution.GetProject("TestBuildArchitecture");
+            workSpace.CurrentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
+            Program program = new Program();
+            workSpace.UpdateTree(program.GetFileContent(currentFile));
+            workSpace.RunRules();
+
+            //GetSolutionList();
             //GetContext();
         }
 
@@ -24,6 +31,14 @@ namespace TestBuildArchitecture
             {
                 return reader.ReadToEnd();
             }
+        }
+
+        public static SolutionContext InitSolutionContext()
+        {
+            var solution = new SolutionContext(@"C:\Users\HONG PHI\source\repos\Caculator\Caculator.sln", "Caculator");
+            var project = new ProjectContext(@"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\", "TestBuildArchitecture");
+            solution.AddProjectNode(project.Name, project);
+            return solution;
         }
 
         static void GetContext()
@@ -36,11 +51,27 @@ namespace TestBuildArchitecture
                     
                     var b = e.FullName.Remove(0, "BuildArchitecture.CSharpParser+".Length);
                     Console.WriteLine("[ImportMany(typeof({0}))]", b);
-                    Console.Write("public IEnumerable<Lazy<Action<ParserRuleContext>>> {0} ", b);
+                    Console.Write("public IEnumerable<Lazy<Action<ParserRuleContext, ErrorInformation>>> {0} ", b);
                     Console.WriteLine("{get;set;}");
                     Console.WriteLine();
                 }
             });
+        }
+
+        public static List<string> GetSolutionList()
+        {
+            List<string> prj = new List<string>();
+            // "VisualStudio.DTE.11.0"
+            // this represents your visual studio version
+            // 11.0 means vs2012
+            // 10.0 means vs2010
+            // 9.0 means vs2005
+            for (int i = 1; i < ((EnvDTE.DTE)System.Runtime.InteropServices.Marshal.GetActiveObject("VisualStudio.DTE.14.0")).Solution.Projects.Count + 1; i++)
+            {
+                prj.Add(((EnvDTE.DTE)System.Runtime.InteropServices.Marshal.GetActiveObject("VisualStudio.DTE.14.0")).Solution.Projects.Item(i).Name);
+            }
+
+            return prj;
         }
     }
 }

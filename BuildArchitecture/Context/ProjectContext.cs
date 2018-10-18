@@ -33,5 +33,10 @@ namespace BuildArchitecture.Context
         {
             _parserRuleNodes[filePath] = fileContext ?? throw new ArgumentNullException("ParserRuleContext value is null");
         }
+
+        public void UpdateParserRuleOfFile(string filePath, ParserRuleContext context)
+        {
+            _parserRuleNodes[filePath] = context;
+        }
     }
 }

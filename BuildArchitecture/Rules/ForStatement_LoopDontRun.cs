@@ -11,8 +11,9 @@ namespace BuildArchitecture.Rules
         int end;
 
         [Export(typeof(LiteralContext))]
-        public void VisitLiteralContext(ParserRuleContext context)
+        public void VisitLiteralContext(ParserRuleContext context, out ErrorInformation error)
         {
+            error = null;
             if (context.InRule(RuleContextType.LOCAL_VARIABLE_DECLARATORCONTEXT))
             {
                 start = int.Parse(context.GetText());
@@ -24,14 +25,20 @@ namespace BuildArchitecture.Rules
         }
 
         [Export(typeof(For_iteratorContext))]
-        public void VisitFor_iteratorContext(ParserRuleContext context)
+        public void VisitFor_iteratorContext(ParserRuleContext context, out ErrorInformation error)
         {
+            error = null;
+            //check error
             string text = context.GetText();
             if (text.Contains("++"))
             {
                 if (start > end)
                 {
                     Console.WriteLine("Error");
+                    error = new ErrorInformation();
+                    error.StartIndex = context.Start.StartIndex;
+                    error.Length = context.Stop.StopIndex - context.Start.StartIndex + 1;
+                    error.ErrorMessage = "Error";
                 }
             }
             else
@@ -39,6 +46,10 @@ namespace BuildArchitecture.Rules
                 if (start < end)
                 {
                     Console.WriteLine("Error");
+                    error = new ErrorInformation();
+                    error.StartIndex = context.Start.StartIndex;
+                    error.Length = context.Stop.StopIndex - context.Start.StartIndex + 1;
+                    error.ErrorMessage = "Error";
                 }
             }
         }

@@ -2,7 +2,7 @@
 
 namespace BuildArchitecture
 {
-    public static class ParserRuleContextExtention
+    public static class ParserRuleContextExtension
     {
         public static bool InRule(this ParserRuleContext parserContext, RuleContextType contextType)
         {

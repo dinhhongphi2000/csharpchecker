@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Antlr4.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,9 +29,19 @@ namespace BuildArchitecture.Context
             return _projects[projectName];
         }
 
+        public ProjectContext GetProject(int index)
+        {
+            return _projects.Values.ToList()[0];
+        }
+
         public void AddProjectNode(string projectName, ProjectContext fileContext)
         {
             _projects[projectName] = fileContext ?? throw new ArgumentNullException("Project context is null");
+        }
+
+        public void UpdateProject(string projectName, string filePath, ParserRuleContext context)
+        {
+            _projects[projectName].UpdateParserRuleOfFile(filePath, context);
         }
     }
 

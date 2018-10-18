@@ -1,39 +1,42 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using BuildArchitecture.Context;
 using System;
 using System.Collections.Generic;
 
 namespace BuildArchitecture
 {
-    public class WorkSpace
+    public class WorkSpace : IWorkSpace
     {
         //Listener is called when walker visit node. Responsibility for listener is loading all rule in folder or assembly
         private IParseTreeListener _listener = null;
-        //Save Parser Tree of file. Trees are separated by Path of file
-        Dictionary<string, IParseTree> _fileTree = new Dictionary<string, IParseTree>();
+        //Solution info
+        private SolutionContext _solutionTree;
         //Walker which visits node of Parser tree and call action of listener
         private ParseTreeWalker _treeWalker = null;
+        //Error list
+        private List<ErrorInformation> _errorList = new List<ErrorInformation>();
+        public ProjectContext CurrentProject { get; set; }
+        public string CurrentFile { get; set; }
+
         public ParseTreeWalker TreeWalker
         {
             get { return _treeWalker; }
             private set { }
         }
 
-        public WorkSpace()
+        public WorkSpace(SolutionContext root)
         {
+            _solutionTree = root ?? throw new ArgumentNullException("SolutionContext can't null");
+            CurrentProject = root.GetProject(0);
             //Initial default value
-            _listener = new NodeVisitedListener();
+            _listener = new NodeVisitedListener(_errorList);
             _treeWalker = new ParseTreeWalker();
         }
 
-        /// <summary>
-        /// Update Syntax Tree of chaged file
-        /// </summary>
-        /// <param name="filePath">Path of file</param>
-        /// <param name="content">Content of file</param>
-        public void UpdateTree(string filePath, string content = null)
+        public void UpdateTree(string content = null)
         {
-            if (content != null)
+            if (content != null && CurrentFile != null)
             {
                 //Build Parser tree from content and save it
                 AntlrInputStream stream = new AntlrInputStream(content);
@@ -41,18 +44,16 @@ namespace BuildArchitecture
                 CommonTokenStream tokens = new CommonTokenStream(lexer);
                 CSharpParser parser = new CSharpParser(tokens);
                 CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
-                _fileTree[filePath] = startContext;
+                _solutionTree.UpdateProject(CurrentProject.Name, CurrentFile, startContext);
             }
         }
 
-        /// <summary>
-        /// Check code by running all rule on changed file
-        /// </summary>
-        /// <param name="filePathChanged">Path of file is changed</param>
-        public void RunRules(string filePathChanged)
+        public List<ErrorInformation> RunRules()
         {
-            //Walker tree to check rule
-            _treeWalker.Walk(_listener, _fileTree[filePathChanged]);
+            _errorList.Clear();
+            //Walker tree to check rule and add error to error list
+            _treeWalker.Walk(_listener, CurrentProject.GetRuleContextOfFile(CurrentFile));
+            return _errorList;
         }
 
         public void SetListener(IParseTreeListener listener)
