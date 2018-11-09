@@ -5,7 +5,7 @@ namespace BuildArchitecture.Semetic
     public class GenericInfo
     {
         public string DeclareType { get; set; }
-        public DefinitionSymbol ActualType { get; set; }
-        public List<DefinitionSymbol> AllowType { get; set; }
+        public Dictionary<string, string> ActualType { get; set; }
+        public Dictionary<string, string> ExpectType { get; set; }
     }
 }

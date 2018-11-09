@@ -39,7 +39,10 @@ namespace BuildArchitecture.Semetic
             return null;
         }
 
-
+        /// <summary>
+        /// Insert symbol to current scope
+        /// </summary>
+        /// <param name="symbol"></param>
         public void Insert(Symbol symbol)
         {
             this._symbols[symbol.Name] = symbol;

@@ -24,9 +24,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -74,8 +74,19 @@
     <Compile Include="RuleContextType.cs" />
     <Compile Include="Rules\ForStatement_LoopDontRun.cs" />
     <Compile Include="Gui\TreeViewer.cs" />
-    <Compile Include="Semetic\BuiltinTypeSymbol.cs" />
+    <Compile Include="Semetic\ClassSymbol.cs" />
+    <Compile Include="Semetic\DefinitionSymbol.cs" />
+    <Compile Include="Semetic\DeclarationSymbol.cs" />
+    <Compile Include="Semetic\DelegateSymbol.cs" />
+    <Compile Include="Semetic\EnumSymbol.cs" />
+    <Compile Include="Semetic\EventSymbol.cs" />
+    <Compile Include="Semetic\FuncSymbol.cs" />
+    <Compile Include="Semetic\GenericInfo.cs" />
+    <Compile Include="Semetic\InterfaceSymbol.cs" />
+    <Compile Include="Semetic\ScopedSymbolTable.cs" />
+    <Compile Include="Semetic\StructSymbol.cs" />
     <Compile Include="Semetic\Symbol.cs" />
+    <Compile Include="Semetic\VarSymbol.cs" />
     <Compile Include="WorkSpace.cs" />
   </ItemGroup>
   <ItemGroup>
