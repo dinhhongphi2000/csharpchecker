@@ -54,7 +54,7 @@ namespace BuildArchitecture.Semetic
             //four, get generic info. if have
             //here, we use GenericInfo instance to save declared generic of class
             //we get generic types and constrain of generic in syntax tree
-            var genericTypeDeclares = ClassSymbol.GetGenericInfo(
+            var genericTypeDeclares = ClassSymbol.GetGenericParameters(
                 classDefinition.type_parameter_list()) ?? new List<string>();
 
             var genericConstrain =

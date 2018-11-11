@@ -83,5 +83,14 @@ namespace antlr4ShowTree
                 selectedNode.Collapse(false);
             }
         }
+
+        private void getNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectedNode = treeViewer.SelectedNode;
+            if (selectedNode != null)
+            {
+                Clipboard.SetText(selectedNode.Text);
+            }
+        }
     }
 }

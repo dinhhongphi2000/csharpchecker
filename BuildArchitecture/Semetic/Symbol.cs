@@ -33,7 +33,7 @@ namespace BuildArchitecture.Semetic
         /// </summary>
         /// <param name="context"></param>
         /// <returns>Parameter list was declared</returns>
-        protected static List<string> GetGenericInfo(Type_parameter_listContext context)
+        protected static List<string> GetGenericParameters(Type_parameter_listContext context)
         {
             if (context == null)
                 return null;
@@ -52,7 +52,7 @@ namespace BuildArchitecture.Semetic
         /// </summary>
         /// <param name="context"></param>
         /// <returns>Parameter list was declared</returns>
-        protected static List<string> GetGenericInfo(Variant_type_parameter_listContext context)
+        protected static List<string> GetGenericParameters(Variant_type_parameter_listContext context)
         {
             if (context == null)
                 return null;
