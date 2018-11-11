@@ -5,12 +5,12 @@ namespace BuildArchitecture.Semetic
 {
     public class DefinitionSymbol : Symbol
     {
-        private List<VarSymbol> _properties = null;
-        private List<FuncSymbol> _functions = null;
+        private HashSet<string> _properties = null;
+        private HashSet<string> _functions = null;
 
         public string FullName { get; set; }
         public string Namespace { get; set; }
-        public List<VarSymbol> Properties
+        public HashSet<string> Properties
         {
             get
             {
@@ -28,7 +28,7 @@ namespace BuildArchitecture.Semetic
                 }
             }
         }
-        public List<FuncSymbol> Functions
+        public HashSet<string> Functions
         {
             get
             {
@@ -53,7 +53,7 @@ namespace BuildArchitecture.Semetic
             this.FullName = fullName;
         }
 
-        public DefinitionSymbol(string name, string fullName, List<string> modifier = null, string alias = null)
+        public DefinitionSymbol(string name, string fullName, HashSet<string> modifier = null, string alias = null)
             : base(name, modifier, alias)
         {
             this.FullName = fullName;

@@ -9,7 +9,7 @@ namespace BuildArchitecture.Semetic
         {
         }
 
-        public EventSymbol(string name, List<string> modifier = null, string alias = null) 
+        public EventSymbol(string name, HashSet<string> modifier = null, string alias = null) 
             : base(name, modifier, alias)
         {
         }

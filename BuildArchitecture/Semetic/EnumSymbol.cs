@@ -9,7 +9,7 @@ namespace BuildArchitecture.Semetic
         {
         }
 
-        public EnumSymbol(string name, string fullName, List<string> modifier = null, string alias = null) 
+        public EnumSymbol(string name, string fullName, HashSet<string> modifier = null, string alias = null) 
             : base(name, fullName, modifier, alias)
         {
         }

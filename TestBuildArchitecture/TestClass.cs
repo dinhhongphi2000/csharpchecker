@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestBuildArchitecture
 {
-    class TestClass
+    public partial class TestClass<T> where T : class
     {
         public void method()
         {

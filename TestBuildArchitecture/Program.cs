@@ -1,5 +1,7 @@
-﻿using BuildArchitecture;
+﻿using Antlr4.Runtime;
+using BuildArchitecture;
 using BuildArchitecture.Context;
+using BuildArchitecture.Semetic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,18 +13,34 @@ namespace TestBuildArchitecture
     {
         static void Main(string[] args)
         {
-            string currentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
+            //string currentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
 
-            var solution = InitSolutionContext();
-            IWorkSpace workSpace = new WorkSpace(solution);
-            workSpace.CurrentProject = solution.GetProject("TestBuildArchitecture");
-            workSpace.CurrentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
-            Program program = new Program();
-            workSpace.UpdateTree(program.GetFileContent(currentFile));
-            workSpace.RunRules();
+            //var solution = InitSolutionContext();
+            //IWorkSpace workSpace = new WorkSpace(solution);
+            //workSpace.CurrentProject = solution.GetProject("TestBuildArchitecture");
+            //workSpace.CurrentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
+            //Program program = new Program();
+            //workSpace.UpdateTree(program.GetFileContent(currentFile));
+            //workSpace.RunRules();
 
             //GetSolutionList();
             //GetContext();
+
+            TestCreateClassSymbol();
+        }
+
+        public static void TestCreateClassSymbol()
+        {
+            string currentFile = @"C:\Users\dinhhongphi\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
+            StreamReader reader = new StreamReader(currentFile);
+            AntlrInputStream stream = new AntlrInputStream(reader);
+            CSharpLexer lexer = new CSharpLexer(stream);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            CSharpParser parser = new CSharpParser(tokens);
+            CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
+            ScopedSymbolTable scopedSymbolTable = new ScopedSymbolTable(1, "abc", "abc");
+            SemeticAnalysis semetic = new SemeticAnalysis(scopedSymbolTable);
+            semetic.Visit(startContext);
         }
 
         public string GetFileContent(string filePath)

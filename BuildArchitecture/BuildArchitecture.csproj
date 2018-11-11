@@ -84,6 +84,7 @@
     <Compile Include="Semetic\GenericInfo.cs" />
     <Compile Include="Semetic\InterfaceSymbol.cs" />
     <Compile Include="Semetic\ScopedSymbolTable.cs" />
+    <Compile Include="Semetic\SemeticAnalysis.cs" />
     <Compile Include="Semetic\StructSymbol.cs" />
     <Compile Include="Semetic\Symbol.cs" />
     <Compile Include="Semetic\VarSymbol.cs" />
