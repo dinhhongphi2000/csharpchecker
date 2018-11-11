@@ -2,17 +2,25 @@
 
 namespace BuildArchitecture.Semetic
 {
-    public class StructSymbol<T, D> : DefinitionSymbol, IABC<T>, IAB
-        where T : class
-        where D: class, IAB
+    public class Math
     {
-        public StructSymbol(string name, string fullName, string[] modifier = null, string alias = null)
-            : base(name, fullName, modifier, alias)
+        public Math()
         {
+
+        }
+        public Math(int type)
+        {
+
+        }
+
+        public static int Plus(int a, int b)
+        {
+            return 1;
+        }
+
+        public int Plus<T>(T a, T b) where T: class, new()
+        {
+            return 1;
         }
     }
-
-    public interface IABC<X> { }
-    public interface IAB { }
-    class XYZ { }
 }

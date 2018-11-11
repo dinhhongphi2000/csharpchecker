@@ -32,19 +32,15 @@ namespace BuildArchitecture.Semetic
             if (context == null)
                 return null;
 
-            HashSet<string> modifiers = new HashSet<string>();
+            HashSet<string> modifiers;
             string symbolname = null;
             string fullName = null;
-            HashSet<string> baseTypes = new HashSet<string>();
+            HashSet<string> baseTypes;
             HashSet<GenericInfo> genericParameters = new HashSet<GenericInfo>();
 
             //first, get all modifiers name
-            var modifierContexts = context.all_member_modifiers()?.all_member_modifier();
-            if (modifierContexts != null)
-                foreach (var modifierCon in modifierContexts)
-                {
-                    modifiers.Add(modifierCon.GetText());
-                }
+            modifiers = ClassSymbol.GetAllMemberModifiers(context.all_member_modifiers());
+
             ///class definion ,which is node in syntax tree, contains all syntax info of class 
             var classDefinition = context.class_definition();
 

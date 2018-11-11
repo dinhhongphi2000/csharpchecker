@@ -85,5 +85,28 @@ namespace BuildArchitecture.Semetic
             }
             return constraints;
         }
+
+        /// <summary>
+        /// Get modifier as public, static,...
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected static HashSet<string> GetAllMemberModifiers(All_member_modifiersContext context)
+        {
+            if (context == null)
+                return null;
+            //All_member_modifiers node -> All_member_modifier[] node -> name
+            HashSet<string> modifiers = new HashSet<string>();
+            var modifierContexts = context.all_member_modifier();
+            if (modifierContexts != null)
+                foreach (var modifierCon in modifierContexts)
+                {
+                    modifiers.Add(modifierCon.GetText());
+                }
+
+            if (modifiers.Count <= 0)
+                return null;
+            return modifiers;
+        }
     }
 }
