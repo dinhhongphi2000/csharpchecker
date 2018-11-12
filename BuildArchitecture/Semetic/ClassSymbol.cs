@@ -26,7 +26,7 @@ namespace BuildArchitecture.Semetic
         /// <param name="context"></param>
         /// <param name="scopedTable"></param>
         /// <returns></returns>
-        public static ClassSymbol GetClassSymbol(Type_declarationContext context, HashSet<string> modifiers, ScopedSymbolTable scopedTable)
+        public static ClassSymbol GetClassSymbol(Class_definitionContext context, HashSet<string> modifiers, ScopedSymbolTable scopedTable)
         {
             if (context == null)
                 return null;
@@ -36,25 +36,22 @@ namespace BuildArchitecture.Semetic
             HashSet<string> baseTypes;
             HashSet<GenericInfo> genericParameters = new HashSet<GenericInfo>();
 
-            ///class definion ,which is node in syntax tree, contains all syntax info of class 
-            var classDefinition = context.class_definition();
-
             //second, get name of class by call identifier
-            symbolname = classDefinition.identifier().GetText();
+            symbolname = context.identifier().GetText();
             fullName = scopedTable.Path + "." + symbolname;
 
             //third, get baseType. 
-            baseTypes = ClassSymbol.GetBaseType(classDefinition.class_base(), scopedTable);
+            baseTypes = ClassSymbol.GetBaseType(context.class_base(), scopedTable);
 
             //four, get generic info. if have
             //here, we use GenericInfo instance to save declared generic of class
             //we get generic types and constrain of generic in syntax tree
             var genericTypeDeclares = ClassSymbol.GetGenericParameters(
-                classDefinition.type_parameter_list()) ?? new List<string>();
+                context.type_parameter_list()) ?? new List<string>();
 
             var genericConstrain =
                 ClassSymbol.GetGenericParameterConstraint(
-                    classDefinition.type_parameter_constraints_clauses())
+                    context.type_parameter_constraints_clauses())
                     ?? new Dictionary<string, string>();
 
             foreach (var item in genericTypeDeclares)

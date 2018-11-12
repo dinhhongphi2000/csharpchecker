@@ -17,14 +17,22 @@ namespace BuildArchitecture.Semetic
         public override object VisitType_declaration([NotNull] CSharpParser.Type_declarationContext context)
         {
             var modifiers = this.GetAllMemberModifiers(context.all_member_modifiers());
-            var classSymbol = ClassSymbol.GetClassSymbol(context, modifiers, _current);
-            ScopedSymbolTable classScoped = new ScopedSymbolTable(_current.ScopeLevel + 1,
-                classSymbol.FullName,
-                classSymbol.FullName,
-                _current);
-            _current = classScoped;
-            base.VisitType_declaration(context);
-            _current = _current.EnclosingScope;
+            if (context.class_definition() != null)
+            {
+                var classSymbol = ClassSymbol.GetClassSymbol(context.class_definition(), modifiers, _current);
+                _current.Insert(classSymbol);
+                ScopedSymbolTable classScoped = new ScopedSymbolTable(_current.ScopeLevel + 1,
+                    classSymbol.FullName,
+                    _current);
+                _current = classScoped;
+                base.VisitType_declaration(context);
+                _current = _current.EnclosingScope;
+            }
+            else if (context.enum_definition() != null)
+            {
+                var enumSymbol = EnumSymbol.GetEnumSymbol(context.enum_definition(), modifiers, _current);
+                _current.Insert(enumSymbol);
+            }
             return null;
         }
 
@@ -40,11 +48,16 @@ namespace BuildArchitecture.Semetic
                 || commonMemberDeclaration.constructor_declaration() != null)
             {
                 FuncSymbol symbol = FuncSymbol.GetFuncSymbol(commonMemberDeclaration, modifiers, _current);
+                _current.Insert(symbol);
                 funcScoped = new ScopedSymbolTable(_current.ScopeLevel + 1,
-                symbol.FullName,
                 symbol.FullName,
                 _current);
                 _current = funcScoped;
+            }
+            else if (commonMemberDeclaration.enum_definition() != null)
+            {
+                EnumSymbol symbol = EnumSymbol.GetEnumSymbol(commonMemberDeclaration.enum_definition(), modifiers, _current);
+                _current.Insert(symbol);
             }
             base.VisitClass_member_declaration(context);
 
@@ -54,6 +67,15 @@ namespace BuildArchitecture.Semetic
             }
             return null;
         }
+
+        public override object VisitNamespace([NotNull] NamespaceContext context)
+        {
+            var namespaceName = context.qualified_identifier().GetText();
+            //create scopeSymbol if it's not exist
+
+            return base.VisitNamespace(context);
+        }
+
 
         /// <summary>
         /// Get modifier as public, static,...

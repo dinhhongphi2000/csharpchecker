@@ -9,16 +9,20 @@ namespace BuildArchitecture.Semetic
 
         public int ScopeLevel { get; private set; }
         public string ScopeName { get; private set; }
-        //Show how we go to this scope
-        public string Path { get; private set; }
+
         //Parent scope
         public ScopedSymbolTable EnclosingScope { get; private set; }
 
-        public ScopedSymbolTable(int scopeLevel, string scopeName, string path, ScopedSymbolTable enclosingCope = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="scopeLevel"></param>
+        /// <param name="scopeName">Name and path(FullName) of this symbol</param>
+        /// <param name="enclosingCope"></param>
+        public ScopedSymbolTable(int scopeLevel, string scopeName, ScopedSymbolTable enclosingCope = null)
         {
             this.ScopeLevel = scopeLevel;
             this.ScopeName = scopeName;
-            this.Path = path;
             this.EnclosingScope = enclosingCope;
             this._symbols = new Dictionary<string, Symbol>();
         }
@@ -37,6 +41,18 @@ namespace BuildArchitecture.Semetic
             if (this.EnclosingScope != null)
                 return this.EnclosingScope.Lookup(name);
             return null;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="name">Name is fullName (path) that it contains symbol</param>
+        /// <returns></returns>
+        public ScopedSymbolTable GetScopedSymbolByName(string name)
+        {
+            if (this.ScopeName == name)
+                return this;
+            else
+                return EnclosingScope.GetScopedSymbolByName(name);
         }
 
         /// <summary>
