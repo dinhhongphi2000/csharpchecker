@@ -8,32 +8,30 @@ namespace BuildArchitecture.Semetic
         public HashSet<string> ParameterTypes { get; protected set; }
         public HashSet<GenericInfo> GenericParameters { get; protected set; }
 
-        public FuncSymbol(string name, string[] modifier = null, string alias = null) 
+        public FuncSymbol(string name, string[] modifier = null, string alias = null)
             : base(name, modifier, alias)
         {
         }
 
-        public FuncSymbol(string name, HashSet<string> modifier = null, string alias = null) 
+        public FuncSymbol(string name, HashSet<string> modifier = null, string alias = null)
             : base(name, modifier, alias)
         {
         }
 
-        public static FuncSymbol GetFuncSymbol(Class_member_declarationContext context)
+        public static FuncSymbol GetFuncSymbol(Common_member_declarationContext context,
+            HashSet<string> modifiers,
+            ScopedSymbolTable scopedSymbolTable)
         {
             if (context == null)
             {
                 return null;
             }
-            
+
             //methodMember = null => this method is constructor
             string returnType = null;
             string functionName = null;
             HashSet<string> parameterTypes = new HashSet<string>();
             HashSet<GenericInfo> genericInfos = new HashSet<GenericInfo>();
-            
-            //Class_member_declaration includes All_member_modifiers and Common_member_declaration
-            //get modifier form All_member_modifiers
-            var modifiers = FuncSymbol.GetAllMemberModifiers(context.all_member_modifiers());
 
             //Common_member_declaration includes Typed_member_declaration OR Constructor_declaration
             //OR Method_declaration
@@ -42,26 +40,25 @@ namespace BuildArchitecture.Semetic
             //Method_declaration contains method name, parameters, generic type
             Method_declarationContext methodDeclaration = null;
             Constructor_declarationContext constructorDeclaration = null;
-            var memberDeclaration = context.common_member_declaration();
-            var memberTypeName = memberDeclaration.GetType().Name;
-            switch (memberTypeName)
+            //get return type from Typed_member_declaration
+            var typedMember = context.typed_member_declaration();
+            if (typedMember != null)
             {
-                case "Typed_member_declarationContext":
-                    //get return type from Typed_member_declaration
-                    var typedMember = memberDeclaration.typed_member_declaration();
-                    returnType = typedMember.type().GetText();
-                    //get method declaration
-                    methodDeclaration = typedMember.method_declaration();
-                    break;
-                case "Constructor_declarationContext":
-                    constructorDeclaration = memberDeclaration.constructor_declaration();
-                    functionName = constructorDeclaration.identifier().GetText();
-                    break;
-                case "Method_declarationContext":
-                    returnType = "void";
-                    methodDeclaration = memberDeclaration.method_declaration();
-                    break;
+                returnType = typedMember.type().GetText();
+                //get method declaration
+                methodDeclaration = typedMember.method_declaration();
             }
+            else if (context.constructor_declaration() != null)
+            {
+                constructorDeclaration = context.constructor_declaration();
+                functionName = constructorDeclaration.identifier().GetText();
+            }
+            else if (context.method_declaration() != null)
+            {
+                returnType = "void";
+                methodDeclaration = context.method_declaration();
+            }
+
             if (methodDeclaration != null)
             {
                 //get name and generics type from Method_declaration
@@ -72,14 +69,14 @@ namespace BuildArchitecture.Semetic
                 var genericConstrain = FuncSymbol.GetGenericParameterConstraint(
                     methodDeclaration.type_parameter_constraints_clauses());
 
-                if(genericParameters != null)
+                if (genericParameters != null)
                 {
-                   foreach(var item in genericParameters)
+                    foreach (var item in genericParameters)
                     {
                         GenericInfo genericInfo = new GenericInfo();
                         genericInfo.DeclareType = item;
 
-                        genericInfo.ExpectType = genericConstrain != null 
+                        genericInfo.ExpectType = genericConstrain != null
                             ? new HashSet<string>(genericConstrain[item].Split(',')) : null;
 
                         genericInfos.Add(genericInfo);
@@ -87,10 +84,10 @@ namespace BuildArchitecture.Semetic
                 }
             }
             //get parameters
-            var formalParameterList = methodDeclaration.formal_parameter_list();
-            if(formalParameterList != null)
+            var formalParameterList = methodDeclaration?.formal_parameter_list();
+            if (formalParameterList != null)
             {
-                foreach(var item in formalParameterList.fixed_parameters().fixed_parameter())
+                foreach (var item in formalParameterList.fixed_parameters().fixed_parameter())
                 {
                     parameterTypes.Add(item.arg_declaration().type().GetText());
                 }
@@ -99,6 +96,7 @@ namespace BuildArchitecture.Semetic
             //create FuncSymbol
             FuncSymbol symbol = new FuncSymbol(functionName, modifiers);
             symbol.Type = returnType;
+            symbol.FullName = scopedSymbolTable.Path + '.' + symbol.Name;
             symbol.ParameterTypes = parameterTypes.Count > 0 ? parameterTypes : null;
             symbol.GenericParameters = genericInfos.Count > 0 ? genericInfos : null;
             return symbol;

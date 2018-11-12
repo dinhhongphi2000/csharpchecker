@@ -8,8 +8,7 @@ namespace BuildArchitecture.Semetic
         private HashSet<string> _properties = null;
         private HashSet<string> _functions = null;
 
-        public string FullName { get; set; }
-        public string Namespace { get; set; }
+        public string Namespace { get; protected set; }
         public HashSet<string> Properties
         {
             get

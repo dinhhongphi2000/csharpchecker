@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime.Misc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using static BuildArchitecture.CSharpParser;
 
@@ -27,19 +26,15 @@ namespace BuildArchitecture.Semetic
         /// <param name="context"></param>
         /// <param name="scopedTable"></param>
         /// <returns></returns>
-        public static Symbol GetClassSymbol(Type_declarationContext context, ScopedSymbolTable scopedTable)
+        public static ClassSymbol GetClassSymbol(Type_declarationContext context, HashSet<string> modifiers, ScopedSymbolTable scopedTable)
         {
             if (context == null)
                 return null;
 
-            HashSet<string> modifiers;
             string symbolname = null;
             string fullName = null;
             HashSet<string> baseTypes;
             HashSet<GenericInfo> genericParameters = new HashSet<GenericInfo>();
-
-            //first, get all modifiers name
-            modifiers = ClassSymbol.GetAllMemberModifiers(context.all_member_modifiers());
 
             ///class definion ,which is node in syntax tree, contains all syntax info of class 
             var classDefinition = context.class_definition();
