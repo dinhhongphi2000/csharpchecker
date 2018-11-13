@@ -67,10 +67,7 @@ namespace BuildArchitecture.Gui
         public override void ExitEveryRule([NotNull] ParserRuleContext context)
         {
             base.ExitEveryRule(context);
-            if (_currentNode.PrevNode != null)
-                _currentNode = _currentNode.PrevNode;
-            else
-                _currentNode = _currentNode.Parent;
+            _currentNode = _currentNode.Parent;
         }
     }
 }
