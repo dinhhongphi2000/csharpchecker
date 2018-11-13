@@ -4,13 +4,13 @@ namespace BuildArchitecture.Semetic
 {
     public class EnumSymbol : DefinitionSymbol
     {
-        public EnumSymbol(string name, string[] modifier = null, string alias = null) 
-            : base(name, modifier, alias)
+        public EnumSymbol(string name, string fullName, string[] modifier = null, string alias = null) 
+            : base(name, fullName, modifier, alias)
         {
         }
 
-        public EnumSymbol(string name, List<string> modifier = null, string alias = null) 
-            : base(name, modifier, alias)
+        public EnumSymbol(string name, string fullName, List<string> modifier = null, string alias = null) 
+            : base(name, fullName, modifier, alias)
         {
         }
     }
