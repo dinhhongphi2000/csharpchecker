@@ -11,12 +11,12 @@ namespace TestBuildArchitecture
     {
         static void Main(string[] args)
         {
-            string currentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
+            string currentFile = @"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\TestClass.cs";
 
             var solution = InitSolutionContext();
             IWorkSpace workSpace = new WorkSpace(solution);
             workSpace.CurrentProject = solution.GetProject("TestBuildArchitecture");
-            workSpace.CurrentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
+            workSpace.CurrentFile = @"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\TestClass.cs";
             Program program = new Program();
             workSpace.UpdateTree(program.GetFileContent(currentFile));
             workSpace.RunRules();
@@ -35,8 +35,8 @@ namespace TestBuildArchitecture
 
         public static SolutionContext InitSolutionContext()
         {
-            var solution = new SolutionContext(@"C:\Users\HONG PHI\source\repos\Caculator\Caculator.sln", "Caculator");
-            var project = new ProjectContext(@"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\", "TestBuildArchitecture");
+            var solution = new SolutionContext(@"D:\UIT\KLTN\CSharpParser\Caculator.sln", "Caculator");
+            var project = new ProjectContext(@"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\", "TestBuildArchitecture");
             solution.AddProjectNode(project.Name, project);
             return solution;
         }
