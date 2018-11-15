@@ -87,6 +87,7 @@ namespace CSharpChecker.SolutionLoad
 
         private void HandleOpenSolution(object sender = null, EventArgs e = null)
         {
+            LightBulb.TestImport testImport = new LightBulb.TestImport("Change complete");
             string solutionDirectory;
             string[] projectPaths;
             uint numProjects;
@@ -105,7 +106,7 @@ namespace CSharpChecker.SolutionLoad
             Debug.Assert(hr == VSConstants.S_OK, "GetProjectFilesInSolution failed.");
 
             SolutionInfo solutionInfo = new SolutionInfo(Path.GetFileNameWithoutExtension(solutionFullFileName), solutionFullFileName);
-            solutionInfo.ProjectInfos = GetInfoFromSolution(projectPaths);
+            solutionInfo.ProjectInfomation = GetInfoFromSolution(projectPaths);
             
             Debug.WriteLine("The current time: " + DateTime.Now.ToLongTimeString());
             // Handle the open solution and try to do as much work

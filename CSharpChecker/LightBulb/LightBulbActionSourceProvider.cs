@@ -15,6 +15,8 @@ namespace CSharpChecker.LightBulb
     {
         [Import(typeof(ITextStructureNavigatorSelectorService))]
         internal ITextStructureNavigatorSelectorService NavigatorService { get; set; }
+        [Import(typeof(TestImport))]
+        internal TestImport Testimport { get; set; }
         public ISuggestedActionsSource CreateSuggestedActionsSource(ITextView textView, ITextBuffer textBuffer)
         {
             if (textBuffer == null && textView == null)

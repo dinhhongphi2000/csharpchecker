@@ -53,24 +53,11 @@ namespace CSharpChecker.LightBulb
                 {
 
                     ITrackingSpan trackingSpan = range.Snapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeInclusive);
-                    var action = new LightBulbSuggestedAction(trackingSpan, "Test LightBulb");
+                    var action = new LightBulbSuggestedAction(trackingSpan, _factory.Testimport.Test);
                     suggestedActionSets.Add(new SuggestedActionSet(new ISuggestedAction[] { action }));
                 }
             }
-            //List<Tuple<Span, String>> span = new List<Tuple<Span, String>>();
-            //span.Add(new Tuple<Span, String>(new Span(0, 1), "áda"));
-            //span.Add(new Tuple<Span, String>(new Span(14, 5), "qưéaáda"));
-            //List<SuggestedActionSet> suggestedActionSets = new List<SuggestedActionSet>();
-            //foreach (Tuple<Span, String> sp in span)
-            //{
-            //    if (sp.Item1.Contains(_textView.Caret.Position.BufferPosition.Position))
-            //    {
-
-            //        ITrackingSpan trackingSpan = range.Snapshot.CreateTrackingSpan(sp.Item1, SpanTrackingMode.EdgeInclusive);
-            //        LightBulbSuggestedAction upperAction = new LightBulbSuggestedAction(trackingSpan, sp.Item2);
-            //        suggestedActionSets.Add(new SuggestedActionSet(new ISuggestedAction[] { upperAction }));
-            //    }
-            //}
+            
             return suggestedActionSets;
         }
 
@@ -96,23 +83,7 @@ namespace CSharpChecker.LightBulb
 
                 return false;
             });
-            //List<Span> span = new List<Span>();
-            //span.Add(new Span(0, 1));
-            //span.Add(new Span(14, 5));
-            //IEnumerable<SuggestedActionSet> suggestedActionSets = new List<SuggestedActionSet>();
-            //return Task.Factory.StartNew(() =>
-            //{
-            //    foreach (Span sp in span)
-            //    {
-            //        if (sp.Contains(_textView.Caret.Position.BufferPosition.Position))
-            //        {
-            //            // don't display the tag if the extent has whitespace
-            //            return true;
-            //        }
-            //    }
-
-            //    return false;
-            //});
+           
         }
     
 

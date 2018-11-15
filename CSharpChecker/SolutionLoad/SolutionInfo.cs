@@ -10,20 +10,20 @@ namespace CSharpChecker.SolutionLoad
     {
         public string Name { get; set; }
         public string Path { get; set; }
-        public List<ProjectInfo> ProjectInfos { get; set; }
+        public List<ProjectInfo> ProjectInfomation { get; set; }
 
         public SolutionInfo(string name, string path, List<ProjectInfo> projectInfos)
         {
             Name = name;
             Path = path;
-            ProjectInfos = projectInfos;
+            ProjectInfomation = projectInfos;
         }
 
         public SolutionInfo(string name, string path)
         {
             Name = name;
             Path = path;
-            ProjectInfos = new List<ProjectInfo>();
+            ProjectInfomation = new List<ProjectInfo>();
         }
     }
 }
