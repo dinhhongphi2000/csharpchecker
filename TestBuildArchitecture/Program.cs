@@ -13,20 +13,18 @@ namespace TestBuildArchitecture
     {
         static void Main(string[] args)
         {
-            //string currentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
+            string currentFile = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
 
-            //var solution = InitSolutionContext();
-            //IWorkSpace workSpace = new WorkSpace(solution);
-            //workSpace.CurrentProject = solution.GetProject("TestBuildArchitecture");
-            //workSpace.CurrentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
-            //Program program = new Program();
-            //workSpace.UpdateTree(program.GetFileContent(currentFile));
-            //workSpace.RunRules();
+            Program program = new Program();
+            WorkSpace workSpace = new WorkSpace();
+            workSpace.InitOrUpdateParserTreeOfFile(currentFile, program.GetFileContent(currentFile));
+            workSpace.RunRules(currentFile);
+            var errorList = workSpace.GetErrors();
 
             //GetSolutionList();
             //GetContext();
 
-            TestCreateClassSymbol();
+            //TestCreateClassSymbol();
         }
 
         public static void TestCreateClassSymbol()
@@ -38,7 +36,7 @@ namespace TestBuildArchitecture
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             CSharpParser parser = new CSharpParser(tokens);
             CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
-            ScopedSymbolTable scopedSymbolTable = new ScopedSymbolTable(1, "abc", "abc");
+            ScopedSymbolTable scopedSymbolTable = new ScopedSymbolTable(1, "abc");
             SemeticAnalysis semetic = new SemeticAnalysis(scopedSymbolTable);
             semetic.Visit(startContext);
         }

@@ -3,7 +3,9 @@
 // Copyright (c) 2016-2017, Ivan Kochurkin (kvanttt@gmail.com), Positive Technologies.
 
 parser grammar CSharpParser;
-
+@header {
+using BuildArchitecture.Semetic.V2;
+}
 options { tokenVocab=CSharpLexer; }
 
 // entry point
@@ -21,7 +23,7 @@ namespace_or_type_name
 	;
 
 //B.2.2 Types
-type 
+type returns [IType Type]
 	: base_type ('?' | rank_specifier | '*')*
 	;
 
