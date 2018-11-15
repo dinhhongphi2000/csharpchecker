@@ -43,17 +43,15 @@ namespace BuildArchitecture.Semetic
             return null;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="name">Name is fullName (path) that it contains symbol</param>
-        /// <returns></returns>
-        public ScopedSymbolTable GetScopedSymbolByName(string name)
-        {
-            if (this.ScopeName == name)
-                return this;
-            else
-                return EnclosingScope.GetScopedSymbolByName(name);
-        }
+        ///// <summary>
+        ///// find ScopedSymbolTable in this scope
+        ///// </summary>
+        ///// <param name="name">Name is fullName (path) that it contains symbol</param>
+        ///// <returns></returns>
+        //public ScopedSymbolTable GetScopedSymbolByName_Local(string name)
+        //{
+        //    return this._symbols[name];
+        //}
 
         /// <summary>
         /// Insert symbol to current scope

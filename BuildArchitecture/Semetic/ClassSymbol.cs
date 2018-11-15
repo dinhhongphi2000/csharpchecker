@@ -38,7 +38,7 @@ namespace BuildArchitecture.Semetic
 
             //second, get name of class by call identifier
             symbolname = context.identifier().GetText();
-            fullName = scopedTable.Path + "." + symbolname;
+            fullName = scopedTable.ScopeName + "." + symbolname;
 
             //third, get baseType. 
             baseTypes = ClassSymbol.GetBaseType(context.class_base(), scopedTable);

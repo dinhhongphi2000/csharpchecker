@@ -25,7 +25,7 @@ namespace BuildArchitecture.Semetic
             //  -> EnumBody
             //To get enum name
             var enumName = context.identifier().GetText();
-            var fullName = scopedSymbolTable.Path + '.' + enumName;
+            var fullName = scopedSymbolTable.ScopeName + '.' + enumName;
             //create enum symbol
             EnumSymbol symbol = new EnumSymbol(enumName, fullName, modifiers);
             return symbol;

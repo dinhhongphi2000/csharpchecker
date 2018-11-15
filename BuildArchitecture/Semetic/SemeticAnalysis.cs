@@ -72,7 +72,6 @@ namespace BuildArchitecture.Semetic
         {
             var namespaceName = context.qualified_identifier().GetText();
             //create scopeSymbol if it's not exist
-
             return base.VisitNamespace(context);
         }
 

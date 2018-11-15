@@ -96,7 +96,7 @@ namespace BuildArchitecture.Semetic
             //create FuncSymbol
             FuncSymbol symbol = new FuncSymbol(functionName, modifiers);
             symbol.Type = returnType;
-            symbol.FullName = scopedSymbolTable.Path + '.' + symbol.Name;
+            symbol.FullName = scopedSymbolTable.ScopeName + '.' + symbol.Name;
             symbol.ParameterTypes = parameterTypes.Count > 0 ? parameterTypes : null;
             symbol.GenericParameters = genericInfos.Count > 0 ? genericInfos : null;
             return symbol;

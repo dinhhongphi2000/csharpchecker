@@ -19,10 +19,10 @@
             return 1;
         }
 
-        public float Plus<T>(T a, T b) where T : class, new()
-        {
-            return "";
-        }
+        //public float Plus<T>(T a, T b) where T : class, new()
+        //{
+        //    return "";
+        //}
 
         //public string Plus<T>(T a, T b) where T : class, new()
         //{
