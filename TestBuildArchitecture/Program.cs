@@ -1,5 +1,7 @@
-﻿using BuildArchitecture;
+﻿using Antlr4.Runtime;
+using BuildArchitecture;
 using BuildArchitecture.Context;
+using BuildArchitecture.Semetic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +23,22 @@ namespace TestBuildArchitecture
 
             //GetSolutionList();
             //GetContext();
+
+            //TestCreateClassSymbol();
+        }
+
+        public static void TestCreateClassSymbol()
+        {
+            string currentFile = @"C:\Users\dinhhongphi\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
+            StreamReader reader = new StreamReader(currentFile);
+            AntlrInputStream stream = new AntlrInputStream(reader);
+            CSharpLexer lexer = new CSharpLexer(stream);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            CSharpParser parser = new CSharpParser(tokens);
+            CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
+            ScopedSymbolTable scopedSymbolTable = new ScopedSymbolTable(1, "abc");
+            SemeticAnalysis semetic = new SemeticAnalysis(scopedSymbolTable);
+            semetic.Visit(startContext);
         }
 
         public string GetFileContent(string filePath)

@@ -32,11 +32,12 @@
             this.treeViewer = new System.Windows.Forms.TreeView();
             this.treeViewerMenuContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goToTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.expandAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.collapseAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.btnReloadTree = new System.Windows.Forms.Button();
-            this.expandAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.collapseAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeViewerMenuContext.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -59,16 +60,31 @@
             this.treeViewerMenuContext.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.goToTextToolStripMenuItem,
             this.expandAllToolStripMenuItem,
-            this.collapseAllToolStripMenuItem});
+            this.collapseAllToolStripMenuItem,
+            this.getNameToolStripMenuItem});
             this.treeViewerMenuContext.Name = "treeViewerMenuContext";
-            this.treeViewerMenuContext.Size = new System.Drawing.Size(181, 92);
+            this.treeViewerMenuContext.Size = new System.Drawing.Size(181, 114);
             // 
             // goToTextToolStripMenuItem
             // 
             this.goToTextToolStripMenuItem.Name = "goToTextToolStripMenuItem";
-            this.goToTextToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.goToTextToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.goToTextToolStripMenuItem.Text = "Go to text";
             this.goToTextToolStripMenuItem.Click += new System.EventHandler(this.goToTextToolStripMenuItem_Click);
+            // 
+            // expandAllToolStripMenuItem
+            // 
+            this.expandAllToolStripMenuItem.Name = "expandAllToolStripMenuItem";
+            this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.expandAllToolStripMenuItem.Text = "Expand all";
+            this.expandAllToolStripMenuItem.Click += new System.EventHandler(this.expandAllToolStripMenuItem_Click);
+            // 
+            // collapseAllToolStripMenuItem
+            // 
+            this.collapseAllToolStripMenuItem.Name = "collapseAllToolStripMenuItem";
+            this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.collapseAllToolStripMenuItem.Text = "Collapse All";
+            this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -110,19 +126,12 @@
             this.btnReloadTree.UseVisualStyleBackColor = true;
             this.btnReloadTree.Click += new System.EventHandler(this.btnReloadTree_Click);
             // 
-            // expandAllToolStripMenuItem
+            // getNameToolStripMenuItem
             // 
-            this.expandAllToolStripMenuItem.Name = "expandAllToolStripMenuItem";
-            this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.expandAllToolStripMenuItem.Text = "Expand all";
-            this.expandAllToolStripMenuItem.Click += new System.EventHandler(this.expandAllToolStripMenuItem_Click);
-            // 
-            // collapseAllToolStripMenuItem
-            // 
-            this.collapseAllToolStripMenuItem.Name = "collapseAllToolStripMenuItem";
-            this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.collapseAllToolStripMenuItem.Text = "Collapse All";
-            this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
+            this.getNameToolStripMenuItem.Name = "getNameToolStripMenuItem";
+            this.getNameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getNameToolStripMenuItem.Text = "Get name";
+            this.getNameToolStripMenuItem.Click += new System.EventHandler(this.getNameToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -154,6 +163,7 @@
         private System.Windows.Forms.Button btnReloadTree;
         private System.Windows.Forms.ToolStripMenuItem expandAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem collapseAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem getNameToolStripMenuItem;
     }
 }
 

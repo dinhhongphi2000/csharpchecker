@@ -11,10 +11,15 @@ namespace BuildArchitecture.Semetic
     public class Symbol
     {
         public string Name { get; set; }
-        public List<string> Modifier { get; set; }
+        public HashSet<string> Modifier { get; set; }
         public string Alias { get; set; }
 
-        public Symbol(string name, List<string> modifier = null, string alias = null)
+        /// <summary>
+        /// Where's Symbol?
+        /// </summary>
+        public string FullName { get; protected set; }
+
+        public Symbol(string name, HashSet<string> modifier = null, string alias = null)
         {
             this.Name = name;
             this.Modifier = modifier;
@@ -24,7 +29,7 @@ namespace BuildArchitecture.Semetic
         public Symbol(string name, string[] modifier = null, string alias = null)
         {
             this.Name = name;
-            this.Modifier = new List<string>(modifier);
+            this.Modifier = new HashSet<string>(modifier);
             this.Alias = alias;
         }
 
@@ -33,8 +38,11 @@ namespace BuildArchitecture.Semetic
         /// </summary>
         /// <param name="context"></param>
         /// <returns>Parameter list was declared</returns>
-        protected static List<string> GetGenericInfo([NotNull] Type_parameter_listContext context)
+        protected static List<string> GetGenericParameters(Type_parameter_listContext context)
         {
+            if (context == null)
+                return null;
+
             Type_parameterContext[] parameterList = context.type_parameter();
             List<string> parameters = new List<string>();
             foreach(var param in parameterList)
@@ -49,8 +57,11 @@ namespace BuildArchitecture.Semetic
         /// </summary>
         /// <param name="context"></param>
         /// <returns>Parameter list was declared</returns>
-        protected static List<string> GetGenericInfo([NotNull] Variant_type_parameter_listContext context)
+        protected static List<string> GetGenericParameters(Variant_type_parameter_listContext context)
         {
+            if (context == null)
+                return null;
+
             Variant_type_parameterContext[] parameterList = context.variant_type_parameter();
             List<string> parameters = new List<string>();
             foreach (var param in parameterList)
@@ -66,8 +77,11 @@ namespace BuildArchitecture.Semetic
         /// </summary>
         /// <param name="context"></param>
         /// <returns>[{T,class}]</returns>
-        protected static Dictionary<string, string> GetGenericParameterConstraint([NotNull] Type_parameter_constraints_clausesContext context)
+        protected static Dictionary<string, string> GetGenericParameterConstraint(Type_parameter_constraints_clausesContext context)
         {
+            if (context == null)
+                return null;
+
             Type_parameter_constraints_clauseContext[] constraintClauses = context.type_parameter_constraints_clause();
             Dictionary<string, string> constraints = new Dictionary<string, string>();
             foreach (var constraint in constraintClauses)

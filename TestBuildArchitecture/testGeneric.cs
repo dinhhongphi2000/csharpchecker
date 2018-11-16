@@ -1,14 +1,72 @@
-﻿using System;
+﻿//namespace BuildArchitecture.Semetic
+//{
+//    public class Math
+//    {
+//        int a;
+//        public Math math { get; set; }
+//        public Math math2 = new Math();
+//        public Math()
+//        {
 
-namespace BuildArchitecture.Semetic
-{
-    public class StructSymbol<T, D> : DefinitionSymbol 
-        where T : class
-        where D: class
-    {
-        public StructSymbol(string name, string fullName, string[] modifier = null, string alias = null)
-            : base(name, fullName, modifier, alias)
-        {
-        }
-    }
-}
+//        }
+//        public Math(int type)
+//        {
+
+//        }
+
+//        public static int Plus(int a, int b)
+//        {
+//            return 1;
+//        }
+
+//        public float Plus<T>(T a, T b) where T : class, new()
+//        {
+//            return "";
+//        }
+
+//        //public string Plus<T>(T a, T b) where T : class, new()
+//        //{
+//        //    return "";
+//        //}
+
+//        public void sub()
+//        {
+
+//        }
+
+//        class B
+//        {
+
+//        }
+
+//        public struct C
+//        {
+
+//        }
+
+//        class D<M>
+//        {
+//            public D() { }
+//        }
+
+//        public enum DayOfWeek
+//        {
+//            Monday,
+//            Tuesday,
+//            Wednersday
+//        }
+
+//        public enum DayOfWeek2
+//        {
+//            Monday = 2,
+//            Tuesday
+//        }
+
+//    }
+
+//    enum DayOfWeek3
+//    {
+//        Moday,
+//        Tuesday
+//    }
+//}

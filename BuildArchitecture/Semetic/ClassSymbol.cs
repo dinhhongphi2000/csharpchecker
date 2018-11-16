@@ -1,4 +1,4 @@
-﻿using Antlr4.Runtime.Misc;
+﻿using System;
 using System.Collections.Generic;
 using static BuildArchitecture.CSharpParser;
 
@@ -6,51 +6,93 @@ namespace BuildArchitecture.Semetic
 {
     public class ClassSymbol : DefinitionSymbol
     {
-        public List<DefinitionSymbol> BaseTypes { get; set; }
-        public List<GenericInfo> GenericParameters { get; set; }
+        public HashSet<string> BaseTypes { get; protected set; }
+        public HashSet<GenericInfo> GenericParameters { get; protected set; }
 
-        public ClassSymbol(string name, string fullName, string[] modifier = null, 
+        public ClassSymbol(string name, string fullName, string[] modifier = null,
             string alias = null)
             : base(name, fullName, modifier, alias)
         {
         }
 
-        public ClassSymbol(string name, string fullName, List<string> modifier = null, string alias = null)
+        public ClassSymbol(string name, string fullName, HashSet<string> modifier = null, string alias = null)
             : base(name, fullName, modifier, alias)
         {
         }
 
-        public static Symbol Create([NotNull]Type_declarationContext context, ScopedSymbolTable scopedTable)
+        /// <summary>
+        /// Create ClassSymbol from Syntax node
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="scopedTable"></param>
+        /// <returns></returns>
+        public static ClassSymbol GetClassSymbol(Class_definitionContext context, HashSet<string> modifiers, ScopedSymbolTable scopedTable)
         {
-            List<string> modifiers = new List<string>();
+            if (context == null)
+                return null;
+
             string symbolname = null;
             string fullName = null;
-            List<DefinitionSymbol> baseTypes = new List<DefinitionSymbol>();
-            List<GenericInfo> genericParameters = new List<GenericInfo>();
+            HashSet<string> baseTypes;
+            HashSet<GenericInfo> genericParameters = new HashSet<GenericInfo>();
 
-            var modifierContexts = context.all_member_modifiers()?.all_member_modifier();
-            foreach (var modifierCon in modifierContexts)
+            //second, get name of class by call identifier
+            symbolname = context.identifier().GetText();
+            fullName = scopedTable.ScopeName + "." + symbolname;
+
+            //third, get baseType. 
+            baseTypes = ClassSymbol.GetBaseType(context.class_base(), scopedTable);
+
+            //four, get generic info. if have
+            //here, we use GenericInfo instance to save declared generic of class
+            //we get generic types and constrain of generic in syntax tree
+            var genericTypeDeclares = ClassSymbol.GetGenericParameters(
+                context.type_parameter_list()) ?? new List<string>();
+
+            var genericConstrain =
+                ClassSymbol.GetGenericParameterConstraint(
+                    context.type_parameter_constraints_clauses())
+                    ?? new Dictionary<string, string>();
+
+            foreach (var item in genericTypeDeclares)
             {
-                modifiers.Add(modifierCon.GetText());
+                GenericInfo genericInfo = new GenericInfo();
+                genericInfo.DeclareType = item;
+                genericInfo.ExpectType = new HashSet<string>(genericConstrain[item].Split(','));
+                genericParameters.Add(genericInfo);
             }
-            var classdefinition = context.class_definition();
-            symbolname = classdefinition.identifier().GetText();
-            fullName = scopedTable.Path + "." + symbolname;
-            ClassSymbol classSymbol = new ClassSymbol(symbolname,fullName, modifiers);
+
+            ClassSymbol classSymbol = new ClassSymbol(symbolname, fullName, modifiers);
+            classSymbol.BaseTypes = baseTypes;
+            classSymbol.GenericParameters = genericParameters;
             return classSymbol;
         }
 
-        //private static List<DefinitionSymbol> GetBaseType([NotNull] Class_baseContext context, ScopedSymbolTable scopedTale)
-        //{
-        //    var class_typeContext = context.class_type();
-        //    if (class_typeContext != null)
-        //    {
-        //        var base_types = class_typeContext.namespace_or_type_name();
-        //        foreach (var typeName in base_types)
-        //        {
+        private static HashSet<string> GetBaseType(Class_baseContext context, ScopedSymbolTable scopedTale)
+        {
+            if (context == null)
+            {
+                return null;
+            }
+            //array contains base type name of another type
+            HashSet<string> baseTypeNames = new HashSet<string>();
 
-        //        }
-        //    }
-        //}
+            //Class Base node contains list of base type(class, interface)
+            //Class Base node contains only CLASS TYPE node and multiple NAMESPACE OR TYPE NAME node
+            //because in c#, a class inherit one class and multipe interface
+            var className = context.class_type().GetText();
+            if (!String.IsNullOrEmpty(className))
+                baseTypeNames.Add(className);
+
+            var interfaces = context.namespace_or_type_name();
+            foreach (var item in interfaces)
+            {
+                baseTypeNames.Add(item.GetText());
+            }
+
+            if (baseTypeNames.Count <= 0)
+                return null;
+            return baseTypeNames;
+        }
     }
 }

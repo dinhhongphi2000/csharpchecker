@@ -5,7 +5,7 @@ namespace BuildArchitecture.Semetic
 {
     public class DeclarationSymbol : Symbol
     {
-        public virtual DefinitionSymbol Type { get; set; }
+        public string Type { get; set; }
         //True, if return Type or Type of variable is pure array (have [])
         public virtual bool IsArray { get; set; }
 
@@ -15,7 +15,7 @@ namespace BuildArchitecture.Semetic
 
         }
 
-        public DeclarationSymbol(string name, List<string> modifier = null, string alias = null) 
+        public DeclarationSymbol(string name, HashSet<string> modifier = null, string alias = null) 
             : base(name, modifier, alias)
         {
         }
