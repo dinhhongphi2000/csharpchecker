@@ -11,15 +11,13 @@ namespace TestBuildArchitecture
     {
         static void Main(string[] args)
         {
-            string currentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
+            string currentFile = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
 
-            var solution = InitSolutionContext();
-            IWorkSpace workSpace = new WorkSpace(solution);
-            workSpace.CurrentProject = solution.GetProject("TestBuildArchitecture");
-            workSpace.CurrentFile = @"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\TestClass.cs";
             Program program = new Program();
-            workSpace.UpdateTree(program.GetFileContent(currentFile));
-            workSpace.RunRules();
+            WorkSpace workSpace = new WorkSpace();
+            workSpace.InitOrUpdateParserTreeOfFile(currentFile, program.GetFileContent(currentFile));
+            workSpace.RunRules(currentFile);
+            var errorList = workSpace.GetErrors();
 
             //GetSolutionList();
             //GetContext();

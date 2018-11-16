@@ -63,7 +63,6 @@
     <Compile Include="ErrorInformation.cs" />
     <Compile Include="Gui\Listener.cs" />
     <Compile Include="Gui\TreeViewerNodeMeta.cs" />
-    <Compile Include="IWorkSpace.cs" />
     <Compile Include="RuleActionContainer.cs" />
     <Compile Include="NodeVisitedListener.cs" />
     <Compile Include="ExtensionAndModifyClass\ParserRuleContextExtention.cs" />
