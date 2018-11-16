@@ -11,11 +11,11 @@ namespace BuildArchitecture
     {
         private RuleActionContainer _eventList;
         private CompositionContainer _container;
-        private List<ErrorInformation> _errorInformation;
+        public List<ErrorInformation> ErrorTable { get; private set; }
 
-        public NodeVisitedListener(List<ErrorInformation> errorInformation)
+        public NodeVisitedListener()
         {
-            _errorInformation = errorInformation ?? throw new ArgumentNullException("ErrorInformation can't Null");
+            ErrorTable = new List<ErrorInformation>();
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(NodeVisitedListener).Assembly));
             _container = new CompositionContainer(catalog);
@@ -37,7 +37,7 @@ namespace BuildArchitecture
             base.EnterEveryRule(context);
             try
             {
-                _eventList.RaiseAction(context, _errorInformation);
+                _eventList.RaiseAction(context, ErrorTable);
             }
             catch (Exception ex)
             {

@@ -40,17 +40,17 @@ namespace BuildArchitecture.Semetic
             return classSymbol;
         }
 
-        private static List<DefinitionSymbol> GetBaseType([NotNull] Class_baseContext context, ScopedSymbolTable scopedTale)
-        {
-            var class_typeContext = context.class_type();
-            if (class_typeContext != null)
-            {
-                var base_types = class_typeContext.namespace_or_type_name();
-                foreach (var typeName in base_types)
-                {
+        //private static List<DefinitionSymbol> GetBaseType([NotNull] Class_baseContext context, ScopedSymbolTable scopedTale)
+        //{
+        //    var class_typeContext = context.class_type();
+        //    if (class_typeContext != null)
+        //    {
+        //        var base_types = class_typeContext.namespace_or_type_name();
+        //        foreach (var typeName in base_types)
+        //        {
 
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
     }
 }
