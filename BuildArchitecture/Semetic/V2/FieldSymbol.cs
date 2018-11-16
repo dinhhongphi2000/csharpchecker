@@ -9,7 +9,7 @@ namespace BuildArchitecture.Semetic.V2
     {
         public int slot;
 
-        public FieldSymbol(String name) : base(name)
+        public FieldSymbol(string name) : base(name)
         {
         }
 

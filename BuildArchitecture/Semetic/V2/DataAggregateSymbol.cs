@@ -12,23 +12,15 @@ namespace BuildArchitecture.Semetic.V2
   */
     public abstract class DataAggregateSymbol : SymbolWithScope, IMemberSymbol, IType
     {
-        protected ParserRuleContext defNode;
         protected int nextFreeFieldSlot = 0;  // next slot to allocate
         protected int typeIndex;
+
+        public ParserRuleContext DefNode { get; set; }
 
         public DataAggregateSymbol(string name) : base(name)
         {
         }
 
-        public void setDefNode(ParserRuleContext defNode)
-        {
-            this.defNode = defNode;
-        }
-
-        public ParserRuleContext getDefNode()
-        {
-            return defNode;
-        }
 
         /// <summary>
         /// 

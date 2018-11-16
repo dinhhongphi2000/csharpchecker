@@ -111,6 +111,7 @@
     <Compile Include="Semetic\V2\DataAggregateSymbol.cs" />
     <Compile Include="Semetic\V2\FieldSymbol.cs" />
     <Compile Include="Semetic\V2\FunctionSymbol.cs" />
+    <Compile Include="Semetic\V2\FunctionType.cs" />
     <Compile Include="Semetic\V2\GlobalScope.cs" />
     <Compile Include="Semetic\V2\InvalidType.cs" />
     <Compile Include="Semetic\V2\LocalScope.cs" />
@@ -121,7 +122,6 @@
     <Compile Include="Semetic\V2\PointerType.cs" />
     <Compile Include="Semetic\V2\PredefinedScope.cs" />
     <Compile Include="Semetic\V2\PrimitiveType.cs" />
-    <Compile Include="Semetic\V2\PropertySymbol.cs" />
     <Compile Include="Semetic\V2\ISymbol.cs" />
     <Compile Include="Semetic\V2\IType.cs" />
     <Compile Include="Semetic\V2\StringTable.cs" />
@@ -150,9 +150,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SemeticV2\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
