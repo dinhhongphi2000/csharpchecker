@@ -82,12 +82,11 @@ namespace CSharpChecker.SolutionLoad
 
             ErrorHandler.ThrowOnFailure(solService.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object value));
             //solService.GetProjectFilesInSolution(1, projectCount, projectNames.ToArray(), out numProjects);
-            return value is bool isSolOpen && isSolOpen;
+            return (bool)value;
         }
 
         private void HandleOpenSolution(object sender = null, EventArgs e = null)
         {
-            LightBulb.TestImport testImport = new LightBulb.TestImport("Change complete");
             string solutionDirectory;
             string[] projectPaths;
             uint numProjects;

@@ -53,7 +53,7 @@ namespace CSharpChecker.LightBulb
                 {
 
                     ITrackingSpan trackingSpan = range.Snapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeInclusive);
-                    var action = new LightBulbSuggestedAction(trackingSpan, _factory.Testimport.Test);
+                    var action = new LightBulbSuggestedAction(trackingSpan, "LightBulb");
                     suggestedActionSets.Add(new SuggestedActionSet(new ISuggestedAction[] { action }));
                 }
             }

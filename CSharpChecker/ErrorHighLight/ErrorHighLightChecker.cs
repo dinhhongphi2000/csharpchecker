@@ -128,7 +128,7 @@ namespace CSharpChecker.ErrorHighLight
             {
                 Debug.Assert(error.NextIndex == -1);
 
-                var newError = ErrorInfomation.CloneAndTranslateTo(error, e.After);
+                var newError = ErrorDetail.CloneAndTranslateTo(error, e.After);
 
                 if (newError != null)
                 {
@@ -178,7 +178,7 @@ namespace CSharpChecker.ErrorHighLight
 
                     // Go through the existing errors. If they are on the line we are currently parsing then
                     // copy them to oldLineErrors, otherwise they go to the new errors.
-                    var oldLineErrors = new List<ErrorInfomation>();
+                    var oldLineErrors = new List<ErrorDetail>();
                     foreach (var error in oldErrors.Errors)
                     {
                         Debug.Assert(error.NextIndex == -1);
@@ -191,7 +191,7 @@ namespace CSharpChecker.ErrorHighLight
                         else
                         {
                             error.NextIndex = newErrors.Errors.Count;
-                            newErrors.Errors.Add(ErrorInfomation.Clone(error));   // We must clone the old error here.
+                            newErrors.Errors.Add(ErrorDetail.Clone(error));   // We must clone the old error here.
                         }
                     }
 
@@ -228,14 +228,14 @@ namespace CSharpChecker.ErrorHighLight
                                         {
                                             // There was a spelling error at the same span as the old one so we should be able to just reuse it.
                                             oldError.NextIndex = newErrors.Errors.Count;
-                                            newErrors.Errors.Add(ErrorInfomation.Clone(oldError));    // Don't clone the old error yet
+                                            newErrors.Errors.Add(ErrorDetail.Clone(oldError));    // Don't clone the old error yet
                                         }
                                         else
                                         {
                                             // Let WPF decide whether or not there are any suggested spellings.
                                             var wpfSpellngError = _box.GetSpellingError(errorStart);
 
-                                            newErrors.Errors.Add(new ErrorInfomation(newSpan, new List<string>(wpfSpellngError.Suggestions)));
+                                            newErrors.Errors.Add(new ErrorDetail(newSpan, new List<string>(wpfSpellngError.Suggestions)));
                                             anyNewErrors = true;
                                         }
                                     }

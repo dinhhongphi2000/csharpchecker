@@ -16,7 +16,7 @@ namespace CSharpChecker.ErrorHighLight
         private readonly int _versionNumber;
 
         // We're not using an immutable list here but we cannot modify the list in any way once we've published the snapshot.
-        public readonly List<ErrorInfomation> Errors = new List<ErrorInfomation>();
+        public readonly List<ErrorDetail> Errors = new List<ErrorDetail>();
 
         public ErrorSnapShot NextSnapshot;
 
