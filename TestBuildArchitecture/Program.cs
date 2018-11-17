@@ -11,7 +11,7 @@ namespace TestBuildArchitecture
     {
         static void Main(string[] args)
         {
-            string currentFile = @"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\TestClass.cs";
+            string currentFile = @"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\TestClass1.cs";
 
             Program program = new Program();
             WorkSpace workSpace = new WorkSpace();

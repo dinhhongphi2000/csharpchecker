@@ -41,7 +41,7 @@ namespace BuildArchitecture.Rules
                     error.ErrorMessage = "Error";
                 }
             }
-            else
+            else if(text.Contains("--"))
             {
                 if (start < end)
                 {

@@ -1,6 +1,4 @@
 ﻿using BuildArchitecture;
-using BuildArchitecture.Context;
-using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
@@ -36,7 +34,6 @@ namespace CSharpChecker.ErrorHighLight
         private readonly List<ErrorHighLightTagger> _activeTaggers = new List<ErrorHighLightTagger>();
         private List<ErrorInformation> _spanErrors = new List<ErrorInformation>();
         internal readonly string FilePath;
-        internal readonly string ProjectName;
         internal readonly ErrorFactory Factory;
 
         internal ErrorHighLightChecker(ErrorHighLightProvider provider, ITextView textView, ITextBuffer buffer)
@@ -152,15 +149,17 @@ namespace CSharpChecker.ErrorHighLight
                 {
                     ErrorSnapShot oldErrors = this.Factory.CurrentSnapshot;
                     ErrorSnapShot newErrors = new ErrorSnapShot(this.FilePath, oldErrors.VersionNumber + 1);
-
+                    List<ErrorInformation> newSpanErrors = new List<ErrorInformation>();
                     // Go through the existing errors. If they are on the line we are currently parsing then
                     // copy them to oldLineErrors, otherwise they go to the new errors.
 
-                    bool anyNewErrors = false;
-                    _spanErrors = this.TestLightBulb(_buffer.CurrentSnapshot.GetText());
-                    foreach(ErrorInformation spanError in _spanErrors)
+                    newSpanErrors = this.TestLightBulb(_buffer.CurrentSnapshot.GetText());
+                    if (!newSpanErrors.Equals(_spanErrors))
                     {
-                        SnapshotSpan newSpan = new SnapshotSpan(_buffer.CurrentSnapshot,spanError.StartIndex,spanError.Length );
+                        _spanErrors = newSpanErrors;
+                        foreach (ErrorInformation spanError in _spanErrors)
+                        {
+                            SnapshotSpan newSpan = new SnapshotSpan(_buffer.CurrentSnapshot, spanError.StartIndex, spanError.Length);
                             ErrorSpan oldError = oldErrors.Errors.Find((e) => e.Span == newSpan);
 
                             if (oldError != null)
@@ -172,22 +171,12 @@ namespace CSharpChecker.ErrorHighLight
                             else
                             {
                                 newErrors.Errors.Add(new ErrorSpan(newSpan));
-                                anyNewErrors = true;
                             }
-                    }
-                    
-
-                    // This does a deep comparison so we will only do the update if the a different set of errors was discovered compared to what we had previously.
-                    // If there were any new errors or if we didn't see all the expected errors then there is a change and we need to update the spelling errors.
-                    if (anyNewErrors)
-                    {
+                        }
                         this.UpdateSpellingErrors(newErrors);
                     }
                     else
                     {
-                        // There were no changes so we don't need to update our snapshot.
-                        // We have, however, dirtied the old errors by setting their NextIndex property on the assumption that we would be updating the errors.
-                        // Revert all those changes.
                         foreach (var error in oldErrors.Errors)
                         {
                             error.NextIndex = -1;
@@ -195,6 +184,7 @@ namespace CSharpChecker.ErrorHighLight
                     }
                 }
             }
+            _isUpdating = false;
         }
         private void UpdateSpellingErrors(ErrorSnapShot spellingErrors)
         {

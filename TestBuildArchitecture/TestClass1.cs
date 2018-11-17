@@ -22,6 +22,10 @@ namespace TestBuildArchitecture
             {
                 var x = 100;
             }
+            for (int i = 1000; i <10; i++)
+            {
+                var x = 100;
+            }
         }
     }
 }
