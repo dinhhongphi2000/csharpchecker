@@ -58,7 +58,7 @@ namespace CSharpChecker.ErrorHighLight
             // only create one instance of the spell checker.
             if ((buffer == textView.TextBuffer) && (typeof(T) == typeof(IErrorTag)))
             {
-                var errorChecker = buffer.Properties.GetOrCreateSingletonProperty(typeof(ErrorHighLightChecker), () => new ErrorHighLightChecker(this, textView, buffer));
+                ErrorHighLightChecker errorChecker = buffer.Properties.GetOrCreateSingletonProperty(typeof(ErrorHighLightChecker), () => new ErrorHighLightChecker(this, textView, buffer));
 
                 // This is a thin wrapper around the SpellChecker that can be disposed of without shutting down the SpellChecker
                 // (unless it was the last tagger on the spell checker).

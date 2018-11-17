@@ -18,7 +18,7 @@ namespace CSharpChecker.LightBulb
         private readonly string _replaceText;
         private readonly string _display;
 
-        public LightBulbSuggestedAction(ITrackingSpan span, string replaceText)
+        public LightBulbSuggestedAction(ITrackingSpan span, string replaceText = "LightBulb")
         {
             _span = span;
             _snapshot = span.TextBuffer.CurrentSnapshot;

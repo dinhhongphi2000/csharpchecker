@@ -16,7 +16,7 @@ namespace CSharpChecker.ErrorHighLight
         private readonly int _versionNumber;
 
         // We're not using an immutable list here but we cannot modify the list in any way once we've published the snapshot.
-        public readonly List<ErrorDetail> Errors = new List<ErrorDetail>();
+        public readonly List<ErrorSpan> Errors = new List<ErrorSpan>();
 
         public ErrorSnapShot NextSnapshot;
 
@@ -83,7 +83,7 @@ namespace CSharpChecker.ErrorHighLight
                 }
                 else if (columnName == StandardTableKeyNames.ErrorSource)
                 {
-                    content = "Spelling";
+                    content = "Error Checker";
                     return true;
                 }
                 else if (columnName == StandardTableKeyNames.Line)
@@ -162,14 +162,14 @@ namespace CSharpChecker.ErrorHighLight
 
         public override bool CanCreateDetailsContent(int index)
         {
-            return this.Errors[index].AlternateSpellings.Count > 0;
+            return false;
         }
 
         public override bool TryCreateDetailsStringContent(int index, out string content)
         {
-            content = this.Errors[index].Alternatives;
+            content = null;
 
-            return (content != null);
+            return false;
         }
     }
 }

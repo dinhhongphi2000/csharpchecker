@@ -13,13 +13,11 @@ namespace TestBuildArchitecture
         {
             string currentFile = @"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\TestClass.cs";
 
-            var solution = InitSolutionContext();
-            IWorkSpace workSpace = new WorkSpace(solution);
-            workSpace.CurrentProject = solution.GetProject("TestBuildArchitecture");
-            workSpace.CurrentFile = @"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\TestClass.cs";
             Program program = new Program();
-            workSpace.UpdateTree(program.GetFileContent(currentFile));
-            workSpace.RunRules();
+            WorkSpace workSpace = new WorkSpace();
+            workSpace.InitOrUpdateParserTreeOfFile(currentFile, program.GetFileContent(currentFile));
+            workSpace.RunRules(currentFile);
+            var errorList = workSpace.GetErrors();
 
             //GetSolutionList();
             //GetContext();

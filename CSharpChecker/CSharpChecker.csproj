@@ -55,7 +55,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ErrorHighLight\ErrorDetail.cs" />
+    <Compile Include="ErrorHighLight\ErrorSpan.cs" />
     <Compile Include="ErrorHighLight\ErrorFactory.cs" />
     <Compile Include="ErrorHighLight\ErrorHighLightChecker.cs" />
     <Compile Include="ErrorHighLight\ErrorHighLightProvider.cs" />
