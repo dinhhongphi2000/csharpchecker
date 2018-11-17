@@ -13,7 +13,7 @@ namespace BuildArchitecture.Semetic.V2
          *  variables, or anything else that is a ISymbol impl. It does NOT
          *  include non-ISymbol-based things like LocalScope. See nestedScopes.
          */
-        protected LinkedHashMap<String, ISymbol> symbols = new LinkedHashMap<string, ISymbol>();
+        protected LinkedHashMap<string, ISymbol> symbols = new LinkedHashMap<string, ISymbol>();
 
         /** All directly contained scopes, typically LocalScopes within a
          *  LocalScope or a LocalScope within a FunctionSymbol. This does not
@@ -25,12 +25,12 @@ namespace BuildArchitecture.Semetic.V2
 
         public BaseScope(IScope enclosingScope) { SetEnclosingScope(enclosingScope); }
 
-        public virtual LinkedHashMap<String, ISymbol> GetMembers()
+        public virtual LinkedHashMap<string, ISymbol> GetMembers()
         {
             return symbols;
         }
 
-        public ISymbol GetSymbol(String name)
+        public ISymbol GetSymbol(string name)
         {
             return symbols[name];
         }
@@ -83,7 +83,7 @@ namespace BuildArchitecture.Semetic.V2
             nestedScopesNotSymbols.Add(scope);
         }
 
-        public virtual ISymbol Resolve(String name)
+        public virtual ISymbol Resolve(string name)
         {
             ISymbol s = symbols[name];
             if (s != null)
@@ -210,10 +210,10 @@ namespace BuildArchitecture.Semetic.V2
             return ToTestString(", ", ".");
         }
 
-        public string ToTestString(String separator, String scopePathSeparator)
+        public string ToTestString(string separator, string scopePathSeparator)
         {
             List<ISymbol> allSymbols = this.GetAllSymbols();
-            List<String> syms = Utils.Map(allSymbols, s => s.GetScope().GetName() + scopePathSeparator + s.GetName());
+            List<string> syms = Utils.Map(allSymbols, s => s.GetScope().GetName() + scopePathSeparator + s.GetName());
             return Utils.Join(syms, separator);
         }
 
