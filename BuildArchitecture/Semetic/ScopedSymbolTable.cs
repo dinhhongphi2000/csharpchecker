@@ -44,18 +44,6 @@ namespace BuildArchitecture.Semetic
         }
 
         /// <summary>
-        /// </summary>
-        /// <param name="name">Name is fullName (path) that it contains symbol</param>
-        /// <returns></returns>
-        public ScopedSymbolTable GetScopedSymbolByName(string name)
-        {
-            if (this.ScopeName == name)
-                return this;
-            else
-                return EnclosingScope.GetScopedSymbolByName(name);
-        }
-
-        /// <summary>
         /// Insert symbol to current scope
         /// </summary>
         /// <param name="symbol"></param>
