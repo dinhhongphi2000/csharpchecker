@@ -1,16 +1,14 @@
-﻿using System;
-
-namespace BuildArchitecture.Semetic.V2
+﻿namespace BuildArchitecture.Semetic.V2
 {
-    public class MethodSymbol : Symbol, IType
+    /** A method symbol is a function that lives within an aggregate/class and has a slot number. */
+    public class MethodSymbol : FunctionSymbol, IMemberSymbol
     {
-        public MethodSymbol(string name, IType type) : base(name, type)
+        public int slot = -1;
+
+        public MethodSymbol(string name) : base(name)
         {
         }
 
-        public string GetName()
-        {
-            return Name;
-        }
+        public int GetSlotNumber() { return slot; }
     }
 }

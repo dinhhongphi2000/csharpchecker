@@ -39,7 +39,7 @@ namespace BuildArchitecture
             {
                 _eventList.RaiseAction(context, ErrorTable);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

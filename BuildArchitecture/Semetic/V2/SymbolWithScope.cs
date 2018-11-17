@@ -32,7 +32,7 @@ namespace BuildArchitecture.Semetic.V2
         }
 
         /** Return the name prefixed with the name of its enclosing scope. */
-        public string getQualifiedName(string scopePathSeparator)
+        public string GetQualifiedName(string scopePathSeparator)
         {
             return enclosingScope.GetName() + scopePathSeparator + name;
         }
@@ -47,7 +47,7 @@ namespace BuildArchitecture.Semetic.V2
             return Utils.JoinScopeNames(path, scopePathSeparator);
         }
 
-        public int HetInsertionOrderNumber()
+        public int GetInsertionOrderNumber()
         {
             return index;
         }
@@ -75,11 +75,9 @@ namespace BuildArchitecture.Semetic.V2
             return name.Equals(((ISymbol)obj).GetName());
         }
 
-        public int HashCode()
+        public override int GetHashCode()
         {
             return name.GetHashCode();
         }
-
-        public abstract int GetInsertionOrderNumber();
     }
 }

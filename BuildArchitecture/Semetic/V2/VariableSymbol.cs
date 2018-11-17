@@ -2,15 +2,15 @@
 
 namespace BuildArchitecture.Semetic.V2
 {
-    public class VariableSymbol : Symbol, IType
+    public class VariableSymbol : BaseSymbol, TypedSymbol
     {
-        public VariableSymbol(string name, IType type) : base(name, type)
+        public VariableSymbol(string name) : base(name)
         {
         }
 
-        public string GetName()
+        public void SetType(IType type)
         {
-            throw new NotImplementedException();
+            base.SetType(type);
         }
     }
 }

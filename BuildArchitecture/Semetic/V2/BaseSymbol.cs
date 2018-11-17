@@ -7,7 +7,7 @@ namespace BuildArchitecture.Semetic.V2
     public abstract class BaseSymbol : ISymbol
     {
         protected readonly string name;          // All symbols at least have a name
-        protected Type type;                 // If language statically typed, record type
+        protected IType type;                 // If language statically typed, record type
         protected IScope scope;               // All symbols know what scope contains them.
         protected ParserRuleContext defNode; // points at definition node in tree
         protected int lexicalOrder;          // order seen or insertion order from 0; compilers often need this
@@ -18,8 +18,8 @@ namespace BuildArchitecture.Semetic.V2
         public IScope GetScope() { return scope; }
         public void SetScope(IScope scope) { this.scope = scope; }
 
-        public Type GetType() { return type; }
-        public void SetType(Type type) { this.type = type; }
+        public new IType GetType() { return type; }
+        public void SetType(IType type) { this.type = type; }
 
         public void SetDefNode(ParserRuleContext defNode)
         {
@@ -31,7 +31,7 @@ namespace BuildArchitecture.Semetic.V2
             return defNode;
         }
 
-        public bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (!(obj is ISymbol))
             {
@@ -44,7 +44,7 @@ namespace BuildArchitecture.Semetic.V2
             return name.Equals(((ISymbol)obj).GetName());
         }
 
-        public int HashCode()
+        public override int GetHashCode()
         {
             return name.GetHashCode();
         }
@@ -67,7 +67,7 @@ namespace BuildArchitecture.Semetic.V2
             return qualifier + scopePathSeparator + name;
         }
 
-        public string ToString()
+        public override string ToString()
         {
             string s = "";
             if (scope != null) s = scope.GetName() + ".";
@@ -75,7 +75,7 @@ namespace BuildArchitecture.Semetic.V2
             {
                 string ts = type.ToString();
                 if (type is SymbolWithScope ) {
-                    ts = ((SymbolWithScope)type).getFullyQualifiedName(".");
+                    ts = ((SymbolWithScope)type).GetFullyQualifiedName(".");
                 }
                 return '<' + s + GetName() + ":" + ts + '>';
             }

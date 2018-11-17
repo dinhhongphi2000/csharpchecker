@@ -17,7 +17,7 @@ namespace BuildArchitecture.Semetic.V2
         void SetInsertionOrderNumber(int i);
 
         // to satisfy adding symbols to sets, hashtables
-        int HashCode();
+        int GetHashCode();
         bool Equals(Object o);
     }
 }

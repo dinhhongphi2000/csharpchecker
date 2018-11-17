@@ -25,7 +25,7 @@ namespace BuildArchitecture.Semetic.V2
 
         public BaseScope(IScope enclosingScope) { SetEnclosingScope(enclosingScope); }
 
-        public LinkedHashMap<String, ISymbol> GetMembers()
+        public virtual LinkedHashMap<String, ISymbol> GetMembers()
         {
             return symbols;
         }
@@ -83,7 +83,7 @@ namespace BuildArchitecture.Semetic.V2
             nestedScopesNotSymbols.Add(scope);
         }
 
-        public ISymbol Resolve(String name)
+        public virtual ISymbol Resolve(String name)
         {
             ISymbol s = symbols[name];
             if (s != null)
@@ -100,7 +100,7 @@ namespace BuildArchitecture.Semetic.V2
         /// </summary>
         /// <param name="sym"></param>
         /// <exception cref="ArgumentException"></exception>
-        public void Define(ISymbol sym)
+        public virtual void Define(ISymbol sym)
         {
             if (symbols.ContainsKey(sym.GetName()))
             {
@@ -117,7 +117,7 @@ namespace BuildArchitecture.Semetic.V2
          *  enclosing scope not necessarily parent. This will usually be
          *  a global scope or something, depending on your scope tree.
          */
-        public IScope GetOuterMostEnclosingScope()
+        public virtual IScope GetOuterMostEnclosingScope()
         {
             IScope s = this;
             while (s.GetEnclosingScope() != null)
@@ -132,7 +132,7 @@ namespace BuildArchitecture.Semetic.V2
          *  MethodSymbol.class, unless of course you have created a subclass for
          *  your language implementation.
          */
-        public MethodSymbol GetEnclosingScopeOfType(Type type)
+        public virtual MethodSymbol GetEnclosingScopeOfType(Type type)
         {
             IScope s = this;
             while (s != null)
@@ -146,7 +146,7 @@ namespace BuildArchitecture.Semetic.V2
             return null;
         }
 
-        public List<IScope> GetEnclosingPathToRoot()
+        public virtual List<IScope> GetEnclosingPathToRoot()
         {
             List<IScope> scopes = new List<IScope>();
             IScope s = this;
@@ -158,7 +158,7 @@ namespace BuildArchitecture.Semetic.V2
             return scopes;
         }
 
-        public List<ISymbol> GetSymbols()
+        public virtual List<ISymbol> GetSymbols()
         {
             IEnumerable<ISymbol> values = symbols.Values;
             if (values is List<ISymbol>)
@@ -168,7 +168,7 @@ namespace BuildArchitecture.Semetic.V2
             return new List<ISymbol>(values);
         }
 
-        public List<ISymbol> GetAllSymbols()
+        public virtual List<ISymbol> GetAllSymbols()
         {
             List<ISymbol> syms = new List<ISymbol>();
             syms.AddRange(GetSymbols());
@@ -188,7 +188,7 @@ namespace BuildArchitecture.Semetic.V2
             return symbols.Count;
         }
 
-        public List<string> GetSymbolNames()
+        public virtual List<string> GetSymbolNames()
         {
             return new List<string>(symbols.Keys);
         }
