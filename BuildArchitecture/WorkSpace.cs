@@ -39,6 +39,12 @@ namespace BuildArchitecture
             _parserRuleContextOfFile[filePath] = startContext;
         }
 
+        public void RunSemeticAnalysis(string filePath)
+        {
+            Semetic.V2.SemeticAnalysis analysis = new Semetic.V2.SemeticAnalysis();
+            _treeWalker.Walk(analysis, _parserRuleContextOfFile[filePath]);
+        }
+
 
         public void RunRules(string filePath)
         {

@@ -4,9 +4,9 @@
     /// This interface tags user-defined symbols that have static type information,
     /// like variables and functions.
     /// </summary>
-    public interface TypedSymbol
+    public interface ITypedSymbol
     {
-        IType GetType();
+        IType GetSymbolType();
         void SetType(IType type);
     }
 }

@@ -119,12 +119,15 @@
     <Compile Include="Semetic\V2\MemberSymbol.cs" />
     <Compile Include="Semetic\V2\MethodSymbol.cs" />
     <Compile Include="Semetic\V2\IScope.cs" />
+    <Compile Include="Semetic\V2\NamespaceScope.cs" />
     <Compile Include="Semetic\V2\ParameterSymbol.cs" />
     <Compile Include="Semetic\V2\PointerType.cs" />
     <Compile Include="Semetic\V2\PredefinedScope.cs" />
     <Compile Include="Semetic\V2\PrimitiveType.cs" />
     <Compile Include="Semetic\V2\ISymbol.cs" />
     <Compile Include="Semetic\V2\IType.cs" />
+    <Compile Include="Semetic\V2\PropertySymbol.cs" />
+    <Compile Include="Semetic\V2\SemeticAnalysis.cs" />
     <Compile Include="Semetic\V2\StringTable.cs" />
     <Compile Include="Semetic\V2\StructSymbol.cs" />
     <Compile Include="Semetic\V2\SymbolTable.cs" />

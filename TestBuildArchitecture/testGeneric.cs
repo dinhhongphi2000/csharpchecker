@@ -1,72 +1,49 @@
-﻿//namespace BuildArchitecture.Semetic
-//{
-//    public class Math
-//    {
-//        int a;
-//        public Math math { get; set; }
-//        public Math math2 = new Math();
-//        public Math()
-//        {
+﻿namespace BuildArchitecture.Semetic
+{
+    class Test
+    {
+        public int score { get; set; }
+        protected float number, c = 5;
+        public Person Person;
 
-//        }
-//        public Math(int type)
-//        {
+        public int Add(int a, int b)
+        {
+            int c;
+            int d = a + b;
+            StructTest x = new StructTest();
+            return d;
+        }
+    }
 
-//        }
+    class Sum : Cong1, Cong2
+    {
+        void Cong1.Enter() { }
+        void Cong2.Enter() { }
+    }
 
-//        public static int Plus(int a, int b)
-//        {
-//            return 1;
-//        }
+    interface Cong1
+    {
+        void Enter();
+    }
 
-//        public float Plus<T>(T a, T b) where T : class, new()
-//        {
-//            return "";
-//        }
+    interface Cong2
+    {
+        void Enter();
+    }
 
-//        //public string Plus<T>(T a, T b) where T : class, new()
-//        //{
-//        //    return "";
-//        //}
+    struct StructTest
+    {
+        int b;
 
-//        public void sub()
-//        {
+        public void Test(int a, int b)
+        {
 
-//        }
+        }
+    }
 
-//        class B
-//        {
+    class Person { }
+}
 
-//        }
-
-//        public struct C
-//        {
-
-//        }
-
-//        class D<M>
-//        {
-//            public D() { }
-//        }
-
-//        public enum DayOfWeek
-//        {
-//            Monday,
-//            Tuesday,
-//            Wednersday
-//        }
-
-//        public enum DayOfWeek2
-//        {
-//            Monday = 2,
-//            Tuesday
-//        }
-
-//    }
-
-//    enum DayOfWeek3
-//    {
-//        Moday,
-//        Tuesday
-//    }
-//}
+namespace BuildArchitecture
+{
+}

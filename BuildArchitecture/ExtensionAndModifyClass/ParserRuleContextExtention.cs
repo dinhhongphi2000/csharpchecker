@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using System;
 
 namespace BuildArchitecture
 {
@@ -10,6 +11,20 @@ namespace BuildArchitecture
             while(current != null)
             {
                 if (current.GetType().Name.ToUpper() == contextType.ToString())
+                {
+                    return true;
+                }
+                current = current.Parent;
+            }
+            return false;
+        }
+
+        public static bool InRule(this ParserRuleContext parserContext, Type contextType)
+        {
+            RuleContext current = parserContext;
+            while (current != null)
+            {
+                if (current.GetType().Name == contextType.Name)
                 {
                     return true;
                 }

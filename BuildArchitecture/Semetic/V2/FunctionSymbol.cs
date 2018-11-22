@@ -6,26 +6,16 @@ namespace BuildArchitecture.Semetic.V2
   *  You can associate a node in the parse tree that is responsible
   *  for defining this symbol.
   */
-    public class FunctionSymbol : SymbolWithScope, TypedSymbol
+    public class FunctionSymbol : SymbolWithScope, ITypedSymbol
     {
-        protected ParserRuleContextWithScope defNode;
+        public ParserRuleContextWithScope DefNode { get; set; }
         protected IType retType;
 
         public FunctionSymbol(string name) : base(name)
         {
         }
 
-        public void SetDefNode(ParserRuleContextWithScope defNode)
-        {
-            this.defNode = defNode;
-        }
-
-        public ParserRuleContextWithScope GetDefNode()
-        {
-            return defNode;
-        }
-
-        public new IType GetType()
+        public IType GetSymbolType()
         {
             return retType;
         }
