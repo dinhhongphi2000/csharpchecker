@@ -8,19 +8,19 @@ namespace BuildArchitecture.Semetic.V2
   */
     public class FunctionSymbol : SymbolWithScope, TypedSymbol
     {
-        protected ParserRuleContext defNode;
+        protected ParserRuleContextWithScope defNode;
         protected IType retType;
 
         public FunctionSymbol(string name) : base(name)
         {
         }
 
-        public void SetDefNode(ParserRuleContext defNode)
+        public void SetDefNode(ParserRuleContextWithScope defNode)
         {
             this.defNode = defNode;
         }
 
-        public ParserRuleContext GetDefNode()
+        public ParserRuleContextWithScope GetDefNode()
         {
             return defNode;
         }

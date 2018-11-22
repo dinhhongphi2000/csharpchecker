@@ -6,7 +6,8 @@ parser grammar CSharpParser;
 @header {
 using BuildArchitecture.Semetic.V2;
 }
-options { tokenVocab=CSharpLexer; }
+
+options { tokenVocab=CSharpLexer; contextSuperClass=BuildArchitecture.ParserRuleContextWithScope; }
 
 // entry point
 compilation_unit

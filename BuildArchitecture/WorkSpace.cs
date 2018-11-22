@@ -12,7 +12,7 @@ namespace BuildArchitecture
         //Walker which visits node of Parser tree and call action of listener
         private ParseTreeWalker _treeWalker = null;
 
-        private Dictionary<string, ParserRuleContext> _parserRuleContextOfFile;
+        private Dictionary<string, ParserRuleContextWithScope> _parserRuleContextOfFile;
 
         public ParseTreeWalker TreeWalker
         {
@@ -23,7 +23,7 @@ namespace BuildArchitecture
         public WorkSpace()
         {
             //Initial default value
-            _parserRuleContextOfFile = new Dictionary<string, ParserRuleContext>();
+            _parserRuleContextOfFile = new Dictionary<string, ParserRuleContextWithScope>();
             _scanTree = new NodeVisitedListener();
             _treeWalker = new ParseTreeWalker();
         }
@@ -42,7 +42,7 @@ namespace BuildArchitecture
 
         public void RunRules(string filePath)
         {
-            ParserRuleContext tree = _parserRuleContextOfFile[filePath];
+            ParserRuleContextWithScope tree = _parserRuleContextOfFile[filePath];
             _scanTree.ErrorTable.Clear();
             //Walker tree to check rule and add error to error list
             _treeWalker.Walk(_scanTree, tree);

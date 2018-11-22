@@ -10,7 +10,7 @@ namespace BuildArchitecture.Semetic.V2
     public class ClassSymbol : DataAggregateSymbol
     {
 
-        protected string superClassName; // null if this is Object
+        protected string baseClassName; // null if this is Object
         protected int nextFreeMethodSlot = 0; // next slot to allocate
 
         public ClassSymbol(string name) : base(name)
@@ -20,16 +20,16 @@ namespace BuildArchitecture.Semetic.V2
         /** Return the ClassSymbol associated with superClassName or null if
          *  superclass is not resolved looking up the enclosing scope chain.
          */
-        public ClassSymbol GetSuperClassScope()
+        public ClassSymbol GetBaseClassScope()
         {
-            if (superClassName != null)
+            if (baseClassName != null)
             {
                 if (GetEnclosingScope() != null)
                 {
-                    ISymbol superClass = GetEnclosingScope().Resolve(superClassName);
-                    if (superClass is ClassSymbol)
+                    ISymbol baseClass = GetEnclosingScope().Resolve(baseClassName);
+                    if (baseClass is ClassSymbol)
                     {
-                        return (ClassSymbol)superClass;
+                        return (ClassSymbol)baseClass;
                     }
                 }
             }
@@ -37,13 +37,13 @@ namespace BuildArchitecture.Semetic.V2
         }
 
         /** Multiple superclass or interface implementations and the like... */
-        public IEnumerable<ClassSymbol> GetSuperClassScopes()
+        public IEnumerable<ClassSymbol> GetBaseClassScopes()
         {
-            ClassSymbol superClassScope = GetSuperClassScope();
-            if (superClassScope != null)
+            ClassSymbol baseClassScope = GetBaseClassScope();
+            if (baseClassScope != null)
             {
                 List<ClassSymbol> list = new List<ClassSymbol>();
-                list.Add(superClassScope);
+                list.Add(baseClassScope);
                 return list;
             }
             return null;
@@ -73,12 +73,12 @@ namespace BuildArchitecture.Semetic.V2
                 return s;
             }
             // walk superclass chain
-            List<ClassSymbol> superClassScopes = GetSuperClassScopes().ToList();
-            if (superClassScopes != null)
+            List<ClassSymbol> baseClassScopes = GetBaseClassScopes().ToList();
+            if (baseClassScopes != null)
             {
-                foreach (ClassSymbol sup in superClassScopes)
+                foreach (ClassSymbol supClass in baseClassScopes)
                 {
-                    s = sup.ResolveMember(name);
+                    s = supClass.ResolveMember(name);
                     if (s is IMemberSymbol)
                     {
                         return s;
@@ -116,13 +116,13 @@ namespace BuildArchitecture.Semetic.V2
 
         public void SetSuperClass(string superClassName)
         {
-            this.superClassName = superClassName;
+            this.baseClassName = superClassName;
             nextFreeMethodSlot = GetNumberOfMethods();
         }
 
-        public string GetSuperClassName()
+        public string GetBaseClassName()
         {
-            return superClassName;
+            return baseClassName;
         }
 
         public override void SetSlotNumber(ISymbol sym)
@@ -131,10 +131,10 @@ namespace BuildArchitecture.Semetic.V2
             {
                 // handle inheritance. If not found in this scope, check superclass
                 // if any.
-                ClassSymbol superClass = GetSuperClassScope();
-                if (superClass != null)
+                ClassSymbol baseClass = GetBaseClassScope();
+                if (baseClass != null)
                 {
-                    MethodSymbol superMethodSym = superClass.ResolveMethod(sym.GetName());
+                    MethodSymbol superMethodSym = baseClass.ResolveMethod(sym.GetName());
                     if (superMethodSym != null)
                     {
                         msym.slot = superMethodSym.slot;
@@ -169,7 +169,7 @@ namespace BuildArchitecture.Semetic.V2
         public IEnumerable<MethodSymbol> GetMethods()
         {
             LinkedHashSet<MethodSymbol> methods = new LinkedHashSet<MethodSymbol>();
-            ClassSymbol superClassScope = GetSuperClassScope();
+            ClassSymbol superClassScope = GetBaseClassScope();
             IEnumerable<MethodSymbol> temp;
             if (superClassScope != null)
             {
@@ -198,7 +198,7 @@ namespace BuildArchitecture.Semetic.V2
         public override List<FieldSymbol> GetFields()
         {
             List<FieldSymbol> fields = new List<FieldSymbol>();
-            ClassSymbol superClassScope = GetSuperClassScope();
+            ClassSymbol superClassScope = GetBaseClassScope();
             if (superClassScope != null)
             {
                 fields.AddRange(superClassScope.GetFields());
@@ -225,7 +225,7 @@ namespace BuildArchitecture.Semetic.V2
         public int GetNumberOfMethods()
         {
             int n = 0;
-            ClassSymbol superClassScope = GetSuperClassScope();
+            ClassSymbol superClassScope = GetBaseClassScope();
             if (superClassScope != null)
             {
                 n += superClassScope.GetNumberOfMethods();
@@ -237,7 +237,7 @@ namespace BuildArchitecture.Semetic.V2
         public override int GetNumberOfFields()
         {
             int n = 0;
-            ClassSymbol superClassScope = GetSuperClassScope();
+            ClassSymbol superClassScope = GetBaseClassScope();
             if (superClassScope != null)
             {
                 n += superClassScope.GetNumberOfFields();

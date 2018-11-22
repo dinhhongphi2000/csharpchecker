@@ -4,7 +4,7 @@ namespace BuildArchitecture
 {
     public static class ParserRuleContextExtension
     {
-        public static bool InRule(this ParserRuleContext parserContext, RuleContextType contextType)
+        public static bool InRule(this ParserRuleContextWithScope parserContext, RuleContextType contextType)
         {
             RuleContext current = parserContext;
             while(current != null)

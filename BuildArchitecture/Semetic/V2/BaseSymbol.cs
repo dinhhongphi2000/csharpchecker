@@ -9,7 +9,7 @@ namespace BuildArchitecture.Semetic.V2
         protected readonly string name;          // All symbols at least have a name
         protected IType type;                 // If language statically typed, record type
         protected IScope scope;               // All symbols know what scope contains them.
-        protected ParserRuleContext defNode; // points at definition node in tree
+        protected ParserRuleContextWithScope defNode; // points at definition node in tree
         protected int lexicalOrder;          // order seen or insertion order from 0; compilers often need this
 
         public BaseSymbol(string name) { this.name = name; }
@@ -21,12 +21,12 @@ namespace BuildArchitecture.Semetic.V2
         public new IType GetType() { return type; }
         public void SetType(IType type) { this.type = type; }
 
-        public void SetDefNode(ParserRuleContext defNode)
+        public void SetDefNode(ParserRuleContextWithScope defNode)
         {
             this.defNode = defNode;
         }
 
-        public ParserRuleContext getDefNode()
+        public ParserRuleContextWithScope getDefNode()
         {
             return defNode;
         }

@@ -15,7 +15,7 @@ namespace BuildArchitecture.Semetic.V2
         protected int nextFreeFieldSlot = 0;  // next slot to allocate
         protected int typeIndex;
 
-        public ParserRuleContext DefNode { get; set; }
+        public ParserRuleContextWithScope DefNode { get; set; }
 
         public DataAggregateSymbol(string name) : base(name)
         {
