@@ -22,33 +22,29 @@ namespace BuildArchitecture.Semetic.V2
         /// Define namespace scope
         /// </summary>
         /// <param name="context"></param>
-        public override void EnterQualified_identifier([NotNull] CSharpParser.Qualified_identifierContext context)
+        public override void EnterNamespace([NotNull] NamespaceContext context)
         {
             //create scope namespace
-            if (context.InRule(typeof(NamespaceContext)))
+            var identityList = context.qualified_identifier().identifier();
+            NamespaceSymbol symbolScope = null;
+            foreach (var identity in identityList)
             {
-                var identityName = context.identifier();
-                NamespaceSymbol symbolScope = null;
-                foreach (var name in identityName)
-                {
-                    symbolScope = new NamespaceSymbol(name.GetText());
-                    symbolScope.SetEnclosingScope(currentScope);
-                    currentScope.Define(symbolScope);
-                    currentScope = symbolScope;
-                }
-                context.Scope = symbolScope;
+                symbolScope = new NamespaceSymbol(identity.GetText());
+                symbolScope.SetEnclosingScope(currentScope);
+                currentScope.Define(symbolScope);
 
+                identity.Scope = symbolScope;
+                identity.Symbol = symbolScope;
+
+                currentScope = symbolScope;
             }
         }
 
-        public override void ExitQualified_identifier([NotNull] Qualified_identifierContext context)
+        public override void ExitNamespace([NotNull] NamespaceContext context)
         {
-            if (context.InRule(typeof(NamespaceContext)))
-            {
-                var identityName = context.identifier();
-                for (int i = 1; i <= identityName.Length; i++)
-                    currentScope = currentScope.GetEnclosingScope();
-            }
+            var identityName = context.qualified_identifier().identifier();
+            for (int i = 1; i <= identityName.Length; i++)
+                currentScope = currentScope.GetEnclosingScope();
         }
 
         /// <summary>
@@ -57,13 +53,13 @@ namespace BuildArchitecture.Semetic.V2
         /// <param name="context"></param>
         public override void EnterClass_definition([NotNull] Class_definitionContext context)
         {
-            var classNameContext = context.identifier();
-            ClassSymbol classSymbol = new ClassSymbol(classNameContext.GetText());
+            var classIdentityContext = context.identifier();
+            ClassSymbol classSymbol = new ClassSymbol(classIdentityContext.GetText());
             classSymbol.SetEnclosingScope(currentScope);
             classSymbol.DefNode = context;
 
-            classNameContext.Symbol = classSymbol;
-            classNameContext.Scope = classSymbol;
+            classIdentityContext.Symbol = classSymbol;
+            classIdentityContext.Scope = classSymbol;
 
             currentScope.Define(classSymbol);
             currentScope = classSymbol;
@@ -121,7 +117,7 @@ namespace BuildArchitecture.Semetic.V2
         public override void EnterField_declaration([NotNull] Field_declarationContext context)
         {
             var variableDeclaraContextList = context.variable_declarators().variable_declarator();
-            foreach(var variableDec in variableDeclaraContextList)
+            foreach (var variableDec in variableDeclaraContextList)
             {
                 var identityContext = variableDec.identifier();
                 FieldSymbol fieldSymbol = new FieldSymbol(identityContext.GetText())

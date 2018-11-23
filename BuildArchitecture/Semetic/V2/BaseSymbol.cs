@@ -50,7 +50,7 @@ namespace BuildArchitecture.Semetic.V2
             this.lexicalOrder = i;
         }
 
-        public string GetFullyQualifiedName(string scopePathSeparator)
+        public virtual string GetFullyQualifiedName(string scopePathSeparator)
         {
             List<IScope> path = scope.GetEnclosingPathToRoot();
             path.Reverse();

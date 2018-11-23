@@ -67,13 +67,13 @@ namespace BuildArchitecture.Semetic.V2
          */
         public override ISymbol ResolveMember(string name)
         {
-            ISymbol s = symbols[name];
+            symbols.TryGetValue(name, out ISymbol s);
             if (s is IMemberSymbol)
             {
                 return s;
             }
             // walk superclass chain
-            List<ClassSymbol> baseClassScopes = GetBaseClassScopes().ToList();
+            List<ClassSymbol> baseClassScopes = GetBaseClassScopes()?.ToList();
             if (baseClassScopes != null)
             {
                 foreach (ClassSymbol supClass in baseClassScopes)

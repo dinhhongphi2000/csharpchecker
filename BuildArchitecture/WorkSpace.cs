@@ -1,6 +1,5 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using System;
 using System.Collections.Generic;
 
 namespace BuildArchitecture
@@ -11,9 +10,11 @@ namespace BuildArchitecture
         private NodeVisitedListener _scanTree = null;
         //Walker which visits node of Parser tree and call action of listener
         private ParseTreeWalker _treeWalker = null;
-
+#if TEST
+        public Dictionary<string, ParserRuleContextWithScope> _parserRuleContextOfFile;
+#else
         private Dictionary<string, ParserRuleContextWithScope> _parserRuleContextOfFile;
-
+#endif
         public ParseTreeWalker TreeWalker
         {
             get { return _treeWalker; }

@@ -15,6 +15,7 @@ namespace BuildArchitecture.Semetic.V2
         void SetScope(IScope scope); // set scope (not enclosing) for this symbol; who contains it?
         int GetInsertionOrderNumber(); // index showing insertion order from 0
         void SetInsertionOrderNumber(int i);
+        string GetFullyQualifiedName(string scopePathSeparator);
 
         // to satisfy adding symbols to sets, hashtables
         int GetHashCode();
