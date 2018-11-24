@@ -8,7 +8,7 @@ namespace BuildArchitecture.Semetic.V2
   */
     public class FunctionSymbol : SymbolWithScope, ITypedSymbol
     {
-        public ParserRuleContextWithScope DefNode { get; set; }
+        public ParserRuleContext DefNode { get; set; }
         protected IType retType;
 
         public FunctionSymbol(string name) : base(name)

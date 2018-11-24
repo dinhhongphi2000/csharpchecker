@@ -12,7 +12,7 @@ namespace BuildArchitecture.Semetic.V2
         /** Return first ancestor node up the chain towards the root that has ruleName.
          *  Search includes the current node.
          */
-        public static ParserRuleContextWithScope GetAncestor(Parser parser, ParserRuleContextWithScope ctx, string ruleName)
+        public static ParserRuleContext GetAncestor(Parser parser, ParserRuleContext ctx, string ruleName)
         {
             int ruleIndex = parser.GetRuleIndex(ruleName);
             return GetAncestor(ctx, ruleIndex);
@@ -21,7 +21,7 @@ namespace BuildArchitecture.Semetic.V2
         /** Return first ancestor node up the chain towards the root that has the rule index.
          *  Search includes the current node.
          */
-        public static ParserRuleContextWithScope GetAncestor(ParserRuleContextWithScope t, int ruleIndex)
+        public static ParserRuleContext GetAncestor(ParserRuleContext t, int ruleIndex)
         {
             while (t != null)
             {
@@ -29,7 +29,7 @@ namespace BuildArchitecture.Semetic.V2
                 {
                     return t;
                 }
-                t = (ParserRuleContextWithScope)t.Parent;
+                t = (ParserRuleContext)t.Parent;
             }
             return null;
         }
@@ -37,7 +37,7 @@ namespace BuildArchitecture.Semetic.V2
         /** Return first ancestor node up the chain towards the root that is clazz.
          *  Search includes the current node.
          */
-        public static ParserRuleContextWithScope getFirstAncestorOfType(ParserRuleContextWithScope t, Type clazz)
+        public static ParserRuleContext GetFirstAncestorOfType(ParserRuleContext t, Type clazz)
         {
             while (t != null)
             {
@@ -45,7 +45,7 @@ namespace BuildArchitecture.Semetic.V2
                 {
                     return t;
                 }
-                t = (ParserRuleContextWithScope)t.Parent;
+                t = (ParserRuleContext)t.Parent;
             }
             return null;
         }

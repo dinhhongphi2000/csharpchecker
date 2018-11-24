@@ -11,7 +11,7 @@ namespace BuildArchitecture.Semetic.V2
         protected IScope scope;               // All symbols know what scope contains them.
         protected int lexicalOrder;          // order seen or insertion order from 0; compilers often need this
 
-        public ParserRuleContextWithScope DefNode { get; set; } // points at definition node in tree
+        public ParserRuleContext DefNode { get; set; } // points at definition node in tree
 
         public BaseSymbol(string name) { this.name = name; }
 

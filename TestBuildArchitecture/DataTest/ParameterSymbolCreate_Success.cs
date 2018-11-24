@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TestBuildArchitecture.DataTest
+{
+    class Test
+    {
+        public void Add(int a, float b) { }
+    }
+}

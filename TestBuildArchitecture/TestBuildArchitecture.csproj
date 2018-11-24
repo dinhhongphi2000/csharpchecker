@@ -69,12 +69,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTest\CreateNestedClassSymbol_Success.cs" />
-    <Compile Include="DataTest\CreateStructSymbol_Success.cs" />
-    <Compile Include="DataTest\EnterClass_definition_Create_Class_Symbol_Success.cs" />
-    <Compile Include="DataTest\EnterNamespace_Create_NamespaceSymbol_Success.cs" />
+    <None Include="DataTest\CreateNestedClassSymbol_Success.cs" />
+    <None Include="DataTest\CreateStructSymbol_Success.cs" />
+    <None Include="DataTest\EnterClass_definition_Create_Class_Symbol_Success.cs" />
+    <None Include="DataTest\EnterNamespace_Create_NamespaceSymbol_Success.cs" />
+    <None Include="DataTest\CreatePropertySymbol_For_Class_Success_PropertyInClass.cs" />
+    <None Include="DataTest\CreatePropertySymbol_For_Class_Success_PropertyInStruct.cs" />
+    <None Include="DataTest\CreateFieldSymbol_Success_For_Class_And_Struct_Success_Class.cs" />
+    <None Include="DataTest\CreateFieldSymbol_Success_For_Class_And_Struct_Success_struct.cs" />
+    <None Include="DataTest\ParameterSymbolCreate_Success.cs" />
+    <None Include="DataTest\FunctionSymbolCreate_Success.cs" />
     <Compile Include="Visitor\CreateNestedClassSymbol_SuccessVisitor.cs" />
     <Compile Include="Visitor\GetClass_definitionVisitor.cs" />
+    <Compile Include="Visitor\GetFunctionIdentityVisitor.cs" />
+    <Compile Include="Visitor\GetFunctionParameterVisitor.cs" />
+    <Compile Include="Visitor\GetIdentityContextOfFieldVisitor.cs" />
+    <Compile Include="Visitor\GetPropertyIdentityContext.cs" />
     <Compile Include="Visitor\GetStructIdentityVisitor.cs" />
     <Compile Include="Visitor\Qualified_identifierVisitor.cs" />
     <Compile Include="Program.cs" />

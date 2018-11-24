@@ -11,7 +11,7 @@ namespace BuildArchitecture.Rules
         int end;
 
         [Export(typeof(LiteralContext))]
-        public void VisitLiteralContext(ParserRuleContextWithScope context, out ErrorInformation error)
+        public void VisitLiteralContext(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
             if (context.InRule(RuleContextType.LOCAL_VARIABLE_DECLARATORCONTEXT))
@@ -25,7 +25,7 @@ namespace BuildArchitecture.Rules
         }
 
         [Export(typeof(For_iteratorContext))]
-        public void VisitFor_iteratorContext(ParserRuleContextWithScope context, out ErrorInformation error)
+        public void VisitFor_iteratorContext(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
             //check error

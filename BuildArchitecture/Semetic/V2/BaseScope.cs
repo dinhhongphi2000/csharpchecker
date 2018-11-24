@@ -85,7 +85,7 @@ namespace BuildArchitecture.Semetic.V2
 
         public virtual ISymbol Resolve(string name)
         {
-            ISymbol s = symbols[name];
+            symbols.TryGetValue(name, out ISymbol s);
             if (s != null)
             {
                 return s;

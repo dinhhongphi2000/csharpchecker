@@ -7,7 +7,8 @@ parser grammar CSharpParser;
 using BuildArchitecture.Semetic.V2;
 }
 
-options { tokenVocab=CSharpLexer; contextSuperClass=BuildArchitecture.ParserRuleContextWithScope; }
+//contextSuperClass=BuildArchitecture.ParserRuleContextWithScope; 
+options { tokenVocab=CSharpLexer; }
 
 // entry point
 compilation_unit
@@ -1134,7 +1135,7 @@ object_creation_expression
 	: OPEN_PARENS argument_list? CLOSE_PARENS object_or_collection_initializer?
 	;
 
-identifier
+identifier returns [IScope Scope, ISymbol Symbol]
 	: IDENTIFIER
 	| ADD
 	| ALIAS

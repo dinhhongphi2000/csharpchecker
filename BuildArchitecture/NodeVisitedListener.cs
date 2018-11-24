@@ -37,7 +37,7 @@ namespace BuildArchitecture
             base.EnterEveryRule(context);
             try
             {
-                _eventList.RaiseAction((ParserRuleContextWithScope)context, ErrorTable);
+                _eventList.RaiseAction((ParserRuleContext)context, ErrorTable);
             }
             catch (Exception)
             {

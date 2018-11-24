@@ -15,7 +15,7 @@ namespace BuildArchitecture.Semetic.V2
         protected int nextFreeFieldSlot = 0;  // next slot to allocate
         protected int typeIndex;
 
-        public ParserRuleContextWithScope DefNode { get; set; }
+        public ParserRuleContext DefNode { get; set; }
 
         public DataAggregateSymbol(string name) : base(name)
         {
@@ -54,7 +54,7 @@ namespace BuildArchitecture.Semetic.V2
          */
         public virtual ISymbol ResolveMember(string name)
         {
-            ISymbol s = symbols[name];
+            symbols.TryGetValue(name, out ISymbol s);
             if (s is IMemberSymbol)
             {
                 return s;

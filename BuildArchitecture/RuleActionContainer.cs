@@ -9,7 +9,7 @@ namespace BuildArchitecture
 {
     internal sealed class RuleActionContainer
     {
-        public delegate void EnterRuleContext(ParserRuleContextWithScope context, out ErrorInformation error);
+        public delegate void EnterRuleContext(ParserRuleContext context, out ErrorInformation error);
 
         [ImportMany(typeof(Compilation_unitContext))]
         public IEnumerable<Lazy<EnterRuleContext>> Compilation_unitContext { get; set; }
@@ -749,7 +749,7 @@ namespace BuildArchitecture
         [ImportMany(typeof(IdentifierContext))]
         public IEnumerable<Lazy<EnterRuleContext>> IdentifierContext { get; set; }
 
-        public void RaiseAction(ParserRuleContextWithScope context, List<ErrorInformation> errorInformationList)
+        public void RaiseAction(ParserRuleContext context, List<ErrorInformation> errorInformationList)
         {
             PropertyInfo pro = this.GetType().GetProperty(context.GetType().Name);
             dynamic data = pro.GetValue(this);

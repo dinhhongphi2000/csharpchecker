@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime.Misc;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
 using BuildArchitecture;
 using static BuildArchitecture.CSharpParser;
 
@@ -6,7 +7,7 @@ namespace TestBuildArchitecture.Visitor
 {
     class Qualified_identifierVisitor : CSharpParserBaseVisitor<object>
     {
-        public ParserRuleContextWithScope NameSpaceNode { get; set; }
+        public ParserRuleContext NameSpaceNode { get; set; }
 
         public override object VisitQualified_identifier([NotNull] CSharpParser.Qualified_identifierContext context)
         {

@@ -56,7 +56,7 @@ namespace TestBuildArchitecture
 
                 //check property of scope
 
-                if(i == identityList.Length - 1)
+                if (i == identityList.Length - 1)
                 {
                     //check FullQualifiedName
                     Assert.AreEqual("global.TestBuildArchitecture.DataTest", identity.Symbol.GetFullyQualifiedName("."));
@@ -126,7 +126,121 @@ namespace TestBuildArchitecture
             Assert.AreEqual("global.TestBuildArchitecture.DataTest.StructTest1", symbol.GetFullyQualifiedName("."));
 
             ////check property scope
-            //Assert.AreSame(symbol, symbol.Resolve(symbol.GetName()));
+            Assert.AreSame(symbol, symbol.Resolve(symbol.GetName()));
+        }
+
+        [TestCase(@"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\CreatePropertySymbol_For_Class_Success_PropertyInClass.cs", TestName = "PropertyInClass")]
+        [TestCase(@"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\CreatePropertySymbol_For_Class_Success_PropertyInStruct.cs", TestName = "PropertyInStruct")]
+        public void CreatePropertySymbol_For_Class_And_Struct_Success(string cSharpFilePath)
+        {
+            workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
+            workSpace.RunSemeticAnalysis(cSharpFilePath);
+
+            GetPropertyIdentityContext visitor = new GetPropertyIdentityContext();
+            visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
+            var propertyIdentityContext = visitor.IdentityContext;
+
+            //symbol and scope is setted for context
+            Assert.IsInstanceOf(typeof(FieldSymbol), propertyIdentityContext.Symbol);
+            var testName = TestContext.CurrentContext.Test.Name;
+            if (testName == "PropertyInClass")
+                Assert.IsInstanceOf(typeof(ClassSymbol), propertyIdentityContext.Scope);
+            else
+                Assert.IsInstanceOf(typeof(StructSymbol), propertyIdentityContext.Scope);
+
+            //check property of property symbol
+            var symbol = propertyIdentityContext.Symbol as FieldSymbol;
+            Assert.AreEqual(propertyIdentityContext.GetText(), symbol.GetName());
+            Assert.AreSame(propertyIdentityContext, symbol.DefNode);
+
+            //find symbol in scope
+            Assert.AreSame(symbol, propertyIdentityContext.Scope.Resolve(symbol.GetName()));
+            if (testName == "PropertyInClass")
+                Assert.AreEqual("global.TestBuildArchitecture.DataTest.Test.Property", symbol.GetFullyQualifiedName("."));
+            else
+                Assert.AreEqual("global.TestBuildArchitecture.DataTest.StructTest.Property", symbol.GetFullyQualifiedName("."));
+        }
+
+        [TestCase(@"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\CreateFieldSymbol_Success_For_Class_And_Struct_Success_Class.cs", TestName = "FieldInClass")]
+        [TestCase(@"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\CreateFieldSymbol_Success_For_Class_And_Struct_Success_struct.cs", TestName = "FieldInStruct")]
+        public void CreateFieldSymbol_Success_For_Class_And_Struct_Success(string cSharpFilePath)
+        {
+            workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
+            workSpace.RunSemeticAnalysis(cSharpFilePath);
+
+            GetIdentityContextOfFieldVisitor visitor = new GetIdentityContextOfFieldVisitor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
+            var identifiers = visitor.Identifiers;
+
+            foreach (var id in identifiers)
+            {
+                //symbol and scope is setted for context
+                Assert.IsInstanceOf(typeof(FieldSymbol), id.Symbol);
+                var testName = TestContext.CurrentContext.Test.Name;
+                if (testName == "FieldInClass")
+                    Assert.IsInstanceOf(typeof(ClassSymbol), id.Scope);
+                else
+                    Assert.IsInstanceOf(typeof(StructSymbol), id.Scope);
+
+                //check property of property symbol
+                var symbol = id.Symbol as FieldSymbol;
+                Assert.AreEqual(id.GetText(), symbol.GetName());
+                Assert.AreSame(id, symbol.DefNode);
+
+                //find symbol in scope
+                Assert.AreSame(symbol, id.Scope.Resolve(symbol.GetName()));
+                Assert.AreEqual("global.TestBuildArchitecture.DataTest.Test." + id.GetText(), symbol.GetFullyQualifiedName("."));
+            }
+        }
+
+        [TestCase(@"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\ParameterSymbolCreate_Success.cs")]
+        public void ParameterSymbolCreate_Success(string cSharpFilePath)
+        {
+            workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
+            workSpace.RunSemeticAnalysis(cSharpFilePath);
+
+            GetFunctionParameterVisitor visitor = new GetFunctionParameterVisitor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
+
+            var parametersContext = visitor.Parameters;
+            foreach (var param in parametersContext)
+            {
+                var symbol = param.Symbol as ParameterSymbol;
+                Assert.IsInstanceOf(typeof(FunctionSymbol), param.Scope);
+                Assert.IsInstanceOf(typeof(ParameterSymbol), symbol);
+
+                //check property of symbol
+                Assert.AreEqual(param.GetText(), symbol.GetName());
+                Assert.AreSame(param, symbol.DefNode);
+
+                //check symbol in scope
+                Assert.AreSame(symbol, param.Scope.Resolve(symbol.GetName()));
+            }
+        }
+
+        [TestCase(@"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\FunctionSymbolCreate_Success.cs", TestName = "FunctionSymbolCreate_Success")]
+        public void FunctionSymbolCreate_Success(string cSharpFilePath)
+        {
+            workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
+            workSpace.RunSemeticAnalysis(cSharpFilePath);
+
+            GetFunctionIdentityVisitor visitor = new GetFunctionIdentityVisitor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
+
+            var functionIdentify = visitor.FunctionIdentifier;
+
+            //symbol and scope is exactly typed
+            Assert.IsInstanceOf(typeof(FunctionSymbol), functionIdentify.Symbol);
+            Assert.IsInstanceOf(typeof(FunctionSymbol), functionIdentify.Scope);
+
+            //check property of symbol
+            var symbol = functionIdentify.Symbol as FunctionSymbol;
+            Assert.AreEqual(functionIdentify.GetText(), symbol.GetName());
+            Assert.AreSame(functionIdentify, symbol.DefNode);
+
+            //symbol exists in parent scope
+            Assert.AreSame(symbol, symbol.Resolve(symbol.GetName()));
+            Assert.AreEqual("global.TestBuildArchitecture.DataTest.Test.Plus", symbol.GetFullyQualifiedName("."));
         }
     }
 }

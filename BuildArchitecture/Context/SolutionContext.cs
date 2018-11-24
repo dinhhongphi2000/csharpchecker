@@ -39,7 +39,7 @@ namespace BuildArchitecture.Context
             _projects[projectName] = fileContext ?? throw new ArgumentNullException("Project context is null");
         }
 
-        public void UpdateProject(string projectName, string filePath, ParserRuleContextWithScope context)
+        public void UpdateProject(string projectName, string filePath, ParserRuleContext context)
         {
             _projects[projectName].UpdateParserRuleOfFile(filePath, context);
         }

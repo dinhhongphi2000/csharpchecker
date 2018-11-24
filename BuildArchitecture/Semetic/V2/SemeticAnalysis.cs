@@ -79,7 +79,7 @@ namespace BuildArchitecture.Semetic.V2
             var structIdentityContext = context.identifier();
             StructSymbol structSymbol = new StructSymbol(structIdentityContext.GetText());
             structSymbol.SetEnclosingScope(currentScope);
-            structSymbol.DefNode = context;
+            structSymbol.DefNode = structIdentityContext;
 
             structIdentityContext.Symbol = structSymbol;
             structIdentityContext.Scope = structSymbol;
@@ -117,6 +117,7 @@ namespace BuildArchitecture.Semetic.V2
         public override void EnterField_declaration([NotNull] Field_declarationContext context)
         {
             var variableDeclaraContextList = context.variable_declarators().variable_declarator();
+            //same as : int a, b = 10
             foreach (var variableDec in variableDeclaraContextList)
             {
                 var identityContext = variableDec.identifier();
@@ -136,9 +137,9 @@ namespace BuildArchitecture.Semetic.V2
         /// Define function symbol and scope
         /// </summary>
         /// <param name="context"></param>
-        public override void EnterMethod_member_name([NotNull] Method_member_nameContext context)
+        public override void EnterMethod_declaration([NotNull] Method_declarationContext context)
         {
-            var identityContextList = context.identifier();
+            var identityContextList = context.method_member_name().identifier();
             var lastestIdentityContext = identityContextList[identityContextList.Length - 1]; //is name of method
 
             MethodSymbol methodSymbol = new MethodSymbol(lastestIdentityContext.GetText())
@@ -154,7 +155,7 @@ namespace BuildArchitecture.Semetic.V2
             currentScope = methodSymbol;
         }
 
-        public override void ExitMethod_member_name([NotNull] Method_member_nameContext context)
+        public override void ExitMethod_declaration([NotNull] Method_declarationContext context)
         {
             currentScope = currentScope.GetEnclosingScope();
         }
@@ -184,7 +185,6 @@ namespace BuildArchitecture.Semetic.V2
         public override void EnterBlock([NotNull] BlockContext context)
         {
             LocalScope scope = new LocalScope(currentScope);
-            context.Scope = scope;
             currentScope = scope;
         }
 
