@@ -106,19 +106,6 @@
     <Compile Include="RuleContextType.cs" />
     <Compile Include="Rules\ForStatement_LoopDontRun.cs" />
     <Compile Include="Gui\TreeViewer.cs" />
-    <Compile Include="Semetic\ClassSymbol.cs" />
-    <Compile Include="Semetic\DefinitionSymbol.cs" />
-    <Compile Include="Semetic\DeclarationSymbol.cs" />
-    <Compile Include="Semetic\DelegateSymbol.cs" />
-    <Compile Include="Semetic\EnumSymbol.cs" />
-    <Compile Include="Semetic\EventSymbol.cs" />
-    <Compile Include="Semetic\FuncSymbol.cs" />
-    <Compile Include="Semetic\GenericInfo.cs" />
-    <Compile Include="Semetic\InterfaceSymbol.cs" />
-    <Compile Include="Semetic\ScopedSymbolTable.cs" />
-    <Compile Include="Semetic\SemeticAnalysis.cs" />
-    <Compile Include="Semetic\StructSymbol.cs" />
-    <Compile Include="Semetic\Symbol.cs" />
     <Compile Include="Semetic\V2\ArrayType.cs" />
     <Compile Include="Semetic\V2\BaseScope.cs" />
     <Compile Include="Semetic\V2\BaseSymbol.cs" />
@@ -150,7 +137,6 @@
     <Compile Include="Semetic\V2\TypedSymbol.cs" />
     <Compile Include="Semetic\V2\Utils.cs" />
     <Compile Include="Semetic\V2\VariableSymbol.cs" />
-    <Compile Include="Semetic\VarSymbol.cs" />
     <Compile Include="WorkSpace.cs" />
   </ItemGroup>
   <ItemGroup>
