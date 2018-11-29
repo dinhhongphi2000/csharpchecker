@@ -128,6 +128,7 @@
     <Compile Include="Semetic\V2\ISymbol.cs" />
     <Compile Include="Semetic\V2\IType.cs" />
     <Compile Include="Semetic\V2\PropertySymbol.cs" />
+    <Compile Include="Semetic\V2\DefineSymbolAnalysis.cs" />
     <Compile Include="Semetic\V2\SemeticAnalysis.cs" />
     <Compile Include="Semetic\V2\StringTable.cs" />
     <Compile Include="Semetic\V2\StructSymbol.cs" />

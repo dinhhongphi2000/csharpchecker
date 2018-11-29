@@ -242,5 +242,54 @@ namespace TestBuildArchitecture
             Assert.AreSame(symbol, symbol.Resolve(symbol.GetName()));
             Assert.AreEqual("global.TestBuildArchitecture.DataTest.Test.Plus", symbol.GetFullyQualifiedName("."));
         }
+
+        [TestCase(@"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\LocalVariableSymbol_Create_Success_Create_LocalSymbol_In_Function.cs", TestName = "Create_LocalSymbol_In_Function")]
+        [TestCase(@"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\LocalVariableSymbol_Create_Success_Create_LocalSymbol_In_Block_No_Name.cs", TestName = "Create_LocalSymbol_In_Block_No_Name")]
+        [TestCase(@"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\LocalVariableSymbol_Create_Success_Create_LocalSymbol_In_For_Loop.cs", TestName = "Create_LocalSymbol_In_For_Loop")]
+        public void LocalVariableSymbol_Create_Success(string cSharpFilePath)
+        {
+            workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
+            workSpace.RunSemeticAnalysis(cSharpFilePath);
+
+            GetVariableIdentityLocalVisitor visitor = new GetVariableIdentityLocalVisitor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
+            var identifierList = visitor.IdentitiesContext;
+
+            foreach (var id in identifierList)
+            {
+                //check valid scope and symbol
+                Assert.IsInstanceOf(typeof(VariableSymbol), id.Symbol);
+                var testName = TestContext.CurrentContext.Test.Name;
+                Assert.IsInstanceOf(typeof(LocalScope), id.Scope);
+
+                //check property of symbol
+                var symbol = id.Symbol as VariableSymbol;
+                Assert.AreEqual(id.GetText(), symbol.GetName());
+                Assert.AreSame(id, symbol.DefNode);
+
+                //check symbol exists in scope
+                Assert.AreSame(symbol, id.Scope.Resolve(symbol.GetName()));
+            }
+        }
+
+        //[TestCase("", TestName = "NotFound_Class_In_Other_Namespace_Not_Use_using")]
+        //[TestCase("", TestName = "NotFound_Function_In_Other_Class")]
+        //[TestCase("", TestName = "NotFound_Variable_In_Other_Block_Same_Function")]
+        //public void Exit_Block_Dont_FindSymbol(string cSharpFilePath)
+        //{
+        //    workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
+        //    workSpace.RunSemeticAnalysis(cSharpFilePath);
+
+        //    var testName = TestContext.CurrentContext.Test.Name;
+        //    switch (testName)
+        //    {
+        //        case "NotFound_Class_In_Other_Namespace_Not_Use_using":
+        //            break;
+        //        case "NotFound_Function_In_Other_Class":
+        //            break;
+        //        case "NotFound_Variable_In_Other_Block_Same_Function":
+        //            break;
+        //    }
+        //}
     }
 }

@@ -79,6 +79,12 @@
     <None Include="DataTest\CreateFieldSymbol_Success_For_Class_And_Struct_Success_struct.cs" />
     <None Include="DataTest\ParameterSymbolCreate_Success.cs" />
     <None Include="DataTest\FunctionSymbolCreate_Success.cs" />
+    <None Include="DataTest\LocalVariableSymbol_Create_Success_Create_LocalSymbol_In_Function.cs" />
+    <None Include="DataTest\LocalVariableSymbol_Create_Success_Create_LocalSymbol_In_Block_No_Name.cs" />
+    <None Include="DataTest\LocalVariableSymbol_Create_Success_Create_LocalSymbol_In_For_Loop.cs" />
+    <Compile Include="BaseScopeTest.cs" />
+    <None Include="DataTest\GetNamespaceName_IsTrue_1.cs" />
+    <None Include="DataTest\GetNamespaceName_IsTrue_2.cs" />
     <Compile Include="Visitor\CreateNestedClassSymbol_SuccessVisitor.cs" />
     <Compile Include="Visitor\GetClass_definitionVisitor.cs" />
     <Compile Include="Visitor\GetFunctionIdentityVisitor.cs" />
@@ -86,6 +92,7 @@
     <Compile Include="Visitor\GetIdentityContextOfFieldVisitor.cs" />
     <Compile Include="Visitor\GetPropertyIdentityContext.cs" />
     <Compile Include="Visitor\GetStructIdentityVisitor.cs" />
+    <Compile Include="Visitor\GetVariableIdentityLocalVisitor.cs" />
     <Compile Include="Visitor\Qualified_identifierVisitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

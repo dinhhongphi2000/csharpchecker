@@ -155,5 +155,6 @@ namespace BuildArchitecture.Semetic.V2
         /// <param name="separator"></param>
         /// <returns></returns>
         string ToQualifierString(String separator);
+        string GetNamespaceName();
     }
 }

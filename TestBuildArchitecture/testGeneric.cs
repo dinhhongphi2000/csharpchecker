@@ -1,49 +1,14 @@
-﻿namespace BuildArchitecture.Semetic
+﻿namespace TestA
 {
-    class Test
+    class B
     {
-        public int score { get; set; }
-        protected float number, c = 5;
-        public Person Person;
-
-        public int Add(int a, int b)
+        public void main()
         {
-            int c;
-            int d = a + b;
-            StructTest x = new StructTest();
-            return d;
+            int a, b = 10;
+            for(int i = 10; i < 5; i++)
+            {
+                int x = 5;
+            }
         }
     }
-
-    class Sum : Cong1, Cong2
-    {
-        void Cong1.Enter() { }
-        void Cong2.Enter() { }
-    }
-
-    interface Cong1
-    {
-        void Enter();
-    }
-
-    interface Cong2
-    {
-        void Enter();
-    }
-
-    struct StructTest
-    {
-        int b;
-
-        public void Test(int a, int b)
-        {
-
-        }
-    }
-
-    class Person { }
-}
-
-namespace BuildArchitecture
-{
 }

@@ -51,7 +51,7 @@ namespace BuildArchitecture.Semetic.V2
         {
             List<ISymbol> symbols = Utils.Filter(GetSymbols(), s => s is IScope);
             List<IScope> scopes = new List<IScope>();
-            foreach(ISymbol item in scopes)
+            foreach (ISymbol item in scopes)
             {
                 scopes.Add(item.GetScope());
             }
@@ -197,7 +197,7 @@ namespace BuildArchitecture.Semetic.V2
 
         public string ToScopeStackString(string separator)
         {
-            return Utils.toScopeStackString(this, separator);
+            return Utils.ToScopeStackString(this, separator);
         }
 
         public string ToQualifierString(string separator)
@@ -218,5 +218,18 @@ namespace BuildArchitecture.Semetic.V2
         }
 
         public abstract string GetName();
+
+        public string GetNamespaceName()
+        {
+            if (this is NamespaceSymbol namespaceSymbol)
+            {
+                return namespaceSymbol.GetFullyQualifiedName(".").Remove(0, ("global.").Length);
+
+            }
+            else if (GetEnclosingScope() != null)
+                return GetEnclosingScope().GetNamespaceName();
+            else
+                return null;
+        }
     }
 }

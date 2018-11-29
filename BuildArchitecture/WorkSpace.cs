@@ -13,7 +13,7 @@ namespace BuildArchitecture
 #if TEST
         public Dictionary<string, ParserRuleContext> _parserRuleContextOfFile;
 #else
-        private Dictionary<string, ParserRuleContextWithScope> _parserRuleContextOfFile;
+        private Dictionary<string, ParserRuleContext> _parserRuleContextOfFile;
 #endif
         public ParseTreeWalker TreeWalker
         {
@@ -42,7 +42,7 @@ namespace BuildArchitecture
 
         public void RunSemeticAnalysis(string filePath)
         {
-            Semetic.V2.SemeticAnalysis analysis = new Semetic.V2.SemeticAnalysis();
+            Semetic.V2.DefineSymbolAnalysis analysis = new Semetic.V2.DefineSymbolAnalysis();
             _treeWalker.Walk(analysis, _parserRuleContextOfFile[filePath]);
         }
 

@@ -11,7 +11,7 @@ using BuildArchitecture.Semetic.V2;
 options { tokenVocab=CSharpLexer; }
 
 // entry point
-compilation_unit
+compilation_unit returns[IScope Scope]
 	: BYTE_ORDER_MARK? extern_alias_directives? using_directives?
 	  global_attribute_section* namespace_member_declarations? EOF
 	;

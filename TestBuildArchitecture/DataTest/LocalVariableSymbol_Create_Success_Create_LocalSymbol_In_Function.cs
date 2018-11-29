@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BuildArchitecture.Semetic.V2
+namespace TestBuildArchitecture.DataTest
 {
-    public class SemeticAnalysis
+    class TestA
     {
-        
+        public void function()
+        {
+            int a, b = 10;
+        }
     }
 }

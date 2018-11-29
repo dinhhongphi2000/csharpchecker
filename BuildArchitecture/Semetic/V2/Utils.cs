@@ -110,7 +110,7 @@ namespace BuildArchitecture.Semetic.V2
          *  E.g., myblock:mymethod:myclass.
          *  string includes arg scope in string.
          */
-        public static string toScopeStackString(IScope scope, string separator)
+        public static string ToScopeStackString(IScope scope, string separator)
         {
             List<IScope> scopes = scope.GetEnclosingPathToRoot();
             return JoinScopeNames(scopes, separator);

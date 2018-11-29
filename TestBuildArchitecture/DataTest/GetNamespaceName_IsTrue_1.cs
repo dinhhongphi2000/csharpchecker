@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BuildArchitecture.Semetic.V2
+namespace TestA.NameSpace
 {
-    public class SemeticAnalysis
+    class GetNamespaceName_IsTrue_1
     {
-        
     }
 }

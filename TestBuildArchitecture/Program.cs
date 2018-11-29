@@ -13,65 +13,6 @@ namespace TestBuildArchitecture
     {
         static void Main(string[] args)
         {
-            string currentFile = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
-
-            Program program = new Program();
-            WorkSpace workSpace = new WorkSpace();
-            workSpace.InitOrUpdateParserTreeOfFile(currentFile, program.GetFileContent(currentFile));
-            workSpace.RunRules(currentFile);
-            var errorList = workSpace.GetErrors();
-
-            //GetSolutionList();
-            //GetContext();
-
-            //TestCreateClassSymbol();
-        }
-
-        public static void TestCreateClassSymbol()
-        {
-            string currentFile = @"C:\Users\dinhhongphi\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
-            StreamReader reader = new StreamReader(currentFile);
-            AntlrInputStream stream = new AntlrInputStream(reader);
-            CSharpLexer lexer = new CSharpLexer(stream);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            CSharpParser parser = new CSharpParser(tokens);
-            CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
-            ScopedSymbolTable scopedSymbolTable = new ScopedSymbolTable(1, "abc");
-            SemeticAnalysis semetic = new SemeticAnalysis(scopedSymbolTable);
-            semetic.Visit(startContext);
-        }
-
-        public string GetFileContent(string filePath)
-        {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                return reader.ReadToEnd();
-            }
-        }
-
-        public static SolutionContext InitSolutionContext()
-        {
-            var solution = new SolutionContext(@"C:\Users\HONG PHI\source\repos\Caculator\Caculator.sln", "Caculator");
-            var project = new ProjectContext(@"C:\Users\HONG PHI\source\repos\Caculator\TestBuildArchitecture\", "TestBuildArchitecture");
-            solution.AddProjectNode(project.Name, project);
-            return solution;
-        }
-
-        static void GetContext()
-        {
-            var a = typeof(BuildArchitecture.CSharpParser).Assembly.GetTypes();
-            a.ToList().ForEach(e =>
-            {
-                if (e.FullName.Contains("BuildArchitecture.CSharpParser+"))
-                {
-                    
-                    var b = e.FullName.Remove(0, "BuildArchitecture.CSharpParser+".Length);
-                    Console.WriteLine("[ImportMany(typeof({0}))]", b);
-                    Console.Write("public IEnumerable<Lazy<Action<ParserRuleContext, ErrorInformation>>> {0} ", b);
-                    Console.WriteLine("{get;set;}");
-                    Console.WriteLine();
-                }
-            });
         }
 
         public static List<string> GetSolutionList()
