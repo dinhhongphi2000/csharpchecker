@@ -73,6 +73,9 @@
     <None Include="DataTest\ResolveSymbolDeclareOnOtherFile_file2.cs" />
     <None Include="DataTest\ResolveSymbolDeclareOnOtherFileAndInAnotherScope_NotFound_file1.cs" />
     <None Include="DataTest\ResolveSymbolDeclareOnOtherFileAndInAnotherScope_NotFound_file2.cs" />
+    <None Include="DataTest\CreateInterfaceSymbol_Success.cs" />
+    <None Include="DataTest\CreateInterfaceSymbol_Success_file2.cs" />
+    <Compile Include="Visitor\GetInterfaceSymbol_EnterInterface_definition.cs" />
     <Compile Include="Visitor\ResolveSymbolDeclareOnOtherFile.cs" />
     <None Include="DataTest\CreateNestedClassSymbol_Success.cs" />
     <None Include="DataTest\CreateStructSymbol_Success.cs" />
@@ -101,9 +104,9 @@
     <Compile Include="Visitor\Qualified_identifierVisitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SemeticAnalysisTest.cs" />
+    <Compile Include="DefineSymbolAnalysisTest.cs" />
     <Compile Include="TestClass.cs" />
-    <Compile Include="testGeneric.cs" />
+    <None Include="testGeneric.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

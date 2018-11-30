@@ -87,6 +87,37 @@ namespace BuildArchitecture.Semetic.V2
         }
 
         /// <summary>
+        /// Define interface class and symbol
+        /// </summary>
+        /// <param name="context"></param>
+        public override void EnterInterface_definition([NotNull] Interface_definitionContext context)
+        {
+            var identifierInterface = context.identifier();
+            InterfaceSymbol symbol = new InterfaceSymbol(identifierInterface.GetText());
+            symbol.SetEnclosingScope(currentScope);
+            identifierInterface.Symbol = symbol;
+            identifierInterface.Scope = symbol;
+
+            //get baseinterface
+            var baseContext = context.interface_base();
+            if (baseContext != null)
+            {
+                var baselist = baseContext.interface_type_list().namespace_or_type_name();
+                foreach (var item in baselist)
+                {
+                    symbol.AddBaseName(item.GetText());
+                }
+            }
+            currentScope.Define(symbol);
+            currentScope = symbol;
+        }
+
+        public override void ExitInterface_definition([NotNull] Interface_definitionContext context)
+        {
+            currentScope = currentScope.GetEnclosingScope();
+        }
+
+        /// <summary>
         /// Define struct scope and symbol
         /// </summary>
         /// <param name="context"></param>

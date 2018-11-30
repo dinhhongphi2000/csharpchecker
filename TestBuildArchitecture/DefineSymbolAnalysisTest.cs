@@ -8,7 +8,7 @@ using static BuildArchitecture.CSharpParser;
 namespace TestBuildArchitecture
 {
     [TestFixture]
-    public class SemeticAnalysisTest
+    public class DefineSymbolAnalysisTest
     {
         WorkSpace workSpace;
 
@@ -291,5 +291,31 @@ namespace TestBuildArchitecture
         //            break;
         //    }
         //}
+
+        [Test]
+        public void CreateInterfaceSymbol_Success()
+        {
+            string file1 = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\CreateInterfaceSymbol_Success_file2.cs";
+            string file2 = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\CreateInterfaceSymbol_Success.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file1, GetFileContent(file1));
+            workSpace.RunSemeticAnalysis(file1);
+            workSpace.InitOrUpdateParserTreeOfFile(file2, GetFileContent(file2));
+            workSpace.RunSemeticAnalysis(file2);
+
+            GetInterfaceSymbol_EnterInterface_definition visitor = new GetInterfaceSymbol_EnterInterface_definition();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file2]);
+            var context = visitor.IdentifierContext;
+            var symbol = context.Symbol as InterfaceSymbol;
+
+            Assert.IsInstanceOf(typeof(InterfaceSymbol), symbol);
+            Assert.AreEqual(context.GetText(), symbol.GetName());
+            Assert.AreSame(context.Scope, symbol);
+
+            Assert.AreEqual(symbol.GetFullyQualifiedName("."), "global.TestBuildArchitecture.DataTest.ITest");
+            var list = symbol.GetBaseScopeName();
+            Assert.AreEqual(2, list.Count);
+            Assert.AreEqual("IName", list[0].GetName());
+            Assert.AreEqual("IFunction", list[1].GetName());
+        }
     }
 }

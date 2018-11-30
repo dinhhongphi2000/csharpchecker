@@ -1,14 +1,7 @@
-﻿namespace TestA
+﻿namespace A
 {
-    class B
+    public interface IName : IFunction, IWatch
     {
-        public void main()
-        {
-            int a, b = 10;
-            for(int i = 10; i < 5; i++)
-            {
-                int x = 5;
-            }
-        }
+        
     }
 }
