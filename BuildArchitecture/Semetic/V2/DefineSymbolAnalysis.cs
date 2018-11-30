@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime.Misc;
+using System;
 using System.Collections.Generic;
 using static BuildArchitecture.CSharpParser;
 
@@ -7,12 +8,23 @@ namespace BuildArchitecture.Semetic.V2
     public class DefineSymbolAnalysis : CSharpParserBaseListener
     {
         private IScope currentScope;
+        private LinkerScopeCollection linker;
+        private string currentFileAnalysis;
+
+        public DefineSymbolAnalysis(string fileAnalysis, LinkerScopeCollection linker)
+        {
+            this.linker = linker ?? throw new ArgumentNullException();
+            this.currentFileAnalysis = fileAnalysis ?? throw new ArgumentNullException();
+        }
 
         public override void EnterCompilation_unit([NotNull] Compilation_unitContext context)
         {
             GlobalScope global = new GlobalScope(null);
             context.Scope = global;
             currentScope = global;
+
+            //init linker for this file
+            linker[currentFileAnalysis] = new List<IScope>();
         }
 
         public override void ExitCompilation_unit([NotNull] Compilation_unitContext context)
@@ -38,6 +50,8 @@ namespace BuildArchitecture.Semetic.V2
                 identity.Scope = symbolScope;
                 identity.Symbol = symbolScope;
 
+                linker[currentFileAnalysis].Add(symbolScope);
+                symbolScope.Linker = linker;
                 currentScope = symbolScope;
             }
         }

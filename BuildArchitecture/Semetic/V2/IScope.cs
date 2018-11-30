@@ -156,5 +156,9 @@ namespace BuildArchitecture.Semetic.V2
         /// <returns></returns>
         string ToQualifierString(String separator);
         string GetNamespaceName();
+        LinkerScopeCollection Linker
+        {
+            get;set;
+        }
     }
 }

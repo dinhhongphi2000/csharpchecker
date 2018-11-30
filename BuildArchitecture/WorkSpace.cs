@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using BuildArchitecture.Semetic.V2;
 using System.Collections.Generic;
 
 namespace BuildArchitecture
@@ -10,6 +11,7 @@ namespace BuildArchitecture
         private NodeVisitedListener _scanTree = null;
         //Walker which visits node of Parser tree and call action of listener
         private ParseTreeWalker _treeWalker = null;
+        private SemeticAnalysis analysis;
 #if TEST
         public Dictionary<string, ParserRuleContext> _parserRuleContextOfFile;
 #else
@@ -27,6 +29,7 @@ namespace BuildArchitecture
             _parserRuleContextOfFile = new Dictionary<string, ParserRuleContext>();
             _scanTree = new NodeVisitedListener();
             _treeWalker = new ParseTreeWalker();
+            analysis = new SemeticAnalysis();
         }
 
         public void InitOrUpdateParserTreeOfFile(string filePath, string content)
@@ -42,8 +45,7 @@ namespace BuildArchitecture
 
         public void RunSemeticAnalysis(string filePath)
         {
-            Semetic.V2.DefineSymbolAnalysis analysis = new Semetic.V2.DefineSymbolAnalysis();
-            _treeWalker.Walk(analysis, _parserRuleContextOfFile[filePath]);
+            analysis.Run(filePath, _parserRuleContextOfFile[filePath]);
         }
 
 

@@ -43,5 +43,34 @@ namespace TestBuildArchitecture
                 Assert.AreEqual("TestA", namespaceName);
         }
 
+        [Test]
+        public void ResolveSymbolDeclareOnOtherFile()
+        {
+            string file1 = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\ResolveSymbolDeclareOnOtherFile_file1.cs";
+            string file2 = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\ResolveSymbolDeclareOnOtherFile_file2.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file1, GetFileContent(file1));
+            workSpace.RunSemeticAnalysis(file1);
+            workSpace.InitOrUpdateParserTreeOfFile(file2, GetFileContent(file2));
+            workSpace.RunSemeticAnalysis(file2);
+            ResolveSymbolDeclareOnOtherFile visitor = new ResolveSymbolDeclareOnOtherFile();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file2]);
+            Assert.AreNotEqual(null, visitor.Symbol);
+            Assert.AreEqual("global.TestBuildArchitecture.Math", visitor.Symbol.GetFullyQualifiedName("."));
+        }
+
+        [Test]
+        public void ResolveSymbolDeclareOnOtherFileAndInAnotherScope_NotFound()
+        {
+            string file1 = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\ResolveSymbolDeclareOnOtherFileAndInAnotherScope_NotFound_file1.cs";
+            string file2 = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\ResolveSymbolDeclareOnOtherFileAndInAnotherScope_NotFound_file2.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file1, GetFileContent(file1));
+            workSpace.RunSemeticAnalysis(file1);
+            workSpace.InitOrUpdateParserTreeOfFile(file2, GetFileContent(file2));
+            workSpace.RunSemeticAnalysis(file2);
+            ResolveSymbolDeclareOnOtherFile visitor = new ResolveSymbolDeclareOnOtherFile();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file2]);
+            Assert.AreEqual(null, visitor.Symbol);
+        }
+
     }
 }

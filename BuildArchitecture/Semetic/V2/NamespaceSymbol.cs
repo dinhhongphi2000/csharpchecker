@@ -1,6 +1,6 @@
 ﻿namespace BuildArchitecture.Semetic.V2
 {
-    public class NamespaceSymbol : SymbolWithScope
+    public class NamespaceSymbol : DataAggregateSymbol
     {
         public NamespaceSymbol(string name) : base(name)
         {

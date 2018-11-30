@@ -21,6 +21,8 @@ namespace BuildArchitecture.Semetic.V2
          */
         protected List<IScope> nestedScopesNotSymbols = new List<IScope>();
 
+        public LinkerScopeCollection Linker { get; set; }
+
         public BaseScope() { }
 
         public BaseScope(IScope enclosingScope) { SetEnclosingScope(enclosingScope); }
@@ -90,6 +92,12 @@ namespace BuildArchitecture.Semetic.V2
             {
                 return s;
             }
+            if (Linker != null)
+            {
+                s = Linker.Resolve(this.ToQualifierString("."), name);
+            }
+            if (s != null)
+                return s;
             // if not here, check any enclosing scope
             IScope parent = GetEnclosingScope();
             if (parent != null) return parent.Resolve(name);

@@ -116,6 +116,7 @@
     <Compile Include="Semetic\V2\FunctionType.cs" />
     <Compile Include="Semetic\V2\GlobalScope.cs" />
     <Compile Include="Semetic\V2\InvalidType.cs" />
+    <Compile Include="Semetic\V2\LinkerScope.cs" />
     <Compile Include="Semetic\V2\LocalScope.cs" />
     <Compile Include="Semetic\V2\MemberSymbol.cs" />
     <Compile Include="Semetic\V2\MethodSymbol.cs" />

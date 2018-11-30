@@ -1,19 +1,19 @@
-﻿namespace TestBuildArchitecture
+﻿namespace TestBuildArchitecture.A
 {
-    public partial class TestClass<T> where T : class
+   class B
     {
-        public void method(int a, string b)
+        public void Add()
         {
-            for (int i = 100; i < 10; i++)
-            {
-                var x = 100;
-            }
-        }
-
-        public T testMethodGeneric<T>(T a) where T : class, new()
-        {
-            return new T();
+            Test.Sub();
         }
     }
 
+}
+
+namespace TestBuildArchitecture
+{
+    class Test
+    {
+        public static void Sub() { }
+    }
 }
