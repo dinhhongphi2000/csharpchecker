@@ -23,9 +23,14 @@ namespace BuildArchitecture.Semetic.V2
 
         public LinkerScopeCollection Linker { get; set; }
 
-        public BaseScope() { }
+        public BaseScope()
+        {
+        }
 
-        public BaseScope(IScope enclosingScope) { SetEnclosingScope(enclosingScope); }
+        public BaseScope(IScope enclosingScope)
+        {
+            SetEnclosingScope(enclosingScope);
+        }
 
         public virtual LinkedHashMap<string, ISymbol> GetMembers()
         {

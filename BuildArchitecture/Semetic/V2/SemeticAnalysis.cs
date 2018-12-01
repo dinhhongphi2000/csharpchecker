@@ -20,20 +20,26 @@ namespace BuildArchitecture.Semetic.V2
             linker = new LinkerScopeCollection();
         }
 
+        /// <summary>
+        /// Run two phrase
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="context"></param>
         public void Run(string fileName, ParserRuleContext context)
         {
             RunDefinePhrase(fileName, context);
         }
 
-        private void RunDefinePhrase(string fileName, ParserRuleContext context)
+        public void RunDefinePhrase(string fileName, ParserRuleContext context)
         {
-            DefineSymbolAnalysis analysis = new Semetic.V2.DefineSymbolAnalysis(fileName, linker);
+            DefineSymbolPhrase analysis = new Semetic.V2.DefineSymbolPhrase(fileName, linker);
             treeWalker.Walk(analysis, context);
         }
 
-        private void RunResolvePhrase()
+        public void RunResolvePhrase(ParserRuleContext context)
         {
-
+            ResolveSymbolPhrase resolvePhrase = new ResolveSymbolPhrase();
+            resolvePhrase.Visit(context);
         }
     }
 }

@@ -48,6 +48,21 @@ namespace BuildArchitecture
             analysis.Run(filePath, _parserRuleContextOfFile[filePath]);
         }
 
+        public void RunDefinedPhraseAllfile()
+        {
+            foreach(var item in _parserRuleContextOfFile)
+            {
+                analysis.RunDefinePhrase(item.Key, item.Value);
+            }
+        }
+
+        public void RunResolvePhraseAllFile()
+        {
+            foreach (var item in _parserRuleContextOfFile)
+            {
+                analysis.RunResolvePhrase(item.Value);
+            }
+        }
 
         public void RunRules(string filePath)
         {

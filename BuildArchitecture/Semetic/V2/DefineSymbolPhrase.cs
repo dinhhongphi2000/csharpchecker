@@ -5,13 +5,13 @@ using static BuildArchitecture.CSharpParser;
 
 namespace BuildArchitecture.Semetic.V2
 {
-    public class DefineSymbolAnalysis : CSharpParserBaseListener
+    public class DefineSymbolPhrase : CSharpParserBaseListener
     {
         private IScope currentScope;
         private LinkerScopeCollection linker;
         private string currentFileAnalysis;
 
-        public DefineSymbolAnalysis(string fileAnalysis, LinkerScopeCollection linker)
+        public DefineSymbolPhrase(string fileAnalysis, LinkerScopeCollection linker)
         {
             this.linker = linker ?? throw new ArgumentNullException();
             this.currentFileAnalysis = fileAnalysis ?? throw new ArgumentNullException();
@@ -43,9 +43,13 @@ namespace BuildArchitecture.Semetic.V2
             NamespaceSymbol symbolScope = null;
             foreach (var identity in identityList)
             {
-                symbolScope = new NamespaceSymbol(identity.GetText());
-                symbolScope.SetEnclosingScope(currentScope);
-                currentScope.Define(symbolScope);
+                symbolScope = (NamespaceSymbol)currentScope.Resolve(identity.GetText());
+                if (symbolScope == null)
+                {
+                    symbolScope = new NamespaceSymbol(identity.GetText());
+                    symbolScope.SetEnclosingScope(currentScope);
+                    currentScope.Define(symbolScope);
+                }
 
                 identity.Scope = symbolScope;
                 identity.Symbol = symbolScope;

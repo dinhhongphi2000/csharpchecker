@@ -75,6 +75,9 @@
     <None Include="DataTest\ResolveSymbolDeclareOnOtherFileAndInAnotherScope_NotFound_file2.cs" />
     <None Include="DataTest\CreateInterfaceSymbol_Success.cs" />
     <None Include="DataTest\CreateInterfaceSymbol_Success_file2.cs" />
+    <Compile Include="DataTest\SetTypeOfField_Success.cs" />
+    <Compile Include="ResolveSymbolPhraseTest.cs" />
+    <Compile Include="Visitor\GetFieldInClassVisotor.cs" />
     <Compile Include="Visitor\GetInterfaceSymbol_EnterInterface_definition.cs" />
     <Compile Include="Visitor\ResolveSymbolDeclareOnOtherFile.cs" />
     <None Include="DataTest\CreateNestedClassSymbol_Success.cs" />

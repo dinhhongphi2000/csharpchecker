@@ -71,6 +71,5 @@ namespace TestBuildArchitecture
             visitor.Visit(workSpace._parserRuleContextOfFile[file2]);
             Assert.AreEqual(null, visitor.Symbol);
         }
-
     }
 }

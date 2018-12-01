@@ -298,9 +298,8 @@ namespace TestBuildArchitecture
             string file1 = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\CreateInterfaceSymbol_Success_file2.cs";
             string file2 = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\CreateInterfaceSymbol_Success.cs";
             workSpace.InitOrUpdateParserTreeOfFile(file1, GetFileContent(file1));
-            workSpace.RunSemeticAnalysis(file1);
             workSpace.InitOrUpdateParserTreeOfFile(file2, GetFileContent(file2));
-            workSpace.RunSemeticAnalysis(file2);
+            workSpace.RunDefinedPhraseAllfile();
 
             GetInterfaceSymbol_EnterInterface_definition visitor = new GetInterfaceSymbol_EnterInterface_definition();
             visitor.Visit(workSpace._parserRuleContextOfFile[file2]);
