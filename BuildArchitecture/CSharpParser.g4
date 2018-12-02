@@ -26,50 +26,50 @@ namespace_or_type_name
 	;
 
 //B.2.2 Types
-type returns [IType Type]
-	: base_type ('?' | rank_specifier | '*')*
+type returns [string TypeName]
+	: base_type ('?' | rank_specifier | '*')* {$TypeName = $base_type.TypeName;}
 	;
 
-base_type
-	: simple_type
-	| class_type  // represents types: enum, class, interface, delegate, type_parameter
+base_type returns [string TypeName]
+	: simple_type {$TypeName = $simple_type.TypeName;} 
+	| class_type  {$TypeName = null;}// represents types: enum, class, interface, delegate, type_parameter
 	| VOID '*'
 	;
 
-simple_type 
-	: numeric_type
-	| BOOL
+simple_type returns [string TypeName]
+	: numeric_type {$TypeName = $numeric_type.TypeName;}
+	| BOOL {$TypeName = "bool";}
 	;
 
-numeric_type 
-	: integral_type
-	| floating_point_type
-	| DECIMAL
+numeric_type returns [string TypeName]
+	: integral_type {$TypeName = $integral_type.TypeName;}
+	| floating_point_type {$TypeName = $floating_point_type.TypeName;}
+	| DECIMAL {$TypeName = "decimal";}
 	;
 
-integral_type 
-	: SBYTE
-	| BYTE
-	| SHORT
-	| USHORT
-	| INT
-	| UINT
-	| LONG
-	| ULONG
-	| CHAR
+integral_type returns [string TypeName]
+	: SBYTE	{$TypeName = "sbyte";}
+	| BYTE	{$TypeName = "byte";}
+	| SHORT	{$TypeName = "short";}
+	| USHORT {$TypeName = "ushort";}
+	| INT	{$TypeName = "int";}
+	| UINT	{$TypeName = "uint";}
+	| LONG	{$TypeName = "long";}
+	| ULONG	{$TypeName = "ulong";}
+	| CHAR	{$TypeName = "char";}
 	;
 
-floating_point_type 
-	: FLOAT
-	| DOUBLE
+floating_point_type returns [string TypeName]
+	: FLOAT	{$TypeName = "float";}
+	| DOUBLE {$TypeName = "double";}
 	;
 
 /** namespace_or_type_name, OBJECT, STRING */
-class_type 
+class_type returns [string Type]
 	: namespace_or_type_name
-	| OBJECT
-	| DYNAMIC
-	| STRING
+	| OBJECT  {$Type = "object";}
+	| DYNAMIC {$Type = "dynamic";}
+	| STRING  {$Type = "string";}
 	;
 
 type_argument_list 

@@ -46,5 +46,40 @@ namespace TestBuildArchitecture
             var type = symbol.GetSymbolType() as ClassSymbol;
             Assert.AreEqual("global.TestBuildArchitecture.B", type.GetFullyQualifiedName("."));
         }
+
+        [Test]
+        public void TestPrimitiveTypeOfVariable()
+        {
+            string file = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\TestPrimitiveTypeOfVariable.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file, GetFileContent(file));
+            workSpace.RunDefinedPhraseAllfile();
+            workSpace.RunResolvePhraseAllFile();
+
+            GetLocalVariable visitor = new GetLocalVariable();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file]);
+            foreach(var item in visitor.Identifiers)
+            {
+                var type = (item.Symbol as VariableSymbol).GetSymbolType();
+                Assert.AreEqual("int", type.GetName());
+            }
+        }
+
+        [Test]
+        public void GetStructTypeOfLocalVariable()
+        {
+            string file = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\GetStructTypeOfLocalVariable.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file, GetFileContent(file));
+            workSpace.RunDefinedPhraseAllfile();
+            workSpace.RunResolvePhraseAllFile();
+
+            GetLocalVariable visitor = new GetLocalVariable();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file]);
+            foreach (var item in visitor.Identifiers)
+            {
+                var type = (item.Symbol as VariableSymbol).GetSymbolType() as StructSymbol;
+                Assert.AreEqual("Math", type.GetName());
+                Assert.AreEqual("global.TestBuildArchitecture.DataTest.Math", type.GetFullyQualifiedName("."));
+            }
+        }
     }
 }
