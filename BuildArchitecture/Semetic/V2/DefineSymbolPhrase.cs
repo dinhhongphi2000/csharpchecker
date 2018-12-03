@@ -49,12 +49,12 @@ namespace BuildArchitecture.Semetic.V2
                     symbolScope = new NamespaceSymbol(identity.GetText());
                     symbolScope.SetEnclosingScope(currentScope);
                     currentScope.Define(symbolScope);
+                    linker[currentFileAnalysis].Add(symbolScope);
                 }
 
                 identity.Scope = symbolScope;
                 identity.Symbol = symbolScope;
-
-                linker[currentFileAnalysis].Add(symbolScope);
+                
                 symbolScope.Linker = linker;
                 currentScope = symbolScope;
             }

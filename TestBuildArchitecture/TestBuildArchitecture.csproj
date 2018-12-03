@@ -78,6 +78,8 @@
     <None Include="DataTest\GetStructTypeOfLocalVariable.cs" />
     <None Include="DataTest\SetTypeOfField_Success.cs" />
     <None Include="DataTest\TestPrimitiveTypeOfVariable.cs" />
+    <None Include="DataTest\SetTypeForFieldInClass_Success.cs" />
+    <None Include="DataTest\SetTypeForFieldInStruct_Success.cs" />
     <Compile Include="ResolveSymbolPhraseTest.cs" />
     <Compile Include="Visitor\GetFieldInClassVisotor.cs" />
     <Compile Include="Visitor\GetInterfaceSymbol_EnterInterface_definition.cs" />

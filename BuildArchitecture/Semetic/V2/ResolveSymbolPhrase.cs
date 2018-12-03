@@ -21,6 +21,8 @@ namespace BuildArchitecture.Semetic.V2
 
         public override object VisitIdentifier([NotNull] IdentifierContext context)
         {
+            if (context.Scope != null)
+                currentScope = context.Scope;
             return context;
         }
 
@@ -37,7 +39,7 @@ namespace BuildArchitecture.Semetic.V2
                 if (symbol != null)
                 {
                     item.Symbol = symbol;
-                    scope = (IScope)symbol;
+                    item.Scope = (IScope)symbol;
                 }
                 else
                 {
@@ -101,7 +103,8 @@ namespace BuildArchitecture.Semetic.V2
             if (context.local_variable_type().VAR() != null)
             {
 
-            }else if (context.local_variable_type().type() != null)
+            }
+            else if (context.local_variable_type().type() != null)
             {
                 IScope scope = symbols[0].GetScope();
                 var typeContext = context.local_variable_type().type();

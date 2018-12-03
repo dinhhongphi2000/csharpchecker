@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TestBuildArchitecture
+{
+    public class B
+    {
 
-namespace TestBuildArchitecture.DataTest
+    }
+}
+
+namespace TestBuildArchitecture
 {
     class SetTypeOfField_Success
     {
@@ -12,10 +14,4 @@ namespace TestBuildArchitecture.DataTest
     }
 }
 
-namespace TestBuildArchitecture
-{
-    public class B
-    {
 
-    }
-}

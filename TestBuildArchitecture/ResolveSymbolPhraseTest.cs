@@ -81,5 +81,39 @@ namespace TestBuildArchitecture
                 Assert.AreEqual("global.TestBuildArchitecture.DataTest.Math", type.GetFullyQualifiedName("."));
             }
         }
+
+        [Test]
+        public void SetTypeForFieldInClass_Success()
+        {
+            string file = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\SetTypeForFieldInClass_Success.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file, GetFileContent(file));
+            workSpace.RunDefinedPhraseAllfile();
+            workSpace.RunResolvePhraseAllFile();
+
+            GetFieldInClassVisotor visitor = new GetFieldInClassVisotor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file]);
+
+            var symbol = visitor.Identifier.Symbol as FieldSymbol;
+            var type = symbol.GetSymbolType() as ClassSymbol;
+            Assert.IsInstanceOf(typeof(ClassSymbol), type);
+            Assert.AreEqual("global.TestBuildArchitecture.B", type.GetFullyQualifiedName("."));
+        }
+
+        [Test]
+        public void SetTypeForFieldInStruct_Success()
+        {
+            string file = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\SetTypeForFieldInStruct_Success.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file, GetFileContent(file));
+            workSpace.RunDefinedPhraseAllfile();
+            workSpace.RunResolvePhraseAllFile();
+
+            GetFieldInClassVisotor visitor = new GetFieldInClassVisotor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file]);
+
+            var symbol = visitor.Identifier.Symbol as FieldSymbol;
+            var type = symbol.GetSymbolType() as ClassSymbol;
+            Assert.IsInstanceOf(typeof(ClassSymbol), type);
+            Assert.AreEqual("global.TestBuildArchitecture.B", type.GetFullyQualifiedName("."));
+        }
     }
 }
