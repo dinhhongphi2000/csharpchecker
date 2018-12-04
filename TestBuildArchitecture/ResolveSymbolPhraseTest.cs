@@ -130,5 +130,60 @@ namespace TestBuildArchitecture
             var symbol = visitor.IdentityContext.Symbol as FieldSymbol;
             Assert.AreEqual("int", symbol.GetSymbolType().GetName());
         }
+
+        [Test]
+        public void SetTypeForFunction_BuiltInType_Success()
+        {
+            string file = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\SetTypeForFunction_BuiltInType_Success.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file, GetFileContent(file));
+            workSpace.RunDefinedPhraseAllfile();
+            workSpace.RunResolvePhraseAllFile();
+
+            GetFunctionIdentityVisitor visitor = new GetFunctionIdentityVisitor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file]);
+            var function = visitor.FunctionIdentifier;
+
+            var symbol = function.Symbol as FunctionSymbol;
+            Assert.AreEqual("Test", symbol.GetName());
+            Assert.AreEqual("int", symbol.GetSymbolType().GetName());
+        }
+
+        [Test]
+        public void SetTypeForFunction_SelfDefinitionType_Success()
+        {
+            string file = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\SetTypeForFunction_SelfDefinitionType_Success.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file, GetFileContent(file));
+            workSpace.RunDefinedPhraseAllfile();
+            workSpace.RunResolvePhraseAllFile();
+
+            GetFunctionIdentityVisitor visitor = new GetFunctionIdentityVisitor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file]);
+            var function = visitor.FunctionIdentifier;
+
+            var symbol = function.Symbol as FunctionSymbol;
+            Assert.AreEqual("Test", symbol.GetName());
+
+            var type = symbol.GetSymbolType() as ClassSymbol;
+            Assert.AreEqual("B", type.GetName());
+            Assert.AreEqual("global.TestBuildArchitecture.DataTest.B", type.GetFullyQualifiedName("."));
+        }
+
+        [Test]
+        public void SetTypeForFunction_voidType_Success()
+        {
+            string file = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\SetTypeForFunction_voidType_Success.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file, GetFileContent(file));
+            workSpace.RunDefinedPhraseAllfile();
+            workSpace.RunResolvePhraseAllFile();
+
+            GetFunctionIdentityVisitor visitor = new GetFunctionIdentityVisitor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file]);
+            var function = visitor.FunctionIdentifier;
+
+            var symbol = function.Symbol as FunctionSymbol;
+            Assert.AreEqual("Method", symbol.GetName());
+
+            Assert.AreEqual(null, symbol.GetSymbolType());
+        }
     }
 }

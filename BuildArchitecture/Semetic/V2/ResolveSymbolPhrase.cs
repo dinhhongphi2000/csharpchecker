@@ -80,6 +80,7 @@ namespace BuildArchitecture.Semetic.V2
             }
             else if (context.method_declaration() != null)
             {
+                SetTypeForFunction(context.method_declaration(), type);
             }
             else if (context.property_declaration() != null)
             {
@@ -208,6 +209,14 @@ namespace BuildArchitecture.Semetic.V2
                 //error, cannot find symbol in parentScope
                 return null;
             }
+        }
+
+        private List<IdentifierContext> SetTypeForFunction(Method_declarationContext context, IType type)
+        {
+            var identifierContext = (IdentifierContext)Visit(context.method_member_name());
+            var symbol = identifierContext.Symbol as FunctionSymbol;
+            symbol.SetType(type);
+            return new List<IdentifierContext>(new IdentifierContext[] { identifierContext });
         }
         #endregion
     }
