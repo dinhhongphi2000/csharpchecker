@@ -185,5 +185,25 @@ namespace TestBuildArchitecture
 
             Assert.AreEqual(null, symbol.GetSymbolType());
         }
+
+        [Test]
+        public void SetTypeForParameter_Success()
+        {
+            string file = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\SetTypeForParameter_Success.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file, GetFileContent(file));
+            workSpace.RunDefinedPhraseAllfile();
+            workSpace.RunResolvePhraseAllFile();
+
+            GetFunctionParameterVisitor visitor = new GetFunctionParameterVisitor();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file]);
+            var parameters = visitor.Parameters;
+
+            var par1 = parameters[0].Symbol as VariableSymbol;
+            Assert.AreEqual("int", par1.GetSymbolType().GetName());
+            var par2 = parameters[1].Symbol as VariableSymbol;
+            Assert.AreEqual("ClassType", par2.GetSymbolType().GetName()); //have modifier
+            var par3 = parameters[2].Symbol as VariableSymbol;
+            Assert.AreEqual("StructType", par3.GetSymbolType().GetName());
+        }
     }
 }

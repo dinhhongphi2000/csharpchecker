@@ -85,6 +85,7 @@
     <None Include="DataTest\SetTypeForFunction_BuiltInType_Success.cs" />
     <None Include="DataTest\SetTypeForFunction_SelfDefinitionType_Success.cs" />
     <None Include="DataTest\SetTypeForFunction_voidType_Success.cs" />
+    <None Include="DataTest\SetTypeForParameter_Success.cs" />
     <Compile Include="ResolveSymbolPhraseTest.cs" />
     <Compile Include="Visitor\GetFieldInClassVisotor.cs" />
     <Compile Include="Visitor\GetInterfaceSymbol_EnterInterface_definition.cs" />

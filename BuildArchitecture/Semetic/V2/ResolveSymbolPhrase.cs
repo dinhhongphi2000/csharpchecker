@@ -90,6 +90,19 @@ namespace BuildArchitecture.Semetic.V2
 
         }
 
+
+        /// <summary>
+        /// Set type for parameter
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override object VisitArg_declaration([NotNull] Arg_declarationContext context)
+        {
+            var type = ResolveType(context.type(), currentScope);
+            var argSymbol = context.identifier().Symbol as ParameterSymbol;
+            argSymbol.SetType(type);
+            return context.identifier();
+        }
         public override object VisitLocal_variable_declaration([NotNull] Local_variable_declarationContext context)
         {
             var variableContexts = context.local_variable_declarator();
@@ -132,6 +145,10 @@ namespace BuildArchitecture.Semetic.V2
             if (context.TypeName != null)
             {
                 type = (IType)scope.ResolveType(context.TypeName);
+                if(type == null)
+                {
+                    //symbol don't be declare. Error
+                }
             }
             else
             {
