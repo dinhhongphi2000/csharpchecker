@@ -100,7 +100,7 @@
     <Compile Include="Gui\Listener.cs" />
     <Compile Include="Gui\TreeViewerNodeMeta.cs" />
     <Compile Include="RuleActionContainer.cs" />
-    <Compile Include="NodeVisitedListener.cs" />
+    <Compile Include="RuleChecker.cs" />
     <Compile Include="ExtensionAndModifyClass\ParserRuleContextExtention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleContextType.cs" />

@@ -758,7 +758,7 @@ namespace BuildArchitecture
                 var action = x.Value;
                 ErrorInformation error;
                 action(context, out error);
-                if(error != null)
+                if(error != null && errorInformationList != null)
                 {
                     errorInformationList.Add(error);
                 }

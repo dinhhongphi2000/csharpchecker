@@ -1,16 +1,17 @@
-﻿namespace a
+﻿namespace A
 {
-    public class A
+    class B
     {
-        public A(int a, int b)
-        {
 
-        }
-
-        public void C(int a, C b) { }
-
-        public int D(int a, int b) { return 1; }
     }
 
-    public class C { }
+    class A : B, IC
+    {
+
+    }
+
+    interface IC
+    {
+
+    }
 }

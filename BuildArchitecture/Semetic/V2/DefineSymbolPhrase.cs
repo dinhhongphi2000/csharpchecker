@@ -11,6 +11,11 @@ namespace BuildArchitecture.Semetic.V2
         private LinkerScopeCollection linker;
         private string currentFileAnalysis;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileAnalysis">Create Linker for file. To other file can resolve symbol in this file</param>
+        /// <param name="linker"></param>
         public DefineSymbolPhrase(string fileAnalysis, LinkerScopeCollection linker)
         {
             this.linker = linker ?? throw new ArgumentNullException();

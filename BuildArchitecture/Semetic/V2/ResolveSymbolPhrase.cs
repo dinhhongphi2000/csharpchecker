@@ -12,6 +12,12 @@ namespace BuildArchitecture.Semetic.V2
     public class ResolveSymbolPhrase : CSharpParserBaseVisitor<object>
     {
         private IScope currentScope;
+        private List<ErrorInformation> errorTable;
+
+        public void SetErrorTable(List<ErrorInformation> errorTable)
+        {
+            this.errorTable = errorTable ?? throw new ArgumentNullException();
+        }
 
         public override object VisitCompilation_unit([NotNull] Compilation_unitContext context)
         {
@@ -44,9 +50,15 @@ namespace BuildArchitecture.Semetic.V2
                 else
                 {
                     //symbol don't be declare. Error
+                    AddError(new ErrorInformation());
                 }
             }
             return identifierContexts[identifierContexts.Length - 1];
+        }
+
+        public override object VisitClass_base([NotNull] Class_baseContext context)
+        {
+            return base.VisitClass_base(context);
         }
 
         /// <summary>
@@ -107,12 +119,13 @@ namespace BuildArchitecture.Semetic.V2
         {
             var variableContexts = context.local_variable_declarator();
             List<VariableSymbol> symbols = new List<VariableSymbol>();
+            
             foreach (var item in variableContexts)
             {
                 var identifier = (IdentifierContext)Visit(item);
+                throw new Exception(identifier.GetText());
                 symbols.Add((VariableSymbol)identifier.Symbol);
             }
-
             if (context.local_variable_type().VAR() != null)
             {
 
@@ -148,6 +161,7 @@ namespace BuildArchitecture.Semetic.V2
                 if(type == null)
                 {
                     //symbol don't be declare. Error
+                    AddError(new ErrorInformation());
                 }
             }
             else
@@ -210,6 +224,7 @@ namespace BuildArchitecture.Semetic.V2
                 else
                 {
                     //error cannot find symbol in parentScope
+                    AddError(new ErrorInformation());
                     return null;
                 }
             }
@@ -224,6 +239,7 @@ namespace BuildArchitecture.Semetic.V2
             else
             {
                 //error, cannot find symbol in parentScope
+                AddError(new ErrorInformation());
                 return null;
             }
         }
@@ -234,6 +250,17 @@ namespace BuildArchitecture.Semetic.V2
             var symbol = identifierContext.Symbol as FunctionSymbol;
             symbol.SetType(type);
             return new List<IdentifierContext>(new IdentifierContext[] { identifierContext });
+        }
+
+        private void AddError(ErrorInformation error)
+        {
+            if (errorTable != null)
+                errorTable.Add(error);
+        }
+
+        public List<ErrorInformation> GetErrors()
+        {
+            return errorTable;
         }
         #endregion
     }

@@ -7,17 +7,17 @@ using System.ComponentModel.Composition.Hosting;
 
 namespace BuildArchitecture
 {
-    internal sealed class NodeVisitedListener : CSharpParserBaseListener
+    internal sealed class RuleChecker : CSharpParserBaseListener
     {
         private RuleActionContainer _eventList;
         private CompositionContainer _container;
-        public List<ErrorInformation> ErrorTable { get; private set; }
+        private List<ErrorInformation> errorTable;
 
-        public NodeVisitedListener()
+        public RuleChecker()
         {
-            ErrorTable = new List<ErrorInformation>();
+            errorTable = new List<ErrorInformation>();
             var catalog = new AggregateCatalog();
-            catalog.Catalogs.Add(new AssemblyCatalog(typeof(NodeVisitedListener).Assembly));
+            catalog.Catalogs.Add(new AssemblyCatalog(typeof(RuleChecker).Assembly));
             _container = new CompositionContainer(catalog);
 
             //Fill the imports of this object
@@ -32,12 +32,24 @@ namespace BuildArchitecture
             }
         }
 
+        public List<ErrorInformation> GetErrors()
+        {
+            return errorTable;
+        }
+
+        public override void EnterCompilation_unit([NotNull] CSharpParser.Compilation_unitContext context)
+        {
+            //reset errorTable
+            errorTable.Clear();
+            base.EnterCompilation_unit(context);
+        }
+
         public override void EnterEveryRule([NotNull] ParserRuleContext context)
         {
             base.EnterEveryRule(context);
             try
             {
-                _eventList.RaiseAction((ParserRuleContext)context, ErrorTable);
+                _eventList.RaiseAction((ParserRuleContext)context, errorTable);
             }
             catch (Exception)
             {

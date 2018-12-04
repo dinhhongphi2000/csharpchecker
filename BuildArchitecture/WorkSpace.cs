@@ -8,10 +8,11 @@ namespace BuildArchitecture
     public class WorkSpace
     {
         //Listener is called when walker visit node. Responsibility for listener is loading all rule in folder or assembly
-        private NodeVisitedListener _scanTree = null;
+        private RuleChecker _scanTree = null;
         //Walker which visits node of Parser tree and call action of listener
         private ParseTreeWalker _treeWalker = null;
         private SemeticAnalysis analysis;
+        private Dictionary<string, List<ErrorInformation>> errorTable = new Dictionary<string, List<ErrorInformation>>(); //key file, value ErrorList
 #if TEST
         public Dictionary<string, ParserRuleContext> _parserRuleContextOfFile;
 #else
@@ -27,7 +28,7 @@ namespace BuildArchitecture
         {
             //Initial default value
             _parserRuleContextOfFile = new Dictionary<string, ParserRuleContext>();
-            _scanTree = new NodeVisitedListener();
+            _scanTree = new RuleChecker();
             _treeWalker = new ParseTreeWalker();
             analysis = new SemeticAnalysis();
         }
@@ -50,7 +51,7 @@ namespace BuildArchitecture
 
         public void RunDefinedPhraseAllfile()
         {
-            foreach(var item in _parserRuleContextOfFile)
+            foreach (var item in _parserRuleContextOfFile)
             {
                 analysis.RunDefinePhrase(item.Key, item.Value);
             }
@@ -64,21 +65,47 @@ namespace BuildArchitecture
             }
         }
 
+        /// <summary>
+        /// Run semetic and rule for specific file
+        /// </summary>
+        /// <param name="filePath"></param>
         public void RunRules(string filePath)
         {
+            //clear old error of this filePath
+            if (errorTable.ContainsKey(filePath))
+                errorTable[filePath].Clear();
+            else
+                errorTable[filePath] = new List<ErrorInformation>();
             ParserRuleContext tree = _parserRuleContextOfFile[filePath];
-            _scanTree.ErrorTable.Clear();
+            //Run semetic 
+            analysis.Run(filePath, tree);
+            errorTable[filePath].AddRange(analysis.GetErrors());
+
+            //Run rule
             //Walker tree to check rule and add error to error list
             _treeWalker.Walk(_scanTree, tree);
+            errorTable[filePath].AddRange(_scanTree.GetErrors());
+        }
+
+        /// <summary>
+        /// Run semetic and rule for all files
+        /// </summary>
+        public void RunRulesAllFile()
+        {
+            errorTable.Clear();
+            foreach (var item in _parserRuleContextOfFile)
+            {
+                RunRules(item.Key);
+            }
         }
 
         /// <summary>
         /// Get error list after run rule
         /// </summary>
         /// <returns></returns>
-        public List<ErrorInformation> GetErrors()
+        public Dictionary<string, List<ErrorInformation>> GetErrors()
         {
-            return _scanTree.ErrorTable;
+            return errorTable;
         }
     }
 }
