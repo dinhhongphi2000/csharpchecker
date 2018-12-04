@@ -47,7 +47,7 @@ namespace BuildArchitecture.Semetic.V2
             this.enclosingScope = enclosingScope;
         }
 
-        public List<IScope> getAllNestedScopedSymbols()
+        public List<IScope> GetAllNestedScopedSymbols()
         {
             List<IScope> scopes = new List<IScope>();
             Utils.GetAllNestedScopedSymbols(this, scopes);
@@ -243,6 +243,25 @@ namespace BuildArchitecture.Semetic.V2
                 return GetEnclosingScope().GetNamespaceName();
             else
                 return null;
+        }
+
+        public ISymbol ResolveType(string name)
+        {
+            symbols.TryGetValue(name, out ISymbol s);
+            if (s != null && s is IType)
+            {
+                return s;
+            }
+            if (Linker != null)
+            {
+                s = Linker.Resolve(this.ToQualifierString("."), name);
+            }
+            if (s != null && s is IType)
+                return s;
+            // if not here, check any enclosing scope
+            IScope parent = GetEnclosingScope();
+            if (parent != null) return parent.Resolve(name);
+            return null; // not found
         }
     }
 }

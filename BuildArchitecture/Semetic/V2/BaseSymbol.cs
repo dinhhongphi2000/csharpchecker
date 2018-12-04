@@ -1,6 +1,8 @@
 ﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 using System;
 using System.Collections.Generic;
+using static BuildArchitecture.CSharpParser;
 
 namespace BuildArchitecture.Semetic.V2
 {
@@ -10,8 +12,19 @@ namespace BuildArchitecture.Semetic.V2
         protected IType type;                 // If language statically typed, record type
         protected IScope scope;               // All symbols know what scope contains them.
         protected int lexicalOrder;          // order seen or insertion order from 0; compilers often need this
+        protected IdentifierContext defNode;
 
-        public ParserRuleContext DefNode { get; set; } // points at definition node in tree
+        public IdentifierContext DefNode
+        {
+            get {
+                return defNode;
+            }
+            set
+            {
+                defNode = value;
+                this.SetInsertionOrderNumber(defNode.Start.TokenIndex);
+            }
+        } // points at definition node in tree
 
         public BaseSymbol(string name) { this.name = name; }
 
@@ -65,7 +78,8 @@ namespace BuildArchitecture.Semetic.V2
             if (type != null)
             {
                 string ts = type.ToString();
-                if (type is SymbolWithScope ) {
+                if (type is SymbolWithScope)
+                {
                     ts = ((SymbolWithScope)type).GetFullyQualifiedName(".");
                 }
                 return '<' + s + GetName() + ":" + ts + '>';

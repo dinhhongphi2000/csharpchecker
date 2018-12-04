@@ -80,6 +80,8 @@
     <None Include="DataTest\TestPrimitiveTypeOfVariable.cs" />
     <None Include="DataTest\SetTypeForFieldInClass_Success.cs" />
     <None Include="DataTest\SetTypeForFieldInStruct_Success.cs" />
+    <None Include="DataTest\SetTypeForProperty_Success_Dont_Inheritance.cs" />
+    <None Include="DataTest\SetTypeForProperty_Success_Inheritance.cs" />
     <Compile Include="ResolveSymbolPhraseTest.cs" />
     <Compile Include="Visitor\GetFieldInClassVisotor.cs" />
     <Compile Include="Visitor\GetInterfaceSymbol_EnterInterface_definition.cs" />

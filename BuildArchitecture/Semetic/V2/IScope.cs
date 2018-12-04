@@ -72,6 +72,13 @@ namespace BuildArchitecture.Semetic.V2
         ISymbol Resolve(string name);
 
         /// <summary>
+        /// Look up name in this scope or recursively in parent scope if not here. But this is instance of IType
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        ISymbol ResolveType(string name);
+
+        /// <summary>
         /// Get symbol if name defined within this specific scope
         /// </summary>
         /// <param name="name"></param>

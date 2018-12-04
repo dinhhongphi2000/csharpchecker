@@ -35,7 +35,7 @@ namespace BuildArchitecture.Semetic.V2
             var scope = currentScope;
             foreach (var item in identifierContexts)
             {
-                var symbol = scope.Resolve(item.GetText());
+                var symbol = scope.ResolveType(item.GetText());
                 if (symbol != null)
                 {
                     item.Symbol = symbol;
@@ -72,19 +72,18 @@ namespace BuildArchitecture.Semetic.V2
         /// <returns></returns>
         public override object VisitTyped_member_declaration([NotNull] Typed_member_declarationContext context)
         {
+            var type = ResolveType(context.type(), currentScope);
+
             if (context.field_declaration() != null)
             {
-                var fields = (List<IdentifierContext>)Visit(context.field_declaration());
-                var type = ResolveType(context.type(), fields[0].Scope);
-                foreach (var item in fields)
-                {
-                    var field = (FieldSymbol)item.Symbol;
-                    field.SetType(type);
-                }
-                return fields;
+                return SetTypeForField(context.field_declaration(), type);
             }
             else if (context.method_declaration() != null)
             {
+            }
+            else if (context.property_declaration() != null)
+            {
+                return SetTypeForProperty(context.property_declaration(), type);
             }
             return null;
 
@@ -119,6 +118,7 @@ namespace BuildArchitecture.Semetic.V2
             return null;
         }
 
+        #region self definition function
         /// <summary>
         /// Get Symbol type of typeContext
         /// </summary>
@@ -130,7 +130,7 @@ namespace BuildArchitecture.Semetic.V2
             IType type;
             if (context.TypeName != null)
             {
-                type = (IType)scope.Resolve(context.TypeName);
+                type = (IType)scope.ResolveType(context.TypeName);
             }
             else
             {
@@ -158,5 +158,57 @@ namespace BuildArchitecture.Semetic.V2
             }
             return result;
         }
+
+        private List<IdentifierContext> SetTypeForField(Field_declarationContext context, IType type)
+        {
+            var fields = (List<IdentifierContext>)Visit(context);
+
+            foreach (var item in fields)
+            {
+                var field = (FieldSymbol)item.Symbol;
+                field.SetType(type);
+            }
+            return fields;
+        }
+
+        private List<IdentifierContext> SetTypeForProperty(Property_declarationContext context, IType type)
+        {
+            //set type for property
+            //Example Property: int A.B.C {get; set;}
+            var propertyIdentityContext = context.member_name().namespace_or_type_name().identifier();
+
+            //resolve A find B, resolve B, find C. 
+            IScope parentScope = currentScope;
+            for (int i = 0; i < propertyIdentityContext.Length - 1; i++)
+            {
+                var item = propertyIdentityContext[i];
+                ISymbol tempScope = parentScope.ResolveType(item.GetText());
+                if (tempScope != null)
+                {
+                    item.Symbol = tempScope;
+                    item.Scope = (IScope)tempScope;
+                    parentScope = (IScope)tempScope;
+                }
+                else
+                {
+                    //error cannot find symbol in parentScope
+                    return null;
+                }
+            }
+            //check c in A.B
+            var symbol = parentScope.Resolve(propertyIdentityContext.Last().GetText());
+            if (symbol != null)
+            {
+                //symbol C in A.B then set type for C
+                (symbol as FieldSymbol).SetType(type);
+                return new List<IdentifierContext>(new IdentifierContext[] { propertyIdentityContext.Last() });
+            }
+            else
+            {
+                //error, cannot find symbol in parentScope
+                return null;
+            }
+        }
+        #endregion
     }
 }

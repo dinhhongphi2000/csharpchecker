@@ -115,5 +115,20 @@ namespace TestBuildArchitecture
             Assert.IsInstanceOf(typeof(ClassSymbol), type);
             Assert.AreEqual("global.TestBuildArchitecture.B", type.GetFullyQualifiedName("."));
         }
+
+        [Test]
+        public void SetTypeForProperty_Success()
+        {
+            string file = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\DataTest\SetTypeForProperty_Success_Dont_Inheritance.cs";
+            workSpace.InitOrUpdateParserTreeOfFile(file, GetFileContent(file));
+            workSpace.RunDefinedPhraseAllfile();
+            workSpace.RunResolvePhraseAllFile();
+
+            GetPropertyIdentityContext visitor = new GetPropertyIdentityContext();
+            visitor.Visit(workSpace._parserRuleContextOfFile[file]);
+
+            var symbol = visitor.IdentityContext.Symbol as FieldSymbol;
+            Assert.AreEqual("int", symbol.GetSymbolType().GetName());
+        }
     }
 }
