@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestBuildArchitecture.Visitor
+namespace TestBuildArchitecture
 {
     [TestFixture]
-    public class WorkerTest
+    public class WorkspaceTest
     {
         WorkSpace workSpace;
 

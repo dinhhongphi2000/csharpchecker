@@ -119,11 +119,11 @@ namespace BuildArchitecture.Semetic.V2
         {
             var variableContexts = context.local_variable_declarator();
             List<VariableSymbol> symbols = new List<VariableSymbol>();
-            
+
             foreach (var item in variableContexts)
             {
+                //var identifier = (IdentifierContext)item.identifier();
                 var identifier = (IdentifierContext)Visit(item);
-                throw new Exception(identifier.GetText());
                 symbols.Add((VariableSymbol)identifier.Symbol);
             }
             if (context.local_variable_type().VAR() != null)
@@ -135,6 +135,10 @@ namespace BuildArchitecture.Semetic.V2
                 IScope scope = symbols[0].GetScope();
                 var typeContext = context.local_variable_type().type();
                 IType type = ResolveType(typeContext, scope);
+                //foreach(var item in symbols)
+                //{
+                //    item.SetType(type);
+                //}
                 foreach (var item in variableContexts)
                 {
                     var variable = (IdentifierContext)Visit(item);
@@ -158,7 +162,7 @@ namespace BuildArchitecture.Semetic.V2
             if (context.TypeName != null)
             {
                 type = (IType)scope.ResolveType(context.TypeName);
-                if(type == null)
+                if (type == null)
                 {
                     //symbol don't be declare. Error
                     AddError(new ErrorInformation());

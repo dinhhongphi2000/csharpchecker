@@ -268,6 +268,5 @@ namespace BuildArchitecture.Semetic.V2
             currentScope.Define(symbol);
         }
 
-
     }
 }
