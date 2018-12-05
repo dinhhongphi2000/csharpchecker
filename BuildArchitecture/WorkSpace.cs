@@ -107,5 +107,10 @@ namespace BuildArchitecture
         {
             return errorTable;
         }
+
+        public List<ErrorInformation> GetErrors(string filePath)
+        {
+            return errorTable[filePath];
+        }
     }
 }
