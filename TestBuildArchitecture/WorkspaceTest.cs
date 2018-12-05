@@ -1,11 +1,6 @@
 ﻿using BuildArchitecture;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestBuildArchitecture
 {
@@ -37,6 +32,7 @@ namespace TestBuildArchitecture
 
             var error = workSpace.GetErrors();
             Assert.AreEqual(1, error[file].Count);
+            Assert.AreEqual("Error", error[file][0].ErrorMessage);
         }
     }
 }
