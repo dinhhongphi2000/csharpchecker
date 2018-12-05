@@ -32,7 +32,7 @@ type returns [string TypeName]
 
 base_type returns [string TypeName]
 	: simple_type {$TypeName = $simple_type.TypeName;} 
-	| class_type  {$TypeName = null;}// represents types: enum, class, interface, delegate, type_parameter
+	| class_type  {$TypeName = $class_type.TypeName;}// represents types: enum, class, interface, delegate, type_parameter
 	| VOID '*'
 	;
 
@@ -65,11 +65,11 @@ floating_point_type returns [string TypeName]
 	;
 
 /** namespace_or_type_name, OBJECT, STRING */
-class_type returns [string Type]
-	: namespace_or_type_name
-	| OBJECT  {$Type = "object";}
-	| DYNAMIC {$Type = "dynamic";}
-	| STRING  {$Type = "string";}
+class_type returns [string TypeName]
+	: namespace_or_type_name {$TypeName = null;}
+	| OBJECT  {$TypeName = "object";}
+	| DYNAMIC {$TypeName = "dynamic";}
+	| STRING  {$TypeName = "string";}
 	;
 
 type_argument_list 

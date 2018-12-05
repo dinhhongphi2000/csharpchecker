@@ -30,7 +30,7 @@ namespace TestBuildArchitecture
         public void EnterNamespace_Create_NamespaceSymbol_Success(string cSharpFilePath)
         {
             workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-            workSpace.RunSemeticAnalysis(cSharpFilePath);
+            workSpace.RunDefinedPhraseAllfile();
 
             Qualified_identifierVisitor visitor = new Qualified_identifierVisitor();
             visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
@@ -68,7 +68,7 @@ namespace TestBuildArchitecture
         public void EnterClass_definition_Create_Class_Symbol_Success(string cSharpFilePath)
         {
             workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-            workSpace.RunSemeticAnalysis(cSharpFilePath);
+            workSpace.RunDefinedPhraseAllfile();
 
             GetClass_definitionVisitor classDefinition = new GetClass_definitionVisitor();
             classDefinition.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
@@ -94,7 +94,7 @@ namespace TestBuildArchitecture
         public void CreateNestedClassSymbol_Success(string cSharpFilePath)
         {
             workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-            workSpace.RunSemeticAnalysis(cSharpFilePath);
+            workSpace.RunDefinedPhraseAllfile();
 
             CreateNestedClassSymbol_SuccessVisitor visitor = new CreateNestedClassSymbol_SuccessVisitor();
             visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
@@ -109,7 +109,7 @@ namespace TestBuildArchitecture
         public void CreateStructSymbol_Success(string cSharpFilePath)
         {
             workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-            workSpace.RunSemeticAnalysis(cSharpFilePath);
+            workSpace.RunDefinedPhraseAllfile();
 
             GetStructIdentityVisitor visitor = new GetStructIdentityVisitor();
             visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
@@ -134,7 +134,7 @@ namespace TestBuildArchitecture
         public void CreatePropertySymbol_For_Class_And_Struct_Success(string cSharpFilePath)
         {
             workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-            workSpace.RunSemeticAnalysis(cSharpFilePath);
+            workSpace.RunDefinedPhraseAllfile();
 
             GetPropertyIdentityContext visitor = new GetPropertyIdentityContext();
             visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
@@ -166,7 +166,7 @@ namespace TestBuildArchitecture
         public void CreateFieldSymbol_Success_For_Class_And_Struct_Success(string cSharpFilePath)
         {
             workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-            workSpace.RunSemeticAnalysis(cSharpFilePath);
+            workSpace.RunDefinedPhraseAllfile();
 
             GetIdentityContextOfFieldVisitor visitor = new GetIdentityContextOfFieldVisitor();
             visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
@@ -197,7 +197,7 @@ namespace TestBuildArchitecture
         public void ParameterSymbolCreate_Success(string cSharpFilePath)
         {
             workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-            workSpace.RunSemeticAnalysis(cSharpFilePath);
+            workSpace.RunDefinedPhraseAllfile();
 
             GetFunctionParameterVisitor visitor = new GetFunctionParameterVisitor();
             visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
@@ -222,7 +222,7 @@ namespace TestBuildArchitecture
         public void FunctionSymbolCreate_Success(string cSharpFilePath)
         {
             workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-            workSpace.RunSemeticAnalysis(cSharpFilePath);
+            workSpace.RunDefinedPhraseAllfile();
 
             GetFunctionIdentityVisitor visitor = new GetFunctionIdentityVisitor();
             visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
@@ -249,7 +249,7 @@ namespace TestBuildArchitecture
         public void LocalVariableSymbol_Create_Success(string cSharpFilePath)
         {
             workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-            workSpace.RunSemeticAnalysis(cSharpFilePath);
+            workSpace.RunDefinedPhraseAllfile();
 
             GetVariableIdentityLocalVisitor visitor = new GetVariableIdentityLocalVisitor();
             visitor.Visit(workSpace._parserRuleContextOfFile[cSharpFilePath]);
@@ -278,7 +278,7 @@ namespace TestBuildArchitecture
         //public void Exit_Block_Dont_FindSymbol(string cSharpFilePath)
         //{
         //    workSpace.InitOrUpdateParserTreeOfFile(cSharpFilePath, GetFileContent(cSharpFilePath));
-        //    workSpace.RunSemeticAnalysis(cSharpFilePath);
+        //    workSpace.RunDefinedPhraseAllfile(cSharpFilePath);
 
         //    var testName = TestContext.CurrentContext.Test.Name;
         //    switch (testName)

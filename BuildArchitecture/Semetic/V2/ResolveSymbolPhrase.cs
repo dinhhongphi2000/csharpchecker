@@ -50,7 +50,7 @@ namespace BuildArchitecture.Semetic.V2
                 else
                 {
                     //symbol don't be declare. Error
-                    AddError(new ErrorInformation());
+                    //AddError(new ErrorInformation());
                 }
             }
             return identifierContexts[identifierContexts.Length - 1];
@@ -119,11 +119,9 @@ namespace BuildArchitecture.Semetic.V2
         {
             var variableContexts = context.local_variable_declarator();
             List<VariableSymbol> symbols = new List<VariableSymbol>();
-
             foreach (var item in variableContexts)
             {
-                //var identifier = (IdentifierContext)item.identifier();
-                var identifier = (IdentifierContext)Visit(item);
+                var identifier = (IdentifierContext)item.identifier();
                 symbols.Add((VariableSymbol)identifier.Symbol);
             }
             if (context.local_variable_type().VAR() != null)
@@ -135,15 +133,9 @@ namespace BuildArchitecture.Semetic.V2
                 IScope scope = symbols[0].GetScope();
                 var typeContext = context.local_variable_type().type();
                 IType type = ResolveType(typeContext, scope);
-                //foreach(var item in symbols)
-                //{
-                //    item.SetType(type);
-                //}
-                foreach (var item in variableContexts)
+                foreach (var item in symbols)
                 {
-                    var variable = (IdentifierContext)Visit(item);
-                    var symbol = variable.Symbol as VariableSymbol;
-                    symbol.SetType(type);
+                    item.SetType(type);
                 }
             }
             return null;
@@ -165,7 +157,7 @@ namespace BuildArchitecture.Semetic.V2
                 if (type == null)
                 {
                     //symbol don't be declare. Error
-                    AddError(new ErrorInformation());
+                    //AddError(new ErrorInformation());
                 }
             }
             else
@@ -228,7 +220,7 @@ namespace BuildArchitecture.Semetic.V2
                 else
                 {
                     //error cannot find symbol in parentScope
-                    AddError(new ErrorInformation());
+                    //AddError(new ErrorInformation());
                     return null;
                 }
             }
@@ -243,7 +235,7 @@ namespace BuildArchitecture.Semetic.V2
             else
             {
                 //error, cannot find symbol in parentScope
-                AddError(new ErrorInformation());
+                //AddError(new ErrorInformation());
                 return null;
             }
         }
