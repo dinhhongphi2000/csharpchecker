@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
@@ -35,6 +36,7 @@ namespace CSharpChecker.ErrorHighLight
         private List<ErrorInformation> _spanErrors = new List<ErrorInformation>();
         internal readonly string FilePath;
         internal readonly ErrorFactory Factory;
+        WorkSpace workSpace = new WorkSpace();
 
         internal ErrorHighLightChecker(ErrorHighLightProvider provider, ITextView textView, ITextBuffer buffer)
         {
@@ -101,12 +103,12 @@ namespace CSharpChecker.ErrorHighLight
         {
             _currentSnapshot = e.After;
 
-            // Translate all the spelling errors to the new snapshot (and remove anything that is a dirty region since we will need to check that again).
-            var oldSpellingErrors = this.Factory.CurrentSnapshot;
-            var newSpellingErrors = new ErrorSnapShot(this.FilePath, oldSpellingErrors.VersionNumber + 1);
+            // Translate all errors to the new snapshot (and remove anything that is a dirty region since we will need to check that again).
+            var oldErrors = this.Factory.CurrentSnapshot;
+            var newErrors = new ErrorSnapShot(this.FilePath, oldErrors.VersionNumber + 1);
 
             // Copy all of the old errors to the new errors unless the error was affected by the text change
-            foreach (var error in oldSpellingErrors.Errors)
+            foreach (var error in oldErrors.Errors)
             {
                 Debug.Assert(error.NextIndex == -1);
 
@@ -115,13 +117,12 @@ namespace CSharpChecker.ErrorHighLight
                 if (newError != null)
                 {
                     Debug.Assert(newError.Span.Length == error.Span.Length);
-
-                    error.NextIndex = newSpellingErrors.Errors.Count;
-                    newSpellingErrors.Errors.Add(newError);
+                    error.NextIndex = newErrors.Errors.Count;
+                    newErrors.Errors.Add(newError);
                 }
             }
 
-            this.UpdateSpellingErrors(newSpellingErrors);
+            this.UpdateErrors(newErrors);
 
             this.KickUpdate();
         }
@@ -149,31 +150,35 @@ namespace CSharpChecker.ErrorHighLight
                 {
                     ErrorSnapShot oldErrors = this.Factory.CurrentSnapshot;
                     ErrorSnapShot newErrors = new ErrorSnapShot(this.FilePath, oldErrors.VersionNumber + 1);
-                    List<ErrorInformation> newSpanErrors = new List<ErrorInformation>();
+                    List<ErrorInformation> newSpanErrors;
                     // Go through the existing errors. If they are on the line we are currently parsing then
                     // copy them to oldLineErrors, otherwise they go to the new errors.
 
-                    newSpanErrors = this.TestLightBulb(_buffer.CurrentSnapshot.GetText());
+                    newSpanErrors = this.GetErrorInformation(_buffer.CurrentSnapshot.GetText());
                     if (!newSpanErrors.Equals(_spanErrors))
                     {
-                        _spanErrors = newSpanErrors;
+                        _spanErrors.Clear();
+                        _spanErrors.AddRange(newSpanErrors);
                         foreach (ErrorInformation spanError in _spanErrors)
                         {
-                            SnapshotSpan newSpan = new SnapshotSpan(_buffer.CurrentSnapshot, spanError.StartIndex, spanError.Length);
-                            ErrorSpan oldError = oldErrors.Errors.Find((e) => e.Span == newSpan);
+                            if (spanError.Length >= 0)
+                            {
+                                SnapshotSpan newSpan = new SnapshotSpan(_buffer.CurrentSnapshot, spanError.StartIndex, spanError.Length);
+                                ErrorSpan oldError = oldErrors.Errors.Find((e) => e.Span == newSpan);
 
-                            if (oldError != null)
-                            {
-                                // There was a spelling error at the same span as the old one so we should be able to just reuse it.
-                                oldError.NextIndex = newErrors.Errors.Count;
-                                newErrors.Errors.Add(ErrorSpan.Clone(oldError));    // Don't clone the old error yet
-                            }
-                            else
-                            {
-                                newErrors.Errors.Add(new ErrorSpan(newSpan));
+                                if (oldError != null)
+                                {
+                                    // There was a error at the same span as the old one so we should be able to just reuse it.
+                                    oldError.NextIndex = newErrors.Errors.Count;
+                                    newErrors.Errors.Add(ErrorSpan.Clone(oldError));    // Don't clone the old error yet
+                                }
+                                else
+                                {
+                                    newErrors.Errors.Add(new ErrorSpan(newSpan, spanError.ErrorMessage));
+                                }
                             }
                         }
-                        this.UpdateSpellingErrors(newErrors);
+                        this.UpdateErrors(newErrors);
                     }
                     else
                     {
@@ -186,10 +191,10 @@ namespace CSharpChecker.ErrorHighLight
             }
             _isUpdating = false;
         }
-        private void UpdateSpellingErrors(ErrorSnapShot spellingErrors)
+        private void UpdateErrors(ErrorSnapShot errors)
         {
             // Tell our factory to snap to a new snapshot.
-            this.Factory.UpdateErrors(spellingErrors);
+            this.Factory.UpdateErrors(errors);
 
             // Tell the provider to mark all the sinks dirty (so, as a side-effect, they will start an update pass that will get the new snapshot
             // from the factory).
@@ -197,10 +202,10 @@ namespace CSharpChecker.ErrorHighLight
 
             foreach (var tagger in _activeTaggers)
             {
-                tagger.UpdateErrors(_currentSnapshot, spellingErrors);
+                tagger.UpdateErrors(_currentSnapshot, errors);
             }
 
-            this.LastError = spellingErrors;
+            this.LastError = errors;
         }
 
         internal ErrorSnapShot LastError { get; private set; }
@@ -211,9 +216,16 @@ namespace CSharpChecker.ErrorHighLight
                 return reader.ReadToEnd();
             }
         }
-        public List<ErrorInformation> TestLightBulb(string buffer)
+
+        bool CheckValidError(ErrorInformation error)
         {
-            WorkSpace workSpace = new WorkSpace();
+            return error.GetType().GetProperties()
+                            .All(p => p.GetValue(error) != null);
+        }
+
+        public List<ErrorInformation> GetErrorInformation(string buffer)
+        {
+            
             workSpace.InitOrUpdateParserTreeOfFile(this.FilePath, buffer);
             workSpace.RunRules(this.FilePath);
             return workSpace.GetErrors();

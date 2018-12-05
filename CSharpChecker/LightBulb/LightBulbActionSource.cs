@@ -69,7 +69,10 @@ namespace CSharpChecker.LightBulb
                     List<Span> span = new List<Span>();
                     foreach (ErrorInformation err in _errors)
                     {
-                        span.Add(new Span(err.StartIndex, err.Length));
+                        if (err.Length >= 0)
+                        {
+                            span.Add(new Span(err.StartIndex, err.Length));
+                        }
                     }
                     IEnumerable<SuggestedActionSet> suggestedActionSets = new List<SuggestedActionSet>();
 

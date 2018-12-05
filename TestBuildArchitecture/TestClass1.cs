@@ -14,15 +14,12 @@ namespace TestBuildArchitecture
             {
                 var x = 100;
             }
-            for (int i = 100; i < 10; i++)//sad awweq
-            {
-                var x = 100;
-            }
-            for (int i = 100; i < 10; i++)//sad awweq
-            {
-                var x = 100;
-            }
-            for (int i = 1000; i <10; i++)
+            
+        }
+        public void A()
+        {
+            int something;
+            for (int i = 1000; i < 10; i++)//sad awweq
             {
                 var x = 100;
             }

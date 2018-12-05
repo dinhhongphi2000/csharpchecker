@@ -103,7 +103,7 @@ namespace CSharpChecker.ErrorHighLight
                 }
                 else if (columnName == StandardTableKeyNames.Text)
                 {
-                    content = string.Format(CultureInfo.InvariantCulture, "Spelling: {0}", this.Errors[index].Span.GetText());
+                    content = string.Format(CultureInfo.InvariantCulture, "", this.Errors[index].Span.GetText());
 
                     return true;
                 }
@@ -111,11 +111,7 @@ namespace CSharpChecker.ErrorHighLight
                 {
                     var inlines = new List<Inline>();
 
-                    inlines.Add(new Run("Spelling: "));
-                    inlines.Add(new Run(this.Errors[index].Span.GetText())
-                    {
-                        FontWeight = FontWeights.ExtraBold
-                    });
+                    inlines.Add(new Run(this.Errors[index].ErrorMessage));
 
                     content = inlines;
 
@@ -135,13 +131,14 @@ namespace CSharpChecker.ErrorHighLight
                 }
                 else if (columnName == StandardTableKeyNames.BuildTool)
                 {
-                    content = "SpellChecker";
+                    content = "ErrorChecker";
 
                     return true;
                 }
                 else if (columnName == StandardTableKeyNames.ErrorCode)
                 {
-                    content = this.Errors[index].Span.GetText();
+                    content = "Code";
+                    content = "Code";
 
                     return true;
                 }
