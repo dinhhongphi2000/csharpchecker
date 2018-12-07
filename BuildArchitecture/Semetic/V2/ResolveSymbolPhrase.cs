@@ -3,8 +3,6 @@ using Antlr4.Runtime.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static BuildArchitecture.CSharpParser;
 
 namespace BuildArchitecture.Semetic.V2
@@ -150,6 +148,7 @@ namespace BuildArchitecture.Semetic.V2
         /// <returns></returns>
         private IType ResolveType(TypeContext context, IScope scope)
         {
+            if (scope == null) return null;
             IType type;
             if (context.TypeName != null)
             {

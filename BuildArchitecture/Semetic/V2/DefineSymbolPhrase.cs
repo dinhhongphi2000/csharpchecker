@@ -10,6 +10,7 @@ namespace BuildArchitecture.Semetic.V2
         private IScope currentScope;
         private LinkerScopeCollection linker;
         private string currentFileAnalysis;
+        private List<ErrorInformation> errorTable;
 
         /// <summary>
         /// 
@@ -20,10 +21,13 @@ namespace BuildArchitecture.Semetic.V2
         {
             this.linker = linker ?? throw new ArgumentNullException();
             this.currentFileAnalysis = fileAnalysis ?? throw new ArgumentNullException();
+            errorTable = new List<ErrorInformation>();
         }
 
         public override void EnterCompilation_unit([NotNull] Compilation_unitContext context)
         {
+            errorTable.Clear();
+
             GlobalScope global = new GlobalScope(null);
             context.Scope = global;
             currentScope = global;
@@ -53,13 +57,13 @@ namespace BuildArchitecture.Semetic.V2
                 {
                     symbolScope = new NamespaceSymbol(identity.GetText());
                     symbolScope.SetEnclosingScope(currentScope);
-                    currentScope.Define(symbolScope);
+                    Define(symbolScope);
                     linker[currentFileAnalysis].Add(symbolScope);
                 }
 
                 identity.Scope = symbolScope;
                 identity.Symbol = symbolScope;
-                
+
                 symbolScope.Linker = linker;
                 currentScope = symbolScope;
             }
@@ -86,7 +90,7 @@ namespace BuildArchitecture.Semetic.V2
             classIdentityContext.Symbol = classSymbol;
             classIdentityContext.Scope = classSymbol;
 
-            currentScope.Define(classSymbol);
+            Define(classSymbol);
             currentScope = classSymbol;
         }
 
@@ -117,7 +121,7 @@ namespace BuildArchitecture.Semetic.V2
                     symbol.AddBaseName(item.GetText());
                 }
             }
-            currentScope.Define(symbol);
+            Define(symbol);
             currentScope = symbol;
         }
 
@@ -140,7 +144,7 @@ namespace BuildArchitecture.Semetic.V2
             structIdentityContext.Symbol = structSymbol;
             structIdentityContext.Scope = structSymbol;
 
-            currentScope.Define(structSymbol);
+            Define(structSymbol);
             currentScope = structSymbol;
         }
 
@@ -167,7 +171,7 @@ namespace BuildArchitecture.Semetic.V2
             lastedIdentityContext.Symbol = fieldSymbol;
             lastedIdentityContext.Scope = currentScope;
 
-            currentScope.Define(fieldSymbol);
+            Define(fieldSymbol);
         }
 
         public override void EnterField_declaration([NotNull] Field_declarationContext context)
@@ -185,7 +189,7 @@ namespace BuildArchitecture.Semetic.V2
                 identityContext.Symbol = fieldSymbol;
                 identityContext.Scope = currentScope;
 
-                currentScope.Define(fieldSymbol);
+                Define(fieldSymbol);
             }
         }
 
@@ -207,7 +211,7 @@ namespace BuildArchitecture.Semetic.V2
             lastestIdentityContext.Symbol = methodSymbol;
             lastestIdentityContext.Scope = methodSymbol;
 
-            currentScope.Define(methodSymbol);
+            Define(methodSymbol);
             currentScope = methodSymbol;
         }
 
@@ -231,7 +235,7 @@ namespace BuildArchitecture.Semetic.V2
             identityContext.Symbol = parameterSymbol;
             identityContext.Scope = currentScope;
 
-            currentScope.Define(parameterSymbol);
+            Define(parameterSymbol);
         }
 
         /// <summary>
@@ -257,6 +261,20 @@ namespace BuildArchitecture.Semetic.V2
         public override void EnterLocal_variable_declarator([NotNull] Local_variable_declaratorContext context)
         {
             var identifierContext = context.identifier();
+            //check symbol exist
+            var existSymbol = currentScope.Resolve(identifierContext.GetText());
+            if (existSymbol != null && existSymbol.GetScope().GetName() != "local")
+            {
+                //warning
+                errorTable.Add(new ErrorInformation()
+                {
+                    ErrorCode = "WA0001",
+                    ErrorMessage = "You should declare variable " + identifierContext.GetText() + " with difference name to avoid override value",
+                    StartIndex = identifierContext.Start.StartIndex,
+                    Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
+                });
+            }
+
             VariableSymbol symbol = new VariableSymbol(identifierContext.GetText())
             {
                 DefNode = identifierContext
@@ -265,7 +283,24 @@ namespace BuildArchitecture.Semetic.V2
             identifierContext.Symbol = symbol;
             identifierContext.Scope = currentScope;
 
-            currentScope.Define(symbol);
+            Define(symbol);
+        }
+
+        public List<ErrorInformation> GetErrors()
+        {
+            return errorTable;
+        }
+
+        private void Define(ISymbol symbol)
+        {
+            try
+            {
+                currentScope.Define(symbol);
+            }
+            catch
+            {
+                //Dupplicate symbol
+            }
         }
 
     }

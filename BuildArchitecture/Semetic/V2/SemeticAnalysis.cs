@@ -14,6 +14,7 @@ namespace BuildArchitecture.Semetic.V2
         //Walker which visits node of Parser tree and call action of listener
         private ParseTreeWalker treeWalker = null;
         private List<ErrorInformation> errorTable;
+        private bool allowSubPhraseClearErrorTable = true;
 
         public SemeticAnalysis()
         {
@@ -40,20 +41,24 @@ namespace BuildArchitecture.Semetic.V2
         public void Run(string fileName, ParserRuleContext context)
         {
             errorTable.Clear();
+            allowSubPhraseClearErrorTable = false;
             RunDefinePhrase(fileName, context);
             RunResolvePhrase(context);
         }
 
         public void RunDefinePhrase(string fileName, ParserRuleContext context)
         {
-            errorTable.Clear();
+            if (allowSubPhraseClearErrorTable == true)
+                errorTable.Clear();
             DefineSymbolPhrase analysis = new Semetic.V2.DefineSymbolPhrase(fileName, linker);
             treeWalker.Walk(analysis, context);
+            errorTable = analysis.GetErrors();
         }
 
         public void RunResolvePhrase(ParserRuleContext context)
         {
-            errorTable.Clear();
+            if (allowSubPhraseClearErrorTable == true)
+                errorTable.Clear();
             ResolveSymbolPhrase resolvePhrase = new ResolveSymbolPhrase();
             resolvePhrase.SetErrorTable(errorTable);
             resolvePhrase.Visit(context);
