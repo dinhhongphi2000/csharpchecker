@@ -116,6 +116,7 @@
     <Compile Include="Rules\LocalVariableUpperCase.cs" />
     <Compile Include="Rules\ForStatement_LoopDontRun.cs" />
     <Compile Include="Gui\TreeViewer.cs" />
+    <Compile Include="Rules\RecommentAddCommentBeforeFunction.cs" />
     <Compile Include="Semetic\V2\ArrayType.cs" />
     <Compile Include="Semetic\V2\BaseScope.cs" />
     <Compile Include="Semetic\V2\BaseSymbol.cs" />

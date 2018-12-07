@@ -12,7 +12,7 @@ namespace BuildArchitecture.Rules
     class CheckVariableOverrideValue
     {
         [Export(typeof(Local_variable_declaratorContext))]
-        public void VisitLiteralContext(ParserRuleContext context, out ErrorInformation error)
+        public void CheckError(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
             var identifierContext = ((Local_variable_declaratorContext)context).identifier();
