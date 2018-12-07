@@ -31,7 +31,7 @@ namespace BuildArchitecture.Context
 
         public ProjectContext GetProject(int index)
         {
-            return _projects.Values.ToList()[0];
+            return _projects.Values.ToList()[index];
         }
 
         public void AddProjectNode(string projectName, ProjectContext fileContext)

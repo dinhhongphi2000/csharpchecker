@@ -25,9 +25,35 @@ namespace TestBuildArchitecture
         {
             using (StreamReader streamReader = new StreamReader(filePath))
             {
-                return streamReader.ReadToEnd();
+                return reader.ReadToEnd();
             }
         }
+
+        public static SolutionContext InitSolutionContext()
+        {
+            var solution = new SolutionContext(@"D:\UIT\KLTN\CSharpParser\Caculator.sln", "Caculator");
+            var project = new ProjectContext(@"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\", "TestBuildArchitecture");
+            solution.AddProjectNode(project.Name, project);
+            return solution;
+        }
+
+        static void GetContext()
+        {
+            var a = typeof(BuildArchitecture.CSharpParser).Assembly.GetTypes();
+            a.ToList().ForEach(e =>
+            {
+                if (e.FullName.Contains("BuildArchitecture.CSharpParser+"))
+                {
+                    
+                    var b = e.FullName.Remove(0, "BuildArchitecture.CSharpParser+".Length);
+                    Console.WriteLine("[ImportMany(typeof({0}))]", b);
+                    Console.Write("public IEnumerable<Lazy<Action<ParserRuleContext, ErrorInformation>>> {0} ", b);
+                    Console.WriteLine("{get;set;}");
+                    Console.WriteLine();
+                }
+            });
+        }
+
         public static List<string> GetSolutionList()
         {
             List<string> prj = new List<string>();

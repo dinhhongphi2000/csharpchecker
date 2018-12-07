@@ -51,6 +51,12 @@
     <DefineConstants>TEST</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
@@ -105,6 +111,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleContextType.cs" />
     <Compile Include="Rules\ClassFormat.cs" />
+    <Compile Include="Rules\HandleBoolContext.cs" />
+    <Compile Include="Rules\LocalVariableUpperCase.cs" />
     <Compile Include="Rules\ForStatement_LoopDontRun.cs" />
     <Compile Include="Gui\TreeViewer.cs" />
     <Compile Include="Semetic\V2\ArrayType.cs" />
@@ -142,6 +150,7 @@
     <Compile Include="Semetic\V2\TypedSymbol.cs" />
     <Compile Include="Semetic\V2\Utils.cs" />
     <Compile Include="Semetic\V2\VariableSymbol.cs" />
+    <Compile Include="Rules\VariableNameUpperCase.cs" />
     <Compile Include="WorkSpace.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +166,7 @@
     </Antlr4>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Key.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
