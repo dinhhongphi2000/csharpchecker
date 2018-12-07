@@ -228,7 +228,7 @@ namespace CSharpChecker.ErrorHighLight
             
             workSpace.InitOrUpdateParserTreeOfFile(this.FilePath, buffer);
             workSpace.RunRules(this.FilePath);
-            return workSpace.GetErrors();
+            return workSpace.GetErrors(this.FilePath);
         }
         public List<ErrorInformation> GetSpanErrors()
         {

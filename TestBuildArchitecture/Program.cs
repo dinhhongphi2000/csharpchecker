@@ -25,7 +25,7 @@ namespace TestBuildArchitecture
         {
             using (StreamReader streamReader = new StreamReader(filePath))
             {
-                return reader.ReadToEnd();
+                return streamReader.ReadToEnd();
             }
         }
 
