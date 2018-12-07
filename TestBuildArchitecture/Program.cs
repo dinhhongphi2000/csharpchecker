@@ -11,10 +11,23 @@ namespace TestBuildArchitecture
 {
     class Program
     {
+        private const string V = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
+
         static void Main(string[] args)
         {
+
+            WorkSpace nsg = new WorkSpace();
+            nsg.InitOrUpdateParserTreeOfFile(V, GetFileContent(V));
+            nsg.RunRules(V);
         }
 
+        public static string GetFileContent(string filePath)
+        {
+            using (StreamReader streamReader = new StreamReader(filePath))
+            {
+                return streamReader.ReadToEnd();
+            }
+        }
         public static List<string> GetSolutionList()
         {
             List<string> prj = new List<string>();

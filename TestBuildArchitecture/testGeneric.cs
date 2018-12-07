@@ -1,6 +1,6 @@
 ﻿namespace A
 {
-    class B
+    class B : A, IC
     {
 
     }

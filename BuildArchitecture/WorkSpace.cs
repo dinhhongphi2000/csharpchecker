@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using BuildArchitecture.Rules;
 using BuildArchitecture.Semetic.V2;
 using System.Collections.Generic;
 
@@ -80,6 +81,10 @@ namespace BuildArchitecture
             //Run semetic 
             analysis.Run(filePath, tree);
             errorTable[filePath].AddRange(analysis.GetErrors());
+
+            //Run specific rule
+            ClassFormat classFormat = new ClassFormat();
+            classFormat.Visit(tree);
 
             //Run rule
             //Walker tree to check rule and add error to error list
