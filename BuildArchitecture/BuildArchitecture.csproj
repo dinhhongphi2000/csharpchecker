@@ -110,6 +110,7 @@
     <Compile Include="ExtensionAndModifyClass\ParserRuleContextExtention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleContextType.cs" />
+    <Compile Include="Rules\CheckVariableOverrideValue.cs" />
     <Compile Include="Rules\ClassFormat.cs" />
     <Compile Include="Rules\HandleBoolContext.cs" />
     <Compile Include="Rules\LocalVariableUpperCase.cs" />

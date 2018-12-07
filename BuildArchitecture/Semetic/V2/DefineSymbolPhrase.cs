@@ -261,19 +261,6 @@ namespace BuildArchitecture.Semetic.V2
         public override void EnterLocal_variable_declarator([NotNull] Local_variable_declaratorContext context)
         {
             var identifierContext = context.identifier();
-            //check symbol exist
-            var existSymbol = currentScope.Resolve(identifierContext.GetText());
-            if (existSymbol != null && existSymbol.GetScope().GetName() != "local")
-            {
-                //warning
-                errorTable.Add(new ErrorInformation()
-                {
-                    ErrorCode = "WA0001",
-                    ErrorMessage = "You should declare variable " + identifierContext.GetText() + " with difference name to avoid override value",
-                    StartIndex = identifierContext.Start.StartIndex,
-                    Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
-                });
-            }
 
             VariableSymbol symbol = new VariableSymbol(identifierContext.GetText())
             {
