@@ -1,7 +1,7 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using BuildArchitecture.Rules;
 using BuildArchitecture.Semetic.V2;
+using System;
 using System.Collections.Generic;
 
 namespace BuildArchitecture
@@ -80,9 +80,15 @@ namespace BuildArchitecture
             else
                 errorTable[filePath] = new List<ErrorInformation>();
             ParserRuleContext tree = _parserRuleContextOfFile[filePath];
-            //Run semetic 
-            analysis.Run(filePath, tree);
-            errorTable[filePath].AddRange(analysis.GetErrors());
+            //try
+            //{
+                //Run semetic 
+                analysis.Run(filePath, tree);
+                errorTable[filePath].AddRange(analysis.GetErrors());
+            //}catch(Exception ex)
+            //{
+
+            //}
 
             //Run rule
             //Walker tree to check rule and add error to error list
