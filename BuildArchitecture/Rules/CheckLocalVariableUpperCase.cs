@@ -18,11 +18,14 @@ namespace BuildArchitecture.Rules
                 identifier = context.GetText();
                 if (identifier == UppercaseFirst(identifier))
                 {
-                    error = new ErrorInformation();
-                    error.StartIndex = context.Start.StartIndex;
-                    error.ErrorCode = "IF0005";
-                    error.Length = context.Stop.StopIndex - context.Start.StartIndex + 1;
-                    error.ErrorMessage = "Local variable name should not be upper case";
+                    error = new ErrorInformation
+                    {
+                        StartIndex = context.Start.StartIndex,
+                        ErrorCode = "IF0005",
+                        ReplaceCode = LowercaseFirst(identifier),
+                        Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
+                        ErrorMessage = "Local variable name should not be upper case"
+                    };
                 }
             }
         }
@@ -36,10 +39,14 @@ namespace BuildArchitecture.Rules
                 identifier = context.GetText();
                 if (identifier == UppercaseFirst(identifier))
                 {
-                    error = new ErrorInformation();
-                    error.StartIndex = context.Start.StartIndex;
-                    error.Length = context.Stop.StopIndex - context.Start.StartIndex + 1;
-                    error.ErrorMessage = "Dont put your variable name Uppercase";
+                    error = new ErrorInformation
+                    {
+                        StartIndex = context.Start.StartIndex,
+                        Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
+                        ErrorCode = "IF0006",
+                        ReplaceCode = LowercaseFirst(identifier),
+                        ErrorMessage = "Argument should not be upper case"
+                    };
                 }
             }
         }
@@ -53,6 +60,16 @@ namespace BuildArchitecture.Rules
             }
             // Return char and concat substring.
             return char.ToUpper(s[0]) + s.Substring(1);
+        }
+        static string LowercaseFirst(string s)
+        {
+            // Check for empty string.
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            // Return char and concat substring.
+            return char.ToLower(s[0]) + s.Substring(1);
         }
     }
 }

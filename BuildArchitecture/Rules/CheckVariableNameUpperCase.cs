@@ -14,7 +14,7 @@ namespace BuildArchitecture.Rules
         {
             error = null;
                 identifier = context.GetText();
-                if (identifier == identifier.ToUpper())
+                if (identifier == identifier.ToUpper() && identifier.Length > 2)
                 {
                     error = new ErrorInformation();
                     error.ErrorCode = "IF0004";

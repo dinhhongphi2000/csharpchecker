@@ -28,6 +28,7 @@ namespace BuildArchitecture.Rules
                     ErrorCode = "WA0001",
                     ErrorMessage = "You should declare variable " + identifierContext.GetText() + " with difference name to avoid override value",
                     StartIndex = identifierContext.Start.StartIndex,
+                    ReplaceCode = identifierContext.GetText() + "1",
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
                 };
             }

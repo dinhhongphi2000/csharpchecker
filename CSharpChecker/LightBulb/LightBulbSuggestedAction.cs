@@ -18,7 +18,7 @@ namespace CSharpChecker.LightBulb
         private readonly string _replaceText;
         private readonly string _display;
 
-        public LightBulbSuggestedAction(ITrackingSpan span, string replaceText = "LightBulb")
+        public LightBulbSuggestedAction(ITrackingSpan span, string replaceText)
         {
             _span = span;
             _snapshot = span.TextBuffer.CurrentSnapshot;
@@ -74,7 +74,7 @@ namespace CSharpChecker.LightBulb
         {
             get
             {
-                return true;
+                return !string.IsNullOrWhiteSpace(_replaceText);
             }
         }
 

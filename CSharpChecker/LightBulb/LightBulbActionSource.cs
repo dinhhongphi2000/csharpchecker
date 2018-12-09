@@ -45,7 +45,7 @@ namespace CSharpChecker.LightBulb
                 foreach (ErrorInformation err in _errors)
                 {
                     Span span = new Span(err.StartIndex, err.Length);
-                    if (span.Contains(_textView.Caret.Position.BufferPosition.Position))
+                    if (span.Contains(_textView.Caret.Position.BufferPosition.Position) && !string.IsNullOrWhiteSpace(err.ReplaceCode))
                     {
 
                         ITrackingSpan trackingSpan = range.Snapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeInclusive);
@@ -69,7 +69,7 @@ namespace CSharpChecker.LightBulb
                     List<Span> span = new List<Span>();
                     foreach (ErrorInformation err in _errors)
                     {
-                        if (err.Length >= 0)
+                        if (err.Length >= 0 && !string.IsNullOrWhiteSpace(err.ReplaceCode))
                         {
                             span.Add(new Span(err.StartIndex, err.Length));
                         }
@@ -80,7 +80,6 @@ namespace CSharpChecker.LightBulb
                     {
                         if (sp.Contains(_textView.Caret.Position.BufferPosition.Position))
                         {
-                            // don't display the tag if the extent has whitespace
                             return true;
                         }
                     }

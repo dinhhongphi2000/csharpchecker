@@ -119,7 +119,7 @@ namespace CSharpChecker.ErrorHighLight
                 }
                 else if (columnName == StandardTableKeyNames.ErrorSeverity)
                 {
-                    content = __VSERRORCATEGORY.EC_MESSAGE;
+                    content = CheckErrorType(this.Errors[index]);
 
                     return true;
                 }
@@ -166,6 +166,13 @@ namespace CSharpChecker.ErrorHighLight
             content = null;
 
             return false;
+        }
+        private __VSERRORCATEGORY CheckErrorType(ErrorSpan errorSpan)
+        {
+            if (errorSpan.ErrorCode.StartsWith("WA")) return __VSERRORCATEGORY.EC_WARNING;
+            else if (errorSpan.ErrorCode.StartsWith("IF")) return __VSERRORCATEGORY.EC_MESSAGE;
+            else if (errorSpan.ErrorCode.StartsWith("ER")) return __VSERRORCATEGORY.EC_ERROR;
+            else return __VSERRORCATEGORY.EC_MESSAGE;
         }
     }
 }
