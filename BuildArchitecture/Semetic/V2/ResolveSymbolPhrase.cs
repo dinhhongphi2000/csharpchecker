@@ -75,6 +75,11 @@ namespace BuildArchitecture.Semetic.V2
             return list;
         }
 
+        public override object VisitVariable_declarator([NotNull] Variable_declaratorContext context)
+        {
+            return context.identifier();
+        }
+
         /// <summary>
         /// Set type for member of class or struct that have type. (functions, fields , properties)
         /// </summary>
