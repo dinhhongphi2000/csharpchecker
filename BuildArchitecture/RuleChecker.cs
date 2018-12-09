@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
+using BuildArchitecture.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -12,6 +13,7 @@ namespace BuildArchitecture
         private RuleActionContainer _eventList;
         private CompositionContainer _container;
         private List<ErrorInformation> errorTable;
+        private ITokenStream tokenStream;
 
         public RuleChecker()
         {
@@ -19,7 +21,6 @@ namespace BuildArchitecture
             var catalog = new AggregateCatalog();
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(RuleChecker).Assembly));
             _container = new CompositionContainer(catalog);
-
             //Fill the imports of this object
             try
             {
@@ -44,14 +45,20 @@ namespace BuildArchitecture
             base.EnterCompilation_unit(context);
         }
 
+        public void SetCurrentTokenStream(ITokenStream stream)
+        {
+            tokenStream = stream ?? throw new ArgumentNullException();
+            _eventList.UpdateTokenStream(stream);
+        }
+
         public override void EnterEveryRule([NotNull] ParserRuleContext context)
         {
             base.EnterEveryRule(context);
             try
             {
-                _eventList.RaiseAction((ParserRuleContext)context, errorTable);
+                _eventList.RaiseAction(context, errorTable);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
             }

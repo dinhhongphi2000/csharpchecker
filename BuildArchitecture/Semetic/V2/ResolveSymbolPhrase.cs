@@ -192,6 +192,8 @@ namespace BuildArchitecture.Semetic.V2
 
             foreach (var item in fields)
             {
+                if (item == null)
+                    continue;
                 var field = (FieldSymbol)item.Symbol;
                 field.SetType(type);
             }

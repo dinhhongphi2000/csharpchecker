@@ -1,7 +1,7 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
-using BuildArchitecture.Rules;
 using BuildArchitecture.Semetic.V2;
+using System;
 using System.Collections.Generic;
 
 namespace BuildArchitecture
@@ -14,6 +14,7 @@ namespace BuildArchitecture
         private ParseTreeWalker _treeWalker = null;
         private SemeticAnalysis analysis;
         private Dictionary<string, List<ErrorInformation>> errorTable = new Dictionary<string, List<ErrorInformation>>(); //key file, value ErrorList
+        private Dictionary<string, ITokenStream> tokenStreams = new Dictionary<string, ITokenStream>();
 #if TEST
         public Dictionary<string, ParserRuleContext> _parserRuleContextOfFile;
 #else
@@ -43,6 +44,7 @@ namespace BuildArchitecture
             CSharpParser parser = new CSharpParser(tokens);
             CSharpParser.Compilation_unitContext startContext = parser.compilation_unit();
             _parserRuleContextOfFile[filePath] = startContext;
+            tokenStreams[filePath] = tokens;
         }
 
         public void RunSemeticAnalysis(string filePath)
@@ -78,16 +80,19 @@ namespace BuildArchitecture
             else
                 errorTable[filePath] = new List<ErrorInformation>();
             ParserRuleContext tree = _parserRuleContextOfFile[filePath];
-            //Run semetic 
-            analysis.Run(filePath, tree);
-            errorTable[filePath].AddRange(analysis.GetErrors());
+            //try
+            //{
+                //Run semetic 
+                analysis.Run(filePath, tree);
+                errorTable[filePath].AddRange(analysis.GetErrors());
+            //}catch(Exception ex)
+            //{
 
-            //Run specific rule
-            ClassFormat classFormat = new ClassFormat();
-            classFormat.Visit(tree);
+            //}
 
             //Run rule
             //Walker tree to check rule and add error to error list
+            _scanTree.SetCurrentTokenStream(tokenStreams[filePath]);
             _treeWalker.Walk(_scanTree, tree);
             errorTable[filePath].AddRange(_scanTree.GetErrors());
         }

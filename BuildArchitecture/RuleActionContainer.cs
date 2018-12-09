@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using BuildArchitecture.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -10,6 +11,7 @@ namespace BuildArchitecture
     internal sealed class RuleActionContainer
     {
         public delegate void EnterRuleContext(ParserRuleContext context, out ErrorInformation error);
+        public delegate void OnTokenStreamChanged(CommonTokenStream tokenStream);
 
         [ImportMany(typeof(Compilation_unitContext))]
         public IEnumerable<Lazy<EnterRuleContext>> Compilation_unitContext { get; set; }
@@ -749,6 +751,9 @@ namespace BuildArchitecture
         [ImportMany(typeof(IdentifierContext))]
         public IEnumerable<Lazy<EnterRuleContext>> IdentifierContext { get; set; }
 
+        [ImportMany("TokenStreamChanged")]
+        public IEnumerable<Lazy<OnTokenStreamChanged>> TokenStreamChanged { get; set; }
+
         public void RaiseAction(ParserRuleContext context, List<ErrorInformation> errorInformationList)
         {
             PropertyInfo pro = this.GetType().GetProperty(context.GetType().Name);
@@ -762,6 +767,17 @@ namespace BuildArchitecture
                 {
                     errorInformationList.Add(error);
                 }
+            }
+        }
+
+        public void UpdateTokenStream(ITokenStream tokenStream)
+        {
+            PropertyInfo pro = this.GetType().GetProperty("TokenStreamChanged");
+            dynamic data = pro.GetValue(this);
+            foreach (var x in data)
+            {
+                var action = x.Value;
+                action((CommonTokenStream)tokenStream);
             }
         }
     }

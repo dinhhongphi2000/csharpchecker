@@ -1,17 +1,14 @@
-﻿namespace A
+﻿namespace a
 {
-    class B : A, IC
+    struct B
     {
+        public void M()
+        {
 
-    }
+        }
 
-    class A : B, IC
-    {
+        int t { get; set; }
 
-    }
-
-    interface IC
-    {
-
+        int k;
     }
 }
