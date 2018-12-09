@@ -25,7 +25,6 @@ namespace CSharpChecker.ErrorHighLight
     {
         internal readonly ITableManager ErrorTableManager;
         internal readonly ITextDocumentFactoryService TextDocumentFactoryService;
-        internal readonly IClassifierAggregatorService ClassifierAggregatorService;
 
         const string _errorCheckerDataSource = "ErrorChecker";
 
@@ -33,15 +32,12 @@ namespace CSharpChecker.ErrorHighLight
         private readonly List<ErrorHighLightChecker> _errorCheckers = new List<ErrorHighLightChecker>();
 
         [ImportingConstructor]
-        internal ErrorHighLightProvider([Import]ITableManagerProvider provider, [Import] ITextDocumentFactoryService textDocumentFactoryService, [Import] IClassifierAggregatorService classifierAggregatorService)
+        internal ErrorHighLightProvider([Import]ITableManagerProvider provider, [Import] ITextDocumentFactoryService textDocumentFactoryService)
         {
             this.ErrorTableManager = provider.GetTableManager(StandardTables.ErrorsTable);
             this.TextDocumentFactoryService = textDocumentFactoryService;
 
-            this.ClassifierAggregatorService = classifierAggregatorService;
-
-            this.ErrorTableManager.AddSource(this, StandardTableColumnDefinitions.DetailsExpander,
-                                                   StandardTableColumnDefinitions.ErrorSeverity, StandardTableColumnDefinitions.ErrorCode,
+            this.ErrorTableManager.AddSource(this, StandardTableColumnDefinitions.ErrorSeverity, StandardTableColumnDefinitions.ErrorCode,
                                                    StandardTableColumnDefinitions.ErrorSource, StandardTableColumnDefinitions.BuildTool,
                                                    StandardTableColumnDefinitions.ErrorSource, StandardTableColumnDefinitions.ErrorCategory,
                                                    StandardTableColumnDefinitions.Text, StandardTableColumnDefinitions.DocumentName, StandardTableColumnDefinitions.Line, StandardTableColumnDefinitions.Column);

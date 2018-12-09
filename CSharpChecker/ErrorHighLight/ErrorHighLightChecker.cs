@@ -7,8 +7,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Controls;
+using Microsoft.VisualStudio.Shell.Interop;
 using System.Windows.Threading;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio;
+using Microsoft.Build.Evaluation;
 
 namespace CSharpChecker.ErrorHighLight
 {
@@ -36,7 +39,8 @@ namespace CSharpChecker.ErrorHighLight
         private List<ErrorInformation> _spanErrors = new List<ErrorInformation>();
         internal readonly string FilePath;
         internal readonly ErrorFactory Factory;
-        WorkSpace workSpace = new WorkSpace();
+        private WorkSpace _workSpace = new WorkSpace();
+        private IVsSolution solution;
 
         internal ErrorHighLightChecker(ErrorHighLightProvider provider, ITextView textView, ITextBuffer buffer)
         {
@@ -57,6 +61,8 @@ namespace CSharpChecker.ErrorHighLight
             _uiThreadDispatcher = Dispatcher.CurrentDispatcher;
 
             this.Factory = new ErrorFactory(this, new ErrorSnapShot(this.FilePath, 0));
+
+            ScanAllFile(solution);
         }
 
         internal void AddTagger(ErrorHighLightTagger tagger)
@@ -66,7 +72,6 @@ namespace CSharpChecker.ErrorHighLight
             if (_activeTaggers.Count == 1)
             {
                 // First tagger created ... start doing stuff.
-                _classifier = _provider.ClassifierAggregatorService.GetClassifier(_buffer);
 
                 _buffer.ChangedLowPriority += this.OnBufferChange;
 
@@ -217,22 +222,78 @@ namespace CSharpChecker.ErrorHighLight
             }
         }
 
-        bool CheckValidError(ErrorInformation error)
-        {
-            return error.GetType().GetProperties()
-                            .All(p => p.GetValue(error) != null);
-        }
-
         public List<ErrorInformation> GetErrorInformation(string buffer)
         {
             
-            workSpace.InitOrUpdateParserTreeOfFile(this.FilePath, buffer);
-            workSpace.RunRules(this.FilePath);
-            return workSpace.GetErrors(this.FilePath);
+            _workSpace.InitOrUpdateParserTreeOfFile(this.FilePath, buffer);
+            _workSpace.RunRules(this.FilePath);
+            return _workSpace.GetErrors(this.FilePath);
         }
         public List<ErrorInformation> GetSpanErrors()
         {
             return _isDisposed ? null : _spanErrors;
         }
+
+        private void ScanAllFile(IVsSolution ivsolution)
+        {
+            ivsolution = Package.GetGlobalService(typeof(SVsSolution)) as IVsSolution;
+            List<string> filePaths;
+            string[] projectPaths;
+            uint numProjects;
+            int projectCount;
+
+            projectCount = GetPropertyValue<int>(ivsolution, __VSPROPID.VSPROPID_ProjectCount);
+            Debug.WriteLine("Project count: " + projectCount.ToString());
+            projectPaths = new string[projectCount];
+            var hr = ivsolution.GetProjectFilesInSolution((uint)__VSGETPROJFILESFLAGS.GPFF_SKIPUNLOADEDPROJECTS, (uint)projectCount, projectPaths, out numProjects);
+
+            GetFilePathFromProject(projectPaths, out filePaths);
+            foreach (var path in filePaths)
+            {
+                _workSpace.InitOrUpdateParserTreeOfFile(path, GetFileContent(path));
+            }
+            _workSpace.RunRulesAllFile();
+            _workSpace.GetErrors();
+
+            // Handle the open solution and try to do as much work
+            // on a background thread as possible
+        }
+        private T GetPropertyValue<T>(IVsSolution solutionInterface, __VSPROPID solutionProperty)
+        {
+            object value = null;
+            T result = default(T);
+            if (solutionInterface.GetProperty((int)solutionProperty, out value) == VSConstants.S_OK)
+            {
+                result = (T)value;
+            }
+            return result;
+        }
+        private void GetFilePathFromProject(string[] projectPaths, out List<string> filePaths)
+        {
+            filePaths = new List<string>();
+            foreach (string path in projectPaths)
+            {
+                Project[] projects = new Project[ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).Count];
+                ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).CopyTo(projects, 0);
+                foreach (Project pro in projects)
+                {
+                    List<FileInfo> fileInfos = new List<FileInfo>();
+                    ProjectItem[] projectItem = new ProjectItem[pro.GetItems("Compile").Count];
+                    pro.GetItems("Compile").CopyTo(projectItem, 0);
+
+                    foreach (ProjectItem item in projectItem)
+                    {
+                        if (!item.EvaluatedInclude.StartsWith("Properties\\"))
+                        {
+                            var itempath = pro.DirectoryPath + "\\" + item.EvaluatedInclude;
+                            filePaths.Add(itempath);
+                        }
+
+                    }
+                }
+
+            }
+        }
+
     }
 }
