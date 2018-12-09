@@ -39,8 +39,8 @@ namespace CSharpChecker.ErrorHighLight
         private List<ErrorInformation> _spanErrors = new List<ErrorInformation>();
         internal readonly string FilePath;
         internal readonly ErrorFactory Factory;
-        WorkSpace workSpace = new WorkSpace();
-        IVsSolution solution;
+        private WorkSpace _workSpace = new WorkSpace();
+        private IVsSolution solution;
 
         internal ErrorHighLightChecker(ErrorHighLightProvider provider, ITextView textView, ITextBuffer buffer)
         {
@@ -72,7 +72,6 @@ namespace CSharpChecker.ErrorHighLight
             if (_activeTaggers.Count == 1)
             {
                 // First tagger created ... start doing stuff.
-                _classifier = _provider.ClassifierAggregatorService.GetClassifier(_buffer);
 
                 _buffer.ChangedLowPriority += this.OnBufferChange;
 
@@ -223,18 +222,12 @@ namespace CSharpChecker.ErrorHighLight
             }
         }
 
-        bool CheckValidError(ErrorInformation error)
-        {
-            return error.GetType().GetProperties()
-                            .All(p => p.GetValue(error) != null);
-        }
-
         public List<ErrorInformation> GetErrorInformation(string buffer)
         {
             
-            workSpace.InitOrUpdateParserTreeOfFile(this.FilePath, buffer);
-            workSpace.RunRules(this.FilePath);
-            return workSpace.GetErrors(this.FilePath);
+            _workSpace.InitOrUpdateParserTreeOfFile(this.FilePath, buffer);
+            _workSpace.RunRules(this.FilePath);
+            return _workSpace.GetErrors(this.FilePath);
         }
         public List<ErrorInformation> GetSpanErrors()
         {
@@ -257,10 +250,10 @@ namespace CSharpChecker.ErrorHighLight
             GetFilePathFromProject(projectPaths, out filePaths);
             foreach (var path in filePaths)
             {
-                workSpace.InitOrUpdateParserTreeOfFile(path, GetFileContent(path));
+                _workSpace.InitOrUpdateParserTreeOfFile(path, GetFileContent(path));
             }
-            workSpace.RunRulesAllFile();
-            workSpace.GetErrors();
+            _workSpace.RunRulesAllFile();
+            _workSpace.GetErrors();
 
             // Handle the open solution and try to do as much work
             // on a background thread as possible
