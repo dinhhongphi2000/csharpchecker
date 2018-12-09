@@ -5,7 +5,7 @@ using static BuildArchitecture.CSharpParser;
 
 namespace BuildArchitecture.Rules
 {
-    class VariableNameUpperCase
+    class CheckVariableNameUpperCase
     {
         string identifier;
 
@@ -17,9 +17,10 @@ namespace BuildArchitecture.Rules
                 if (identifier == identifier.ToUpper())
                 {
                     error = new ErrorInformation();
+                    error.ErrorCode = "IF0004";
                     error.StartIndex = context.Start.StartIndex;
                     error.Length = context.Stop.StopIndex - context.Start.StartIndex + 1;
-                    error.ErrorMessage = "Variable name should not all Upper";
+                    error.ErrorMessage = "Variable name should not all upper case";
                 }
         }
     }

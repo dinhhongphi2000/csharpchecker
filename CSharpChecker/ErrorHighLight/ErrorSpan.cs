@@ -9,19 +9,21 @@ namespace CSharpChecker.ErrorHighLight
     {
         public readonly SnapshotSpan Span;
         public string ErrorMessage;
+        public string ErrorCode;
         // This is used by ErrorsSnapshot.TranslateTo() to map this error to the corresponding error in the next snapshot.
         public int NextIndex = -1;
 
-        public ErrorSpan(SnapshotSpan span, string message)
+        public ErrorSpan(SnapshotSpan span, string message, string errorCode)
         {
             this.Span = span;
             this.ErrorMessage = message;
+            this.ErrorCode = errorCode;
         }
 
       
         public static ErrorSpan Clone(ErrorSpan error)
         {
-            return new ErrorSpan(error.Span,error.ErrorMessage);
+            return new ErrorSpan(error.Span,error.ErrorMessage,error.ErrorCode);
         }
 
         public static ErrorSpan CloneAndTranslateTo(ErrorSpan error, ITextSnapshot newSnapshot)
@@ -31,7 +33,7 @@ namespace CSharpChecker.ErrorHighLight
             // We want to only translate the error if the length of the error span did not change (if it did change, it would imply that
             // there was some text edit inside the error and, therefore, that the error is no longer valid).
             return (newSpan.Length == error.Span.Length)
-                   ? new ErrorSpan(newSpan,error.ErrorMessage)
+                   ? new ErrorSpan(newSpan,error.ErrorMessage,error.ErrorCode)
                    : null;
         }
     }

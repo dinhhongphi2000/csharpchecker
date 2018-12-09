@@ -66,7 +66,7 @@ namespace CSharpChecker.ErrorHighLight
                 {
                     if (spans.IntersectsWith(error.Span))
                     {
-                        yield return new TagSpan<IErrorTag>(error.Span, new ErrorTag(PredefinedErrorTypeNames.Warning,"Error Warning"));
+                        yield return new TagSpan<IErrorTag>(error.Span, new ErrorTag(PredefinedErrorTypeNames.Warning,error.ErrorMessage));
                     }
                 }
             }

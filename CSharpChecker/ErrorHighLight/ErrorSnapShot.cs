@@ -137,14 +137,13 @@ namespace CSharpChecker.ErrorHighLight
                 }
                 else if (columnName == StandardTableKeyNames.ErrorCode)
                 {
-                    content = "Code";
-                    content = "Code";
+                    content = this.Errors[index].ErrorCode;
 
                     return true;
                 }
                 else if ((columnName == StandardTableKeyNames.ErrorCodeToolTip) || (columnName == StandardTableKeyNames.HelpLink))
                 {
-                    content = string.Format(CultureInfo.InvariantCulture, "http://www.bing.com/search?q={0}", this.Errors[index].Span.GetText());
+                    content = "";
 
                     return true;
                 }

@@ -5,7 +5,7 @@ using static BuildArchitecture.CSharpParser;
 
 namespace BuildArchitecture.Rules
 {
-    class LocalVariableUpperCase
+    class CheckLocalVariableUpperCase
     {
         string identifier;
 
@@ -20,8 +20,9 @@ namespace BuildArchitecture.Rules
                 {
                     error = new ErrorInformation();
                     error.StartIndex = context.Start.StartIndex;
+                    error.ErrorCode = "IF0005";
                     error.Length = context.Stop.StopIndex - context.Start.StartIndex + 1;
-                    error.ErrorMessage = "Dont put your variable name Uppercase";
+                    error.ErrorMessage = "Local variable name should not be upper case";
                 }
             }
         }

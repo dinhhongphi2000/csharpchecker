@@ -179,7 +179,7 @@ namespace CSharpChecker.ErrorHighLight
                                 }
                                 else
                                 {
-                                    newErrors.Errors.Add(new ErrorSpan(newSpan, spanError.ErrorMessage));
+                                    newErrors.Errors.Add(new ErrorSpan(newSpan, spanError.ErrorMessage, spanError.ErrorCode));
                                 }
                             }
                         }
