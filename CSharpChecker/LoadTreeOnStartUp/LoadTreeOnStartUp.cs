@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -10,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using BuildArchitecture;
+using EnvDTE;
 using Microsoft.Build.Evaluation;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
@@ -17,6 +17,9 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Events;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
+using Project = Microsoft.Build.Evaluation.Project;
+using ProjectItem = Microsoft.Build.Evaluation.ProjectItem;
+using SolutionEvents = Microsoft.VisualStudio.Shell.Events.SolutionEvents;
 using Task = System.Threading.Tasks.Task;
 
 namespace CSharpChecker.LoadTreeOnStartUp
@@ -46,58 +49,69 @@ namespace CSharpChecker.LoadTreeOnStartUp
     public sealed class LoadTreeOnStartUp : AsyncPackage
     {
         /// <summary>
-        /// SolutionLoad GUID string.
+        /// VSPackage1 GUID string.
         /// </summary>
-        public const string PackageGuidString = "94970ec4-8233-41d7-a301-ad087210c0c8";
-        private WorkSpace _workSpace = WorkSpace.Instance;
+        public const string PackageGuidString = "38639e3d-226b-4544-a4d6-eea6cb71ac0b";
+        private IVsSolution solService;
+        private WorkSpace _workSpace;
+        private DTE dTE;
         /// <summary>
-        /// Initializes a new instance of the <see cref="SolutionLoad"/> class.
+        /// Initializes a new instance of the <see cref="LoadTreeOnStartUp"/> class.
         /// </summary>
         public LoadTreeOnStartUp()
         {
+            _workSpace = WorkSpace.Instance;
+            SolutionEvents.OnAfterBackgroundSolutionLoadComplete += HandleOpenSolution;
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
         }
-        IVsSolution solService;
 
+        #region Package Members
+
+        /// <summary>
+        /// Initialization of the package; this method is called right after the package is sited, so this is the place
+        /// where you can put all the initialization code that rely on services provided by VisualStudio.
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token to monitor for initialization cancellation, which can occur when VS is shutting down.</param>
+        /// <param name="progress">A provider for progress updates.</param>
+        /// <returns>A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.</returns>
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
         {
-            // Since this package might not be initialized until after a solution has finished loading,
-            // we need to check if a solution has already been loaded and then handle it.
-            bool isSolutionLoaded = await IsSolutionLoadedAsync();
+            // When initialized asynchronously, the current thread may be a background thread at this point.
+            // Do any initialization that requires the UI thread after switching to the UI thread.
+            await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            bool isSolutionLoad = await IsSolutionLoadedAsync(cancellationToken);
+            if (isSolutionLoad) HandleOpenSolution();
 
-            if (isSolutionLoaded)
-            {
-                HandleOpenSolution();
-            }
+            
 
-            // Listen for subsequent solution events
-            SolutionEvents.OnAfterOpenSolution += HandleOpenSolution;
         }
-
-        private async Task<bool> IsSolutionLoadedAsync()
+        private async Task<bool> IsSolutionLoadedAsync(CancellationToken cancellationToken)
         {
-            await JoinableTaskFactory.SwitchToMainThreadAsync();
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             solService = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
-
+            dTE = await GetServiceAsync(typeof(DTE)) as DTE;
             ErrorHandler.ThrowOnFailure(solService.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object value));
-            //solService.GetProjectFilesInSolution(1, projectCount, projectNames.ToArray(), out numProjects);
-            return value is bool isSolOpen && isSolOpen;
-        }
 
+
+            //solService.GetProjectFilesInSolution(1, projectCount, projectNames.ToArray(), out numProjects);
+            return value is bool;
+        }
         private void HandleOpenSolution(object sender = null, EventArgs e = null)
         {
-            List<string> filePaths;
-            string[] projectPaths;
-            uint numProjects;
-            int projectCount;
+            IVsActivityLog log = GetService(typeof(SVsActivityLog)) as IVsActivityLog;
+            
 
-            projectCount = GetPropertyValue<int>(solService, __VSPROPID.VSPROPID_ProjectCount);
-            Debug.WriteLine("Project count: " + projectCount.ToString());
-            projectPaths = new string[projectCount];
-            var hr = solService.GetProjectFilesInSolution((uint)__VSGETPROJFILESFLAGS.GPFF_SKIPUNLOADEDPROJECTS, (uint)projectCount, projectPaths, out numProjects);
+            List<string> filePaths;
+            List<string> projectPaths = new List<string>();
+            var item = dTE.Solution.Projects.GetEnumerator();
+            while (item.MoveNext())
+            {
+                var project = item.Current as EnvDTE.Project;
+                projectPaths.Add(project.FullName);
+            }
 
             GetFilePathFromProject(projectPaths, out filePaths);
             foreach (var path in filePaths)
@@ -105,7 +119,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
                 _workSpace.InitOrUpdateParserTreeOfFile(path, GetFileContent(path));
             }
             _workSpace.RunRulesAllFile();
-
+            var errors = _workSpace.GetErrors();
             // Handle the open solution and try to do as much work
             // on a background thread as possible
         }
@@ -119,27 +133,29 @@ namespace CSharpChecker.LoadTreeOnStartUp
             }
             return result;
         }
-        private void GetFilePathFromProject(string[] projectPaths, out List<string> filePaths)
+        private void GetFilePathFromProject(List<string> projectPaths, out List<string> filePaths)
         {
             filePaths = new List<string>();
             foreach (string path in projectPaths)
             {
-                Project[] projects = new Project[ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).Count];
-                ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).CopyTo(projects, 0);
-                foreach (Project pro in projects)
+                if (path != null)
                 {
-                    List<FileInfo> fileInfos = new List<FileInfo>();
-                    ProjectItem[] projectItem = new ProjectItem[pro.GetItems("Compile").Count];
-                    pro.GetItems("Compile").CopyTo(projectItem, 0);
-
-                    foreach (ProjectItem item in projectItem)
+                    Project[] projects = new Project[ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).Count];
+                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).CopyTo(projects, 0);
+                    foreach (Project pro in projects)
                     {
-                        if (!item.EvaluatedInclude.StartsWith("Properties\\"))
-                        {
-                            var itempath = pro.DirectoryPath + "\\" + item.EvaluatedInclude;
-                            filePaths.Add(itempath);
-                        }
+                        ProjectItem[] projectItem = new ProjectItem[pro.GetItems("Compile").Count];
+                        pro.GetItems("Compile").CopyTo(projectItem, 0);
 
+                        foreach (ProjectItem item in projectItem)
+                        {
+                            if (!item.EvaluatedInclude.StartsWith("Properties\\"))
+                            {
+                                var itempath = pro.DirectoryPath + "\\" + item.EvaluatedInclude;
+                                filePaths.Add(itempath);
+                            }
+
+                        }
                     }
                 }
 
@@ -154,5 +170,6 @@ namespace CSharpChecker.LoadTreeOnStartUp
                 return reader.ReadToEnd();
             }
         }
+        #endregion
     }
 }
