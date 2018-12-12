@@ -45,25 +45,25 @@ namespace BuildArchitecture.Rules
             }
         }
 
-        //[Export(typeof(Method_member_nameContext))]
-        //public void CheckMethod(ParserRuleContext context, out ErrorInformation error)
-        //{
-        //    error = null;
-            
-        //        var identifierContext = ((Method_member_nameContext)context).identifier(0);
-        //        var varSymbol = identifierContext.Symbol as MethodSymbol;
-        //        if (varSymbol != null && (varSymbol.GetSymbolType().GetName() == "bool") && !IsStartWith(identifierContext.GetText()))
-        //        {
-        //            error = new ErrorInformation()
-        //            {
-        //                ErrorCode = "IF0003",
-        //                ErrorMessage = "Name with bool return type should begin with Is, Can, Has",
-        //                StartIndex = identifierContext.Start.StartIndex,
-        //                Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
-        //            };
-        //        }
-            
-        //}
+        [Export(typeof(Method_member_nameContext))]
+        public void CheckMethod(ParserRuleContext context, out ErrorInformation error)
+        {
+            error = null;
+
+            var identifierContext = ((Method_member_nameContext)context).identifier(0);
+            var varSymbol = identifierContext.Symbol as MethodSymbol;
+            if (varSymbol != null && (varSymbol.GetSymbolType().GetName() == "bool") && !IsStartWith(identifierContext.GetText()))
+            {
+                error = new ErrorInformation()
+                {
+                    ErrorCode = "IF0003",
+                    ErrorMessage = "Name with bool return type should begin with Is, Can, Has",
+                    StartIndex = identifierContext.Start.StartIndex,
+                    Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
+                };
+            }
+
+        }
 
         private bool IsStartWith(string identifier)
         {

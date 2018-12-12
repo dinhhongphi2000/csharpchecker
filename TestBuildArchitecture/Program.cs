@@ -16,7 +16,7 @@ namespace TestBuildArchitecture
         static void Main(string[] args)
         {
 
-            WorkSpace nsg = new WorkSpace();
+            WorkSpace nsg = WorkSpace.Instance;
             nsg.InitOrUpdateParserTreeOfFile(V, GetFileContent(V));
             nsg.RunRules(V);
         }

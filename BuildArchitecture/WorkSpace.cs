@@ -20,13 +20,17 @@ namespace BuildArchitecture
 #else
         private Dictionary<string, ParserRuleContext> _parserRuleContextOfFile;
 #endif
+        private static readonly Lazy<WorkSpace> lazy =
+            new Lazy<WorkSpace>(() => new WorkSpace());
+
+        public static WorkSpace Instance { get { return lazy.Value; } }
         public ParseTreeWalker TreeWalker
         {
             get { return _treeWalker; }
             private set { }
         }
 
-        public WorkSpace()
+        private WorkSpace()
         {
             //Initial default value
             _parserRuleContextOfFile = new Dictionary<string, ParserRuleContext>();
