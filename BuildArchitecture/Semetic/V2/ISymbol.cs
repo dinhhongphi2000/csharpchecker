@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BuildArchitecture.Semetic.V2
 {
@@ -16,6 +17,8 @@ namespace BuildArchitecture.Semetic.V2
         int GetInsertionOrderNumber(); // index showing insertion order from 0
         void SetInsertionOrderNumber(int i);
         string GetFullyQualifiedName(string scopePathSeparator);
+        void SetModifiers(HashSet<string> modifiers);
+        bool HaveModifier(string modifier);
         // to satisfy adding symbols to sets, hashtables
         int GetHashCode();
         bool Equals(Object o);

@@ -80,6 +80,113 @@ namespace BuildArchitecture.Semetic.V2
             return context.identifier();
         }
 
+        public override object VisitClass_member_declaration([NotNull] Class_member_declarationContext context)
+        {
+            var all_member_modifiers = context.all_member_modifiers();
+            HashSet<string> modifiers;
+            if (all_member_modifiers != null)
+                modifiers = (HashSet<string>)Visit(all_member_modifiers);
+            else
+            {
+                modifiers = new HashSet<string>();
+                modifiers.Add("private");
+            }
+            try
+            {
+                var identifiers = (List<IdentifierContext>)Visit(context.common_member_declaration());
+                foreach (var item in identifiers)
+                {
+                    var symbol = item.Symbol;
+                    if (symbol != null)
+                    {
+                        symbol.SetModifiers(modifiers);
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return null;
+        }
+
+        public override object VisitMethod_declaration([NotNull] Method_declarationContext context)
+        {
+            var identifiers = context.method_member_name().identifier();
+            return new List<IdentifierContext>(new IdentifierContext[] { identifiers[identifiers.Length - 1] });
+        }
+
+        public override object VisitStruct_member_declaration([NotNull] Struct_member_declarationContext context)
+        {
+            var all_member_modifiers = context.all_member_modifiers();
+            HashSet<string> modifiers;
+            if (all_member_modifiers != null)
+                modifiers = (HashSet<string>)Visit(all_member_modifiers);
+            else
+            {
+                modifiers = new HashSet<string>();
+                modifiers.Add("private");
+            }
+            try
+            {
+                var identifiers = (List<IdentifierContext>)Visit(context.common_member_declaration());
+                foreach (var item in identifiers)
+                {
+                    var symbol = item.Symbol;
+                    if (symbol != null)
+                    {
+                        symbol.SetModifiers(modifiers);
+                    }
+                }
+            }
+            catch
+            {
+            }
+            return null;
+        }
+
+        public override object VisitAll_member_modifiers([NotNull] All_member_modifiersContext context)
+        {
+            var modifierContexts = context.all_member_modifier();
+            HashSet<string> modifiers = new HashSet<string>();
+            foreach (var item in modifierContexts)
+            {
+                modifiers.Add(item.GetText());
+            }
+            return modifiers;
+        }
+
+        public override object VisitType_declaration([NotNull] Type_declarationContext context)
+        {
+            var all_member_modifiers = context.all_member_modifiers();
+            HashSet<string> modifiers;
+            if (all_member_modifiers != null)
+                modifiers = (HashSet<string>)Visit(all_member_modifiers);
+            else
+            {
+                modifiers = new HashSet<string>();
+                modifiers.Add("private");
+            }
+            try
+            {
+                IdentifierContext identifier;
+                if(context.class_definition() != null)
+                {
+                    identifier = context.class_definition().identifier();
+                }
+                else
+                {
+                    identifier = context.struct_definition().identifier();
+                }
+                var symbol = identifier.Symbol;
+                symbol.SetModifiers(modifiers);
+            }
+            catch
+            {
+
+            }
+            return base.VisitType_declaration(context);
+        }
+
         /// <summary>
         /// Set type for member of class or struct that have type. (functions, fields , properties)
         /// </summary>
@@ -95,7 +202,7 @@ namespace BuildArchitecture.Semetic.V2
             }
             else if (context.method_declaration() != null)
             {
-                SetTypeForFunction(context.method_declaration(), type);
+                return SetTypeForFunction(context.method_declaration(), type);
             }
             else if (context.property_declaration() != null)
             {

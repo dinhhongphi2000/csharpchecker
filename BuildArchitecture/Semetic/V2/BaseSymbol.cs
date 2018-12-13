@@ -13,6 +13,7 @@ namespace BuildArchitecture.Semetic.V2
         protected IScope scope;               // All symbols know what scope contains them.
         protected int lexicalOrder;          // order seen or insertion order from 0; compilers often need this
         protected IdentifierContext defNode;
+        protected HashSet<string> modifiers;
 
         public IdentifierContext DefNode
         {
@@ -85,6 +86,22 @@ namespace BuildArchitecture.Semetic.V2
                 return '<' + s + GetName() + ":" + ts + '>';
             }
             return s + GetName();
+        }
+
+        public void SetModifiers(HashSet<string> modifiers)
+        {
+            this.modifiers = modifiers ?? throw new ArgumentNullException();
+        }
+
+        public bool HaveModifier(string modifier)
+        {
+            if (modifiers == null) return false;
+            foreach(var item in modifiers)
+            {
+                if (item == modifier)
+                    return true;
+            }
+            return false;
         }
     }
 }
