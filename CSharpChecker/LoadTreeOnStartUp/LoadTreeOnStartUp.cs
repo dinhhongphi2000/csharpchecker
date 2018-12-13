@@ -46,6 +46,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
     [Guid(LoadTreeOnStartUp.PackageGuidString)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string, PackageAutoLoadFlags.BackgroundLoad)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class LoadTreeOnStartUp : AsyncPackage
     {
         /// <summary>
@@ -84,6 +85,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             bool isSolutionLoad = await IsSolutionLoadedAsync(cancellationToken);
             if (isSolutionLoad) HandleOpenSolution();
+            await CSharpChecker.LoadTreeOnStartUp.MenuContext.InitializeAsync(this);
 
             
 
