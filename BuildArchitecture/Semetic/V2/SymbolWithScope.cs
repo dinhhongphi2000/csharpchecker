@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BuildArchitecture.Semetic.V2
 {
@@ -11,6 +12,7 @@ namespace BuildArchitecture.Semetic.V2
     {
         protected readonly string name; // All symbols at least have a name
         protected int index;    // insertion order from 0; compilers often need this
+        protected HashSet<string> modifiers;
 
         public SymbolWithScope(string name)
         {
@@ -78,6 +80,22 @@ namespace BuildArchitecture.Semetic.V2
         public override int GetHashCode()
         {
             return name.GetHashCode();
+        }
+
+        public void SetModifiers(HashSet<string> modifiers)
+        {
+            this.modifiers = modifiers ?? throw new ArgumentNullException();
+        }
+
+        public bool HaveModifier(string modifier)
+        {
+            if (this.modifiers == null) return false;
+            foreach (var item in modifiers)
+            {
+                if (item == modifier)
+                    return true;
+            }
+            return false;
         }
     }
 }
