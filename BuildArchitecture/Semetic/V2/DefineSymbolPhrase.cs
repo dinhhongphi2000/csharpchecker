@@ -91,6 +91,7 @@ namespace BuildArchitecture.Semetic.V2
             classIdentityContext.Scope = classSymbol;
 
             Define(classSymbol);
+            linker[currentFileAnalysis].Add(classSymbol);
             currentScope = classSymbol;
         }
 
@@ -145,6 +146,7 @@ namespace BuildArchitecture.Semetic.V2
             structIdentityContext.Scope = structSymbol;
 
             Define(structSymbol);
+            linker[currentFileAnalysis].Add(structSymbol);
             currentScope = structSymbol;
         }
 

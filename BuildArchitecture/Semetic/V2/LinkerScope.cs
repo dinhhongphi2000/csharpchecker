@@ -18,6 +18,13 @@ namespace BuildArchitecture.Semetic.V2
             linker = new Dictionary<string, List<IScope>>();
         }
 
+        public List<string> GetKeys()
+        {
+            if (linker != null)
+                return linker.Keys.ToList();
+            return null;
+        }
+
         public List<IScope> this[string treeName]
         {
             get
