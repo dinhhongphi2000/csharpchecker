@@ -123,6 +123,11 @@ namespace BuildArchitecture
             return errorTable;
         }
 
+        public string FindDuplicateFunction()
+        {
+            return analysis.FindDuplicateFunction();
+        }
+
         public List<ErrorInformation> GetErrors(string filePath)
         {
             return errorTable[filePath];
