@@ -29,6 +29,11 @@ namespace BuildArchitecture.Rules
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="error"></param>
         [Export(typeof(Struct_member_declarationContext))]
         public void CheckCommentFunctionInStruct(ParserRuleContext context, out ErrorInformation error)
         {
@@ -45,14 +50,20 @@ namespace BuildArchitecture.Rules
 
         private ErrorInformation CreateError(IdentifierContext function)
         {
+            var memberContext = GetMemberContext(function);
             return new ErrorInformation()
             {
                 ErrorCode = "IF0002",
                 ErrorMessage = "You should add comment for method " + function.GetText(),
-                StartIndex = function.Start.StartIndex,
-                Length = function.SourceInterval.Length
+                StartIndex = memberContext.Start.StartIndex,
+                Length = memberContext.Stop.StopIndex - memberContext.Start.StartIndex + 1,
+                ReplaceCode = @"/// <summary>
+                                ///
+                                /// </summary>
+                                " + memberContext.GetText()
             };
         }
+
 
         private bool IsMethod(Common_member_declarationContext context)
         {
@@ -74,6 +85,14 @@ namespace BuildArchitecture.Rules
                 var identifiers = context.method_declaration().method_member_name().identifier();
                 return identifiers[identifiers.Length - 1];
             }
+        }
+
+        private ParserRuleContext GetMemberContext(ParserRuleContext context)
+        {
+            if (context is Class_member_declarationContext
+                || context is Struct_member_declarationContext)
+                return context;
+            return GetMemberContext((ParserRuleContext)context.Parent);
         }
 
         [Export("TokenStreamChanged")]
