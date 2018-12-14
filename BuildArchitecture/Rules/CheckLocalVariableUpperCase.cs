@@ -7,15 +7,13 @@ namespace BuildArchitecture.Rules
 {
     class CheckLocalVariableUpperCase
     {
-        string identifier;
-
         [Export(typeof(IdentifierContext))]
         public void VisitIdentifierContext(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
             if (context.InRule(RuleContextType.LOCAL_VARIABLE_DECLARATORCONTEXT) && !context.InRule(RuleContextType.LOCAL_VARIABLE_INITIALIZERCONTEXT))
             {
-                identifier = context.GetText();
+                var identifier = context.GetText();
                 if (identifier == UppercaseFirst(identifier))
                 {
                     error = new ErrorInformation
@@ -36,7 +34,7 @@ namespace BuildArchitecture.Rules
             error = null;
             if (context.InRule(RuleContextType.ARG_DECLARATIONCONTEXT) && !context.InRule(RuleContextType.TYPECONTEXT))
             {
-                identifier = context.GetText();
+                var identifier = context.GetText();
                 if (identifier == UppercaseFirst(identifier))
                 {
                     error = new ErrorInformation

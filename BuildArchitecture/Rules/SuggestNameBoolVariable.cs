@@ -68,7 +68,8 @@ namespace BuildArchitecture.Rules
         private bool IsStartWith(string identifier)
         {
             identifier = identifier.ToLower();
-            string[] str = { "is", "can", "has" };
+            identifier = identifier.TrimStart('_');
+            string[] str = { "is", "can", "has", "have" };
             for (int i = 0; i < str.Length; i++)
             {
                 if (identifier.StartsWith(str[i])) return true;

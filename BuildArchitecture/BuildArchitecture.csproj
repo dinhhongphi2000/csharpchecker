@@ -112,6 +112,8 @@
     <Compile Include="ExtensionAndModifyClass\ParserRuleContextExtention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleContextType.cs" />
+    <Compile Include="Rules\CheckArrayConstantInit.cs" />
+    <Compile Include="Rules\CheckFieldNameUpperCase.cs" />
     <Compile Include="Rules\CheckVariableOverrideValue.cs" />
     <Compile Include="Rules\ClassFormat.cs" />
     <Compile Include="Rules\SuggestNameBoolVariable.cs" />
@@ -154,7 +156,7 @@
     <Compile Include="Semetic\V2\TypedSymbol.cs" />
     <Compile Include="Semetic\V2\Utils.cs" />
     <Compile Include="Semetic\V2\VariableSymbol.cs" />
-    <Compile Include="Rules\CheckVariableNameAllUpperCase.cs" />
+    <None Include="Rules\CheckVariableNameAllUpperCase.cs" />
     <Compile Include="WorkSpace.cs" />
   </ItemGroup>
   <ItemGroup>
