@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Language.Intellisense;
-using Microsoft.VisualStudio.Text;
 using BuildArchitecture;
 using Span = Microsoft.VisualStudio.Text.Span;
 
@@ -25,7 +24,7 @@ namespace CSharpChecker.LightBulb
             _span = span;
             _snapshot = span.TextBuffer.CurrentSnapshot;
             _replaceText = replaceText;
-            _display = string.Format("Replace '{0}' to '{1}'", span.GetText(_snapshot),_replaceText);
+            _display = string.Format("Replace '{0}' to '{1}'", span.GetText(_snapshot),_replaceText[0].ReplaceCode);
         }
         public string DisplayText
         {
