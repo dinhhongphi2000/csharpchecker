@@ -24,7 +24,7 @@ namespace CSharpChecker.LightBulb
             _span = span;
             _snapshot = span.TextBuffer.CurrentSnapshot;
             _replaceText = replaceText;
-            _display = string.Format("Replace '{0}' to '{1}'", span.GetText(_snapshot),_replaceText);
+            _display = string.Format("Replace '{0}' to '{1}'", span.GetText(_snapshot),_replaceText[0].ReplaceCode);
         }
         public string DisplayText
         {

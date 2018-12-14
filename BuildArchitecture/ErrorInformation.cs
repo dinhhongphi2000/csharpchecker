@@ -20,7 +20,7 @@ namespace BuildArchitecture
         {
             get
             {
-                if (this.ReplaceCode.Count > 0) return true;
+                if (this.ReplaceCode != null) return true;
                 else return false;
             }
         }
