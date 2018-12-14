@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using BuildArchitecture.Semetic.V2;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using static BuildArchitecture.CSharpParser;
 
@@ -17,22 +18,36 @@ namespace BuildArchitecture.Rules
             var varSymbol = identifierContext.Symbol as FieldSymbol;
             if (varSymbol.HaveModifier("private") && !IsUnderScoreAndLowerCase(identifier))
             {
+                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
+                        new ReplaceCodeInfomation(){
+                            Start = context.Start.StartIndex,
+                            Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
+                            ReplaceCode = string.Format("_{0}",LowercaseFirst(identifier))
+                        }
+                    };
                 error = new ErrorInformation
                 {
                     ErrorCode = "IF0007",
                     StartIndex = identifierContext.Start.StartIndex,
-                    ReplaceCode = string.Format("_{0}",LowercaseFirst(identifier)),
+                    ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                     ErrorMessage = "Private Field member should be begin with _ and lower case character"
                 };
             }
             else if((varSymbol.HaveModifier("public") || varSymbol.HaveModifier("protected")) && !IsUpperCase(identifier))
             {
+                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
+                        new ReplaceCodeInfomation(){
+                            Start = context.Start.StartIndex,
+                            Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
+                            ReplaceCode = UppercaseFirst(identifier)
+                        }
+                    };
                 error = new ErrorInformation
                 {
                     ErrorCode = "IF0007",
                     StartIndex = identifierContext.Start.StartIndex,
-                    ReplaceCode = UppercaseFirst(identifier),
+                    ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                     ErrorMessage = "Public, Protected Field member should be begin with Uppercase character"
                 };
@@ -48,11 +63,18 @@ namespace BuildArchitecture.Rules
             var varSymbol = identifierContext.Symbol as ISymbol;
             if (!IsUpperCase(identifier))
             {
+                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
+                        new ReplaceCodeInfomation(){
+                            Start = context.Start.StartIndex,
+                            Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
+                            ReplaceCode = UppercaseFirst(identifier)
+                        }
+                    };
                 error = new ErrorInformation
                 {
                     ErrorCode = "IF0008",
                     StartIndex = identifierContext.Start.StartIndex,
-                    ReplaceCode = UppercaseFirst(identifier),
+                    ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                     ErrorMessage = "Property Name should be begin with Uppercase Character"
                 };

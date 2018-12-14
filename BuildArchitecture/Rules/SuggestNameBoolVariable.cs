@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using BuildArchitecture.Semetic.V2;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using static BuildArchitecture.CSharpParser;
 
@@ -16,9 +17,20 @@ namespace BuildArchitecture.Rules
             var varSymbol = identifierContext.Symbol as VariableSymbol;
             if (varSymbol != null && (varSymbol.GetSymbolType().GetName() == "bool") && !IsStartWith(identifierContext.GetText()))
             {
+                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>()
+                {
+                    new ReplaceCodeInfomation()
+                    {
+                        Start = identifierContext.Start.StartIndex,
+                        Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
+                        ReplaceCode = ReplaceCode(identifierContext.GetText())
+                    }
+                };
+
                 error = new ErrorInformation()
                 {
                     ErrorCode = "IF0003",
+                    ReplaceCode = replaceCodes,
                     ErrorMessage = "Name with bool return type should begin with Is, Can, Has",
                     StartIndex = identifierContext.Start.StartIndex,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
@@ -35,9 +47,20 @@ namespace BuildArchitecture.Rules
             var a = varSymbol.GetSymbolType().GetName();
             if (varSymbol != null && (varSymbol.GetSymbolType().GetName() == "bool") && !IsStartWith(identifierContext.GetText()))
             {
+                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>()
+                {
+                    new ReplaceCodeInfomation()
+                    {
+                        Start = identifierContext.Start.StartIndex,
+                        Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
+                        ReplaceCode = ReplaceCode(identifierContext.GetText())
+                    }
+                };
+
                 error = new ErrorInformation()
                 {
                     ErrorCode = "IF0003",
+                    ReplaceCode = replaceCodes,
                     ErrorMessage = "Name with bool return type should begin with Is, Can, Has",
                     StartIndex = identifierContext.Start.StartIndex,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
@@ -54,9 +77,19 @@ namespace BuildArchitecture.Rules
             var varSymbol = identifierContext.Symbol as MethodSymbol;
             if (varSymbol != null && (varSymbol.GetSymbolType().GetName() == "bool") && !IsStartWith(identifierContext.GetText()))
             {
+                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>()
+                {
+                    new ReplaceCodeInfomation()
+                    {
+                        Start = identifierContext.Start.StartIndex,
+                        Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
+                        ReplaceCode = ReplaceCode(identifierContext.GetText())
+                    }
+                };
                 error = new ErrorInformation()
                 {
                     ErrorCode = "IF0003",
+                    ReplaceCode = replaceCodes,
                     ErrorMessage = "Name with bool return type should begin with Is, Can, Has",
                     StartIndex = identifierContext.Start.StartIndex,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
@@ -75,6 +108,11 @@ namespace BuildArchitecture.Rules
                 if (identifier.StartsWith(str[i])) return true;
             }
             return false;
+        }
+        private string ReplaceCode(string s)
+        {
+            if (s[0] == '_') return s.Insert(1, "is");
+            else return string.Format("Is{0}", s);
         }
     }
 }

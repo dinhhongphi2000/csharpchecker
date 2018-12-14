@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Language.Intellisense;
-using Microsoft.VisualStudio.Text;
 using BuildArchitecture;
 using Span = Microsoft.VisualStudio.Text.Span;
 
