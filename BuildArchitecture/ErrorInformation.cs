@@ -16,5 +16,13 @@ namespace BuildArchitecture
         public string ErrorCode { get; set; }
         public string ErrorMessage { get; set; }
         public List<ReplaceCodeInfomation> ReplaceCode { get; set; }
+        public bool HasReplace
+        {
+            get
+            {
+                if (this.ReplaceCode.Count > 0) return true;
+                else return false;
+            }
+        }
     }
 }

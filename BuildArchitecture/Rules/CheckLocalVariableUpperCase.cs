@@ -7,7 +7,7 @@ namespace BuildArchitecture.Rules
 {
     class CheckLocalVariableUpperCase
     {
-        string identifier;
+        string _identifier;
 
         [Export(typeof(IdentifierContext))]
         public void VisitIdentifierContext(ParserRuleContext context, out ErrorInformation error)
@@ -15,14 +15,14 @@ namespace BuildArchitecture.Rules
             error = null;
             if (context.InRule(RuleContextType.LOCAL_VARIABLE_DECLARATORCONTEXT) && !context.InRule(RuleContextType.LOCAL_VARIABLE_INITIALIZERCONTEXT))
             {
-                identifier = context.GetText();
-                if (identifier == UppercaseFirst(identifier))
+                _identifier = context.GetText();
+                if (_identifier == UppercaseFirst(_identifier))
                 {
                     List<ReplaceCodeInfomation> replaceCode = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
                             Start = context.Start.StartIndex,
                             Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
-                            ReplaceCode = LowercaseFirst(identifier)
+                            ReplaceCode = LowercaseFirst(_identifier)
                         }
                     };
                     error = new ErrorInformation
@@ -43,14 +43,14 @@ namespace BuildArchitecture.Rules
             error = null;
             if (context.InRule(RuleContextType.ARG_DECLARATIONCONTEXT) && !context.InRule(RuleContextType.TYPECONTEXT))
             {
-                identifier = context.GetText();
-                if (identifier == UppercaseFirst(identifier))
+                _identifier = context.GetText();
+                if (_identifier == UppercaseFirst(_identifier))
                 {
                     List<ReplaceCodeInfomation> replaceCode = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
                             Start = context.Start.StartIndex,
                             Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
-                            ReplaceCode = LowercaseFirst(identifier)
+                            ReplaceCode = LowercaseFirst(_identifier)
                         }
                     };
                     error = new ErrorInformation
