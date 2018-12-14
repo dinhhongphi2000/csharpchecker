@@ -107,6 +107,7 @@
     <Compile Include="ErrorInformation.cs" />
     <Compile Include="Gui\Listener.cs" />
     <Compile Include="Gui\TreeViewerNodeMeta.cs" />
+    <Compile Include="ReplaceCodeInfomation.cs" />
     <Compile Include="RuleActionContainer.cs" />
     <Compile Include="RuleChecker.cs" />
     <Compile Include="ExtensionAndModifyClass\ParserRuleContextExtention.cs" />
