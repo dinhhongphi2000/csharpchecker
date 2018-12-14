@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
+using Microsoft.VisualStudio.Text;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
+using BuildArchitecture;
+using Span = Microsoft.VisualStudio.Text.Span;
 
 namespace CSharpChecker.LightBulb
 {
@@ -15,10 +17,10 @@ namespace CSharpChecker.LightBulb
     {
         private readonly ITrackingSpan _span;
         private readonly ITextSnapshot _snapshot;
-        private readonly string _replaceText;
+        private readonly List<ReplaceCodeInfomation> _replaceText;
         private readonly string _display;
 
-        public LightBulbSuggestedAction(ITrackingSpan span, string replaceText)
+        public LightBulbSuggestedAction(ITrackingSpan span, List<ReplaceCodeInfomation> replaceText)
         {
             _span = span;
             _snapshot = span.TextBuffer.CurrentSnapshot;
@@ -74,16 +76,17 @@ namespace CSharpChecker.LightBulb
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(_replaceText);
+                return false;
             }
         }
 
         public Task<object> GetPreviewAsync(CancellationToken cancellationToken)
         {
-            var textBlock = new TextBlock();
-            textBlock.Padding = new Thickness(5);
-            textBlock.Inlines.Add(new Run() { Text = _replaceText });
-            return Task.FromResult<object>(textBlock);
+            //var textBlock = new TextBlock();
+            //textBlock.Padding = new Thickness(5);
+            //textBlock.Inlines.Add(new Run() { Text = _replaceText });
+            //return Task.FromResult<object>(textBlock);
+            return null;
         }
 
         public void Dispose()
@@ -96,8 +99,12 @@ namespace CSharpChecker.LightBulb
             {
                 return;
             }
+            foreach(var err in _replaceText)
+            {
+                Span span = new Span(err.Start, err.Length);
+                _span.TextBuffer.Replace(span, err.ReplaceCode);
 
-            _span.TextBuffer.Replace(_span.GetSpan(_snapshot), _replaceText);
+            }
         }
 
         public bool TryGetTelemetryId(out Guid telemetryId)

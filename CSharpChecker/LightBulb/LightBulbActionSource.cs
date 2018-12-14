@@ -45,7 +45,7 @@ namespace CSharpChecker.LightBulb
                 foreach (ErrorInformation err in _errors)
                 {
                     Span span = new Span(err.StartIndex, err.Length);
-                    if (span.Contains(_textView.Caret.Position.BufferPosition.Position) && !string.IsNullOrWhiteSpace(err.ReplaceCode))
+                    if (span.Contains(_textView.Caret.Position.BufferPosition.Position) && err.HasReplace)
                     {
 
                         ITrackingSpan trackingSpan = range.Snapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeInclusive);
@@ -69,7 +69,7 @@ namespace CSharpChecker.LightBulb
                     List<Span> span = new List<Span>();
                     foreach (ErrorInformation err in _errors)
                     {
-                        if (err.Length >= 0 && !string.IsNullOrWhiteSpace(err.ReplaceCode))
+                        if (err.Length >= 0 && err.HasReplace)
                         {
                             span.Add(new Span(err.StartIndex, err.Length));
                         }
