@@ -13,7 +13,7 @@ namespace BuildArchitecture.Rules
         public void CheckIfInsideHasNumber(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
-            if (context.InRule(RuleContextType.EXPRESSION_LISTCONTEXT) || context.InRule(RuleContextType.ARGUMENT_LISTCONTEXT))
+            if (context.InRule(RuleContextType.EXPRESSION_LISTCONTEXT))
             {
                 if (int.TryParse(context.GetText(), out _value))
                 {
