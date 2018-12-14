@@ -1,5 +1,5 @@
 ﻿using Antlr4.Runtime;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel.Composition;
 using static BuildArchitecture.CSharpParser;
 
@@ -7,29 +7,20 @@ namespace BuildArchitecture.Rules
 {
     class CheckLocalVariableUpperCase
     {
-        string _identifier;
-
         [Export(typeof(IdentifierContext))]
         public void VisitIdentifierContext(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
             if (context.InRule(RuleContextType.LOCAL_VARIABLE_DECLARATORCONTEXT) && !context.InRule(RuleContextType.LOCAL_VARIABLE_INITIALIZERCONTEXT))
             {
-                _identifier = context.GetText();
-                if (_identifier == UppercaseFirst(_identifier))
+                var identifier = context.GetText();
+                if (identifier == UppercaseFirst(identifier))
                 {
-                    List<ReplaceCodeInfomation> replaceCode = new List<ReplaceCodeInfomation>() {
-                        new ReplaceCodeInfomation(){
-                            Start = context.Start.StartIndex,
-                            Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
-                            ReplaceCode = LowercaseFirst(_identifier)
-                        }
-                    };
                     error = new ErrorInformation
                     {
                         StartIndex = context.Start.StartIndex,
                         ErrorCode = "IF0005",
-                        ReplaceCode = replaceCode,
+                        ReplaceCode = LowercaseFirst(identifier),
                         Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
                         ErrorMessage = "Local variable name should not be upper case"
                     };
@@ -43,22 +34,15 @@ namespace BuildArchitecture.Rules
             error = null;
             if (context.InRule(RuleContextType.ARG_DECLARATIONCONTEXT) && !context.InRule(RuleContextType.TYPECONTEXT))
             {
-                _identifier = context.GetText();
-                if (_identifier == UppercaseFirst(_identifier))
+                var identifier = context.GetText();
+                if (identifier == UppercaseFirst(identifier))
                 {
-                    List<ReplaceCodeInfomation> replaceCode = new List<ReplaceCodeInfomation>() {
-                        new ReplaceCodeInfomation(){
-                            Start = context.Start.StartIndex,
-                            Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
-                            ReplaceCode = LowercaseFirst(_identifier)
-                        }
-                    };
                     error = new ErrorInformation
                     {
                         StartIndex = context.Start.StartIndex,
                         Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
                         ErrorCode = "IF0006",
-                        ReplaceCode = replaceCode,
+                        ReplaceCode = LowercaseFirst(identifier),
                         ErrorMessage = "Argument should not be upper case"
                     };
                 }

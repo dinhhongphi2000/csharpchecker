@@ -12,7 +12,11 @@ namespace TestBuildArchitecture
     class Program
     {
         private const string V = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
-
+        private int _a = 7;
+        private string[] _asdf = new string[5];
+        private string[] _fqwe = new string[_a];
+        private List<BufferedStream> _asdq = new BufferedStream();
+        private BufferedStream[] _asdq = new BufferedStream[_a];
         static void Main(string[] args)
         {
 
