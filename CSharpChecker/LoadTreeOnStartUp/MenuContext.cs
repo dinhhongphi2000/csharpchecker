@@ -91,7 +91,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             string message = this._workSpace.FindDuplicateFunction();
-            string title = "MenuContext";
+            string title = "Message";
 
             // Show a message box to prove we were here
             VsShellUtilities.ShowMessageBox(

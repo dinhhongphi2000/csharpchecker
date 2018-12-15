@@ -8,15 +8,15 @@ namespace BuildArchitecture.Rules
 {
     internal class RemoveBoolVarInConditionalStatment
     {
-        [Export(typeof(Primary_expressionContext))]
+        [Export(typeof(Equality_expressionContext))]
         public void CheckIfInsideHasNumber(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
-            var idencontext = ((Primary_expressionContext)context).identifier(0);
-            var symbol = idencontext.Symbol as ITypedSymbol;
-            if(!context.InRule(RuleContextType.VARIABLE_INITIALIZERCONTEXT) && !context.InRule(RuleContextType.LOCAL_VARIABLE_INITIALIZERCONTEXT))
+            bool isBoolConditional = (context.GetText().Contains("true") || context.GetText().Contains("false"));
+            bool isCheckContext = !context.InRule(RuleContextType.VARIABLE_INITIALIZERCONTEXT) && !context.InRule(RuleContextType.EQUALITY_EXPRESSIONCONTEXT)
+                && !context.InRule(RuleContextType.LOCAL_VARIABLE_INITIALIZERCONTEXT) && !context.InRule(RuleContextType.RETURNSTATEMENTCONTEXT);
+            if (isBoolConditional && isCheckContext)
             {
-            var parentcontext = context.GoOutRule(RuleContextType.EQUALITY_EXPRESSIONCONTEXT);
                 List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>()
                 {
                     new ReplaceCodeInfomation()
@@ -38,36 +38,9 @@ namespace BuildArchitecture.Rules
             }
 
         }
-
-        //[Export(typeof(Equality_expressionContext))]
-        //public void CheckIfInsideHasNumber(ParserRuleContext context, out ErrorInformation error)
-        //{
-        //    error = null;
-        //    if ((context.GetText().Contains("true") || context.GetText().Contains("false")) && !context.InRule(RuleContextType.VARIABLE_INITIALIZERCONTEXT))
-        //    {
-        //        List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>()
-        //        {
-        //            new ReplaceCodeInfomation()
-        //            {
-        //                Start = context.Start.StartIndex,
-        //                Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
-        //                ReplaceCode = ReplaceCode(context.GetText())
-        //            }
-        //        };
-
-        //        error = new ErrorInformation()
-        //        {
-        //            ErrorCode = "WA0003",
-        //            ReplaceCode = replaceCodes,
-        //            ErrorMessage = "Bool return type could be simply",
-        //            StartIndex = context.Start.StartIndex,
-        //            Length = context.Stop.StopIndex - context.Start.StartIndex + 1
-        //        };
-        //    }
-
-        //}
         private string ReplaceCode(string s)
         {
+            if (s[0] == '(') s = s.Remove(s.Length - 1, 1).Remove(0, 1);
             string varName = "";
             string flag = "";
             string result = "";

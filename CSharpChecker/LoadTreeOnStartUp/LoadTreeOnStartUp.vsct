@@ -56,7 +56,7 @@
         <Parent guid="guidLoadTreeOnStartUpCmdSet" id="EditorContextMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke MenuContext</ButtonText>
+          <ButtonText>Find Duplicate Function</ButtonText>
         </Strings>
       </Button>
     </Buttons>
