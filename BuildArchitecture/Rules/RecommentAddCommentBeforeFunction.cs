@@ -43,15 +43,47 @@ namespace BuildArchitecture.Rules
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="function"></param>
+        /// <returns></returns>
         private ErrorInformation CreateError(IdentifierContext function)
         {
+            ParserRuleContext method = (ParserRuleContext)function.Parent.Parent.Parent.Parent;
+            if (method is Common_member_declarationContext)
+                method = (ParserRuleContext)method.Parent;
+            int spaceBefore = method.Start.Column;
+            List<ReplaceCodeInfomation> replaceCode = new List<ReplaceCodeInfomation>()
+            {
+                new ReplaceCodeInfomation()
+                {
+                    Start = method.Start.StartIndex - 1,
+                    Length = 1,
+                    ReplaceCode = " /// <summary>\r\n"
+                                  + InsertSpace(spaceBefore) +"/// " + function.GetText() + "\r\n"
+                                  + InsertSpace(spaceBefore) + "/// </summary>\r\n" + InsertSpace(spaceBefore)
+                }
+            };
             return new ErrorInformation()
             {
                 ErrorCode = "IF0002",
                 ErrorMessage = "You should add comment for method " + function.GetText(),
+                DisplayText = "Add comment before function",
                 StartIndex = function.Start.StartIndex,
-                Length = function.SourceInterval.Length
+                Length = 1,
+                ReplaceCode = replaceCode
             };
+        }
+
+        private string InsertSpace(int length)
+        {
+            string s = "";
+            for(int i = 0; i < length; i++)
+            {
+                s += " ";
+            }
+            return s;
         }
 
         private bool IsMethod(Common_member_declarationContext context)
