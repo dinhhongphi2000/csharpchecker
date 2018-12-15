@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorInformation.cs" />
+    <Compile Include="ExtensionAndModifyClass\GetChildConext.cs" />
     <Compile Include="Gui\Listener.cs" />
     <Compile Include="Gui\TreeViewerNodeMeta.cs" />
     <Compile Include="ReplaceCodeInfomation.cs" />
