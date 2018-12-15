@@ -20,7 +20,7 @@ namespace BuildArchitecture.Rules
                     error = new ErrorInformation()
                     {
                         ErrorCode = "WA0002",
-                        ErrorMessage = "List or array with specified number could make overfloat",
+                        ErrorMessage = "List or array with specified number could make overflow",
                         StartIndex = context.Start.StartIndex,
                         Length = context.Stop.StopIndex - context.Start.StartIndex + 1
                     };

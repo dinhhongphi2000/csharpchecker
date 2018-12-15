@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using BuildArchitecture;
+using BuildArchitecture.Context;
 using BuildArchitecture.Semetic;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace TestBuildArchitecture
     class Program
     {
         private const string V = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
-        private int _a = 7;
+        private bool _a = true;
         private string[] _asdf = new string[5];
-
-        public static void Main(string[] args)
+        private string[] _fqwe = new string[_a];
+        private List<BufferedStream> _asdq = new BufferedStream();
+        private BufferedStream[] _asdq = new BufferedStream[_a];
+        static void Main(string[] args)
         {
 
             WorkSpace nsg = WorkSpace.Instance;
@@ -30,6 +33,17 @@ namespace TestBuildArchitecture
             }
         }
 
+        public static SolutionContext InitSolutionContext()
+        {
+            if(_a == true)
+            {
+
+            }
+            var solution = new SolutionContext(@"D:\UIT\KLTN\CSharpParser\Caculator.sln", "Caculator");
+            var project = new ProjectContext(@"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\", "TestBuildArchitecture");
+            solution.AddProjectNode(project.Name, project);
+            return solution;
+        }
 
         static void GetContext()
         {

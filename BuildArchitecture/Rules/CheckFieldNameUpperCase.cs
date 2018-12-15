@@ -18,10 +18,11 @@ namespace BuildArchitecture.Rules
             var varSymbol = identifierContext.Symbol as FieldSymbol;
             if (varSymbol.HaveModifier("private") && !IsUnderScoreAndLowerCase(identifier))
             {
+                
                 List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
-                            Start = context.Start.StartIndex,
-                            Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
+                            Start = identifierContext.Start.StartIndex,
+                            Length = identifierContext.Stop.StopIndex - context.Start.StartIndex + 1,
                             ReplaceCode = string.Format("_{0}",LowercaseFirst(identifier))
                         }
                     };
@@ -38,8 +39,8 @@ namespace BuildArchitecture.Rules
             {
                 List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
-                            Start = context.Start.StartIndex,
-                            Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
+                            Start = identifierContext.Start.StartIndex,
+                            Length = identifierContext.Stop.StopIndex - context.Start.StartIndex + 1,
                             ReplaceCode = UppercaseFirst(identifier)
                         }
                     };
@@ -65,8 +66,8 @@ namespace BuildArchitecture.Rules
             {
                 List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
-                            Start = context.Start.StartIndex,
-                            Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
+                            Start = identifierContext.Start.StartIndex,
+                            Length = identifierContext.Stop.StopIndex - context.Start.StartIndex + 1,
                             ReplaceCode = UppercaseFirst(identifier)
                         }
                     };
