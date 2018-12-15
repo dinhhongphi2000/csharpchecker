@@ -218,6 +218,7 @@ namespace BuildArchitecture.Semetic.V2
             {
                 return SetTypeForProperty(context.property_declaration(), type);
             }
+            base.VisitTyped_member_declaration(context);
             return null;
 
         }
