@@ -3,19 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Caculator", "Caculator\Caculator.csproj", "{84C532F1-6870-4BAD-B141-740CEF787672}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalysticCSharpFile", "AnalysticCSharpFile\AnalysticCSharpFile.csproj", "{1F0B9A8D-DAE8-41E4-AB61-7522C9C2C944}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowElementOfCSharpFile_InTree", "ShowElementOfCSharpFile_InTree\ShowElementOfCSharpFile_InTree.csproj", "{E21A7F6C-208D-470E-8878-21C808CB4DBE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildArchitecture", "BuildArchitecture\BuildArchitecture.csproj", "{51A60D75-2A0E-43D0-AA64-AD3137511118}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBuildArchitecture", "TestBuildArchitecture\TestBuildArchitecture.csproj", "{8280A014-0EB4-43A9-9FF8-EAD113C0A4CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "antlr4ShowTree", "antlr4ShowTree\antlr4ShowTree.csproj", "{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModifyTokenTree", "ModifyTokenTree\ModifyTokenTree.csproj", "{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpChecker", "CSharpChecker\CSharpChecker.csproj", "{DAF43375-8464-471A-AAB3-67B3C55D5B74}"
 EndProject
@@ -26,24 +18,6 @@ Global
 		Tetst|Any CPU = Tetst|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{84C532F1-6870-4BAD-B141-740CEF787672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84C532F1-6870-4BAD-B141-740CEF787672}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84C532F1-6870-4BAD-B141-740CEF787672}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84C532F1-6870-4BAD-B141-740CEF787672}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84C532F1-6870-4BAD-B141-740CEF787672}.Tetst|Any CPU.ActiveCfg = Tetst|Any CPU
-		{84C532F1-6870-4BAD-B141-740CEF787672}.Tetst|Any CPU.Build.0 = Tetst|Any CPU
-		{1F0B9A8D-DAE8-41E4-AB61-7522C9C2C944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F0B9A8D-DAE8-41E4-AB61-7522C9C2C944}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F0B9A8D-DAE8-41E4-AB61-7522C9C2C944}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F0B9A8D-DAE8-41E4-AB61-7522C9C2C944}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F0B9A8D-DAE8-41E4-AB61-7522C9C2C944}.Tetst|Any CPU.ActiveCfg = Tetst|Any CPU
-		{1F0B9A8D-DAE8-41E4-AB61-7522C9C2C944}.Tetst|Any CPU.Build.0 = Tetst|Any CPU
-		{E21A7F6C-208D-470E-8878-21C808CB4DBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E21A7F6C-208D-470E-8878-21C808CB4DBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E21A7F6C-208D-470E-8878-21C808CB4DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E21A7F6C-208D-470E-8878-21C808CB4DBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E21A7F6C-208D-470E-8878-21C808CB4DBE}.Tetst|Any CPU.ActiveCfg = Tetst|Any CPU
-		{E21A7F6C-208D-470E-8878-21C808CB4DBE}.Tetst|Any CPU.Build.0 = Tetst|Any CPU
 		{51A60D75-2A0E-43D0-AA64-AD3137511118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{51A60D75-2A0E-43D0-AA64-AD3137511118}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51A60D75-2A0E-43D0-AA64-AD3137511118}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,12 +36,6 @@ Global
 		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Tetst|Any CPU.ActiveCfg = Tetst|Any CPU
 		{AC5E89FB-A82D-4CBF-9D6D-BA760EAB9785}.Tetst|Any CPU.Build.0 = Tetst|Any CPU
-		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Tetst|Any CPU.ActiveCfg = Tetst|Any CPU
-		{4F0CEBED-C94F-4B98-92CE-4ED67A1F58C9}.Tetst|Any CPU.Build.0 = Tetst|Any CPU
 		{DAF43375-8464-471A-AAB3-67B3C55D5B74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DAF43375-8464-471A-AAB3-67B3C55D5B74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAF43375-8464-471A-AAB3-67B3C55D5B74}.Release|Any CPU.ActiveCfg = Release|Any CPU
