@@ -27,6 +27,15 @@ namespace BuildArchitecture.Semetic.V2
         {
             if (context.Scope != null)
                 currentScope = context.Scope;
+            else if (context.Symbol == null)
+            {
+                var symbol = currentScope.Resolve(context.GetText());
+                if(symbol != null)
+                {
+                    context.Symbol = symbol;
+                    context.Scope = symbol.GetScope();
+                }
+            }
             return context;
         }
 
@@ -112,6 +121,7 @@ namespace BuildArchitecture.Semetic.V2
         public override object VisitMethod_declaration([NotNull] Method_declarationContext context)
         {
             var identifiers = context.method_member_name().identifier();
+            base.VisitMethod_declaration(context);
             return new List<IdentifierContext>(new IdentifierContext[] { identifiers[identifiers.Length - 1] });
         }
 
