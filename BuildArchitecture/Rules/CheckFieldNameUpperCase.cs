@@ -29,6 +29,7 @@ namespace BuildArchitecture.Rules
                 error = new ErrorInformation
                 {
                     ErrorCode = "IF0007",
+                    DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[1].ReplaceCode),
                     StartIndex = identifierContext.Start.StartIndex,
                     ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
@@ -48,6 +49,7 @@ namespace BuildArchitecture.Rules
                 {
                     ErrorCode = "IF0007",
                     StartIndex = identifierContext.Start.StartIndex,
+                    DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[1].ReplaceCode),
                     ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                     ErrorMessage = "Public, Protected Field member should be begin with Uppercase character"
@@ -75,6 +77,7 @@ namespace BuildArchitecture.Rules
                 {
                     ErrorCode = "IF0008",
                     StartIndex = identifierContext.Start.StartIndex,
+                    DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[1].ReplaceCode),
                     ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                     ErrorMessage = "Property Name should be begin with Uppercase Character"

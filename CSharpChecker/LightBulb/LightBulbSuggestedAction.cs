@@ -19,12 +19,12 @@ namespace CSharpChecker.LightBulb
         private readonly List<ReplaceCodeInfomation> _replaceText;
         private readonly string _display;
 
-        public LightBulbSuggestedAction(ITrackingSpan span, List<ReplaceCodeInfomation> replaceText)
+        public LightBulbSuggestedAction(ITrackingSpan span, List<ReplaceCodeInfomation> replaceText, string displayText)
         {
             _span = span;
             _snapshot = span.TextBuffer.CurrentSnapshot;
             _replaceText = replaceText;
-            _display = string.Format("Replace '{0}' to '{1}'", span.GetText(_snapshot),_replaceText[0].ReplaceCode);
+            _display = displayText;
         }
         public string DisplayText
         {

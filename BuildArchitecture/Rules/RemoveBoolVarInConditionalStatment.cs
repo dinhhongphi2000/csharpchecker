@@ -31,7 +31,8 @@ namespace BuildArchitecture.Rules
                 {
                     ErrorCode = "WA0003",
                     ReplaceCode = replaceCodes,
-                    ErrorMessage = "Bool return type could be simply",
+                    DisplayText = "Simply statement",
+                    ErrorMessage = "Bool return type in conditional statement could be simplied",
                     StartIndex = context.Start.StartIndex,
                     Length = context.Stop.StopIndex - context.Start.StartIndex + 1
                 };

@@ -18,7 +18,7 @@ namespace BuildArchitecture.Rules
                 _identifier = context.GetText();
                 if (_identifier == UppercaseFirst(_identifier))
                 {
-                    List<ReplaceCodeInfomation> replaceCode = new List<ReplaceCodeInfomation>() {
+                    List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
                             Start = context.Start.StartIndex,
                             Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
@@ -29,7 +29,8 @@ namespace BuildArchitecture.Rules
                     {
                         StartIndex = context.Start.StartIndex,
                         ErrorCode = "IF0005",
-                        ReplaceCode = replaceCode,
+                        ReplaceCode = replaceCodes,
+                        DisplayText = string.Format("Rename {0} to {1}", _identifier, replaceCodes[1].ReplaceCode),
                         Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
                         ErrorMessage = "Local variable name should not be upper case"
                     };

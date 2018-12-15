@@ -1,7 +1,5 @@
 ﻿using Antlr4.Runtime;
 using BuildArchitecture;
-using BuildArchitecture.Context;
-using BuildArchitecture.Semetic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,15 +12,19 @@ namespace TestBuildArchitecture
         private const string V = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
         private bool _a = true;
         private string[] _asdf = new string[5];
-        private string[] _fqwe = new string[_a];
-        private List<BufferedStream> _asdq = new BufferedStream();
-        private BufferedStream[] _asdq = new BufferedStream[_a];
         static void Main(string[] args)
         {
 
             WorkSpace nsg = WorkSpace.Instance;
             nsg.InitOrUpdateParserTreeOfFile(V, GetFileContent(V));
             nsg.RunRules(V);
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         public static string GetFileContent(string filePath)
@@ -33,17 +35,7 @@ namespace TestBuildArchitecture
             }
         }
 
-        public static SolutionContext InitSolutionContext()
-        {
-            if(_a == true)
-            {
-
-            }
-            var solution = new SolutionContext(@"D:\UIT\KLTN\CSharpParser\Caculator.sln", "Caculator");
-            var project = new ProjectContext(@"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\", "TestBuildArchitecture");
-            solution.AddProjectNode(project.Name, project);
-            return solution;
-        }
+        
 
         static void GetContext()
         {

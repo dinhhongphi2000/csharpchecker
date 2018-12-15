@@ -37,6 +37,7 @@ namespace BuildArchitecture.Rules
                     ErrorCode = "WA0001",
                     ErrorMessage = "You should declare variable " + identifierContext.GetText() + " with difference name to avoid override value",
                     StartIndex = identifierContext.Start.StartIndex,
+                    DisplayText = string.Format("Rename {0} to {1}", identifierContext.GetText(),replaceCodes[0].ReplaceCode),
                     ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
                 };

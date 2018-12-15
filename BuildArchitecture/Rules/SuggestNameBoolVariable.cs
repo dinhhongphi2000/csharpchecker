@@ -13,7 +13,7 @@ namespace BuildArchitecture.Rules
         public void CheckVariableInLocal(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
-            var identifierContext = ((Local_variable_declaratorContext)context).identifier();
+            var identifierContext = ((Local_variable_declaratorContext)context).GetDeepChildContext<IdentifierContext>()[0];
             var varSymbol = identifierContext.Symbol as VariableSymbol;
             if (varSymbol != null && (varSymbol.GetSymbolType().GetName() == "bool") && !IsStartWith(identifierContext.GetText()))
             {
@@ -32,6 +32,7 @@ namespace BuildArchitecture.Rules
                     ErrorCode = "IF0003",
                     ReplaceCode = replaceCodes,
                     ErrorMessage = "Name with bool return type should begin with Is, Can, Has",
+                    DisplayText = string.Format("Rename {0} to {1}", identifierContext.GetText(),replaceCodes[0].ReplaceCode),
                     StartIndex = identifierContext.Start.StartIndex,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
                 };
@@ -61,6 +62,7 @@ namespace BuildArchitecture.Rules
                 {
                     ErrorCode = "IF0003",
                     ReplaceCode = replaceCodes,
+                    DisplayText = string.Format("Rename {0} to {1}", identifierContext.GetText(), replaceCodes[0].ReplaceCode),
                     ErrorMessage = "Name with bool return type should begin with Is, Can, Has",
                     StartIndex = identifierContext.Start.StartIndex,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
@@ -90,6 +92,7 @@ namespace BuildArchitecture.Rules
                 {
                     ErrorCode = "IF0003",
                     ReplaceCode = replaceCodes,
+                    DisplayText = string.Format("Rename {0} to {1}", identifierContext.GetText(), replaceCodes[0].ReplaceCode),
                     ErrorMessage = "Name with bool return type should begin with Is, Can, Has",
                     StartIndex = identifierContext.Start.StartIndex,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
