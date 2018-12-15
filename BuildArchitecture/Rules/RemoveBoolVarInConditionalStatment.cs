@@ -26,9 +26,9 @@ namespace BuildArchitecture.Rules
 
                 error = new ErrorInformation()
                 {
-                    ErrorCode = "IF0003",
+                    ErrorCode = "WA0003",
                     ReplaceCode = replaceCodes,
-                    ErrorMessage = "Name with bool return type should begin with Is, Can, Has",
+                    ErrorMessage = "Bool return type could be simply",
                     StartIndex = context.Start.StartIndex,
                     Length = context.Stop.StopIndex - context.Start.StartIndex + 1
                 };
