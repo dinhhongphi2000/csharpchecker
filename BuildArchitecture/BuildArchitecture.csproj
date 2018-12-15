@@ -101,10 +101,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\ProjectContext.cs" />
-    <Compile Include="Context\RuleContextInfomation.cs" />
-    <Compile Include="Context\SolutionContext.cs" />
     <Compile Include="ErrorInformation.cs" />
+    <Compile Include="ExtensionAndModifyClass\GetChildConext.cs" />
     <Compile Include="Gui\Listener.cs" />
     <Compile Include="Gui\TreeViewerNodeMeta.cs" />
     <Compile Include="ReplaceCodeInfomation.cs" />
