@@ -3,6 +3,7 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using BuildArchitecture;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
@@ -27,7 +28,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
         /// VS Package that provides this command, not null.
         /// </summary>
         private readonly AsyncPackage package;
-
+        private WorkSpace _workSpace;
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuContext"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
@@ -42,6 +43,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(this.Execute, menuCommandID);
             commandService.AddCommand(menuItem);
+            _workSpace = WorkSpace.Instance;
         }
 
         /// <summary>
@@ -88,7 +90,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
+            string message = this._workSpace.FindDuplicateFunction();
             string title = "MenuContext";
 
             // Show a message box to prove we were here

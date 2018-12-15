@@ -117,6 +117,7 @@
     <Compile Include="Rules\CheckFieldNameUpperCase.cs" />
     <Compile Include="Rules\CheckVariableOverrideValue.cs" />
     <Compile Include="Rules\ClassFormat.cs" />
+    <Compile Include="Rules\RemoveBoolVarInConditionalStatment.cs" />
     <Compile Include="Rules\SuggestNameBoolVariable.cs" />
     <Compile Include="Rules\CheckLocalVariableUpperCase.cs" />
     <Compile Include="Rules\ForStatement_LoopDontRun.cs" />

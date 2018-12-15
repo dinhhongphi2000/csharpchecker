@@ -101,7 +101,8 @@ namespace CSharpChecker.LightBulb
             foreach(var err in _replaceText)
             {
                 Span span = new Span(err.Start, err.Length);
-                _span.TextBuffer.Replace(span, err.ReplaceCode);
+                ITrackingSpan trackingSpan = _span.TextBuffer.CurrentSnapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeInclusive);
+                _span.TextBuffer.Replace(trackingSpan.GetSpan(_snapshot), err.ReplaceCode);
 
             }
         }

@@ -12,7 +12,7 @@ namespace TestBuildArchitecture
     class Program
     {
         private const string V = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
-        private int _a = 7;
+        private bool _a = true;
         private string[] _asdf = new string[5];
         private string[] _fqwe = new string[_a];
         private List<BufferedStream> _asdq = new BufferedStream();
@@ -35,6 +35,10 @@ namespace TestBuildArchitecture
 
         public static SolutionContext InitSolutionContext()
         {
+            if(_a == true)
+            {
+
+            }
             var solution = new SolutionContext(@"D:\UIT\KLTN\CSharpParser\Caculator.sln", "Caculator");
             var project = new ProjectContext(@"D:\UIT\KLTN\CSharpParser\TestBuildArchitecture\", "TestBuildArchitecture");
             solution.AddProjectNode(project.Name, project);
