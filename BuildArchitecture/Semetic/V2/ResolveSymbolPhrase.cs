@@ -206,6 +206,7 @@ namespace BuildArchitecture.Semetic.V2
         {
             var type = ResolveType(context.type(), currentScope);
 
+            base.VisitTyped_member_declaration(context);
             if (context.field_declaration() != null)
             {
                 return SetTypeForField(context.field_declaration(), type);
@@ -218,7 +219,6 @@ namespace BuildArchitecture.Semetic.V2
             {
                 return SetTypeForProperty(context.property_declaration(), type);
             }
-            base.VisitTyped_member_declaration(context);
             return null;
 
         }
