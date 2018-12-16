@@ -101,19 +101,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\ProjectContext.cs" />
-    <Compile Include="Context\RuleContextInfomation.cs" />
-    <Compile Include="Context\SolutionContext.cs" />
     <Compile Include="ErrorInformation.cs" />
+    <Compile Include="ExtensionAndModifyClass\GetChildConext.cs" />
     <Compile Include="Gui\Listener.cs" />
     <Compile Include="Gui\TreeViewerNodeMeta.cs" />
+    <Compile Include="ReplaceCodeInfomation.cs" />
     <Compile Include="RuleActionContainer.cs" />
     <Compile Include="RuleChecker.cs" />
     <Compile Include="ExtensionAndModifyClass\ParserRuleContextExtention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleContextType.cs" />
+    <Compile Include="Rules\CheckArrayConstantInit.cs" />
+    <Compile Include="Rules\CheckFieldNameUpperCase.cs" />
     <Compile Include="Rules\CheckVariableOverrideValue.cs" />
     <Compile Include="Rules\ClassFormat.cs" />
+    <Compile Include="Rules\RemoveBoolVarInConditionalStatment.cs" />
     <Compile Include="Rules\SuggestNameBoolVariable.cs" />
     <Compile Include="Rules\CheckLocalVariableUpperCase.cs" />
     <Compile Include="Rules\ForStatement_LoopDontRun.cs" />
@@ -154,7 +156,7 @@
     <Compile Include="Semetic\V2\TypedSymbol.cs" />
     <Compile Include="Semetic\V2\Utils.cs" />
     <Compile Include="Semetic\V2\VariableSymbol.cs" />
-    <Compile Include="Rules\CheckVariableNameAllUpperCase.cs" />
+    <None Include="Rules\CheckVariableNameAllUpperCase.cs" />
     <Compile Include="WorkSpace.cs" />
   </ItemGroup>
   <ItemGroup>

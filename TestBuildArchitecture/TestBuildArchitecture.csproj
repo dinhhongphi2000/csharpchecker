@@ -118,7 +118,7 @@
     <Compile Include="Visitor\GetStructIdentityVisitor.cs" />
     <Compile Include="Visitor\GetVariableIdentityLocalVisitor.cs" />
     <Compile Include="Visitor\Qualified_identifierVisitor.cs" />
-    <None Include="Program.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="DefineSymbolAnalysisTest.cs" />
     <None Include="TestClass.cs" />

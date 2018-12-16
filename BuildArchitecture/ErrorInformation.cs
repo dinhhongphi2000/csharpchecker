@@ -1,8 +1,9 @@
-﻿namespace BuildArchitecture
+﻿using System.Collections.Generic;
+
+namespace BuildArchitecture
 {
     public class ErrorInformation
     {
-        public string ReplaceCode { get; set; }
         public int StartIndex { get; set; } 
         public string DisplayText { get; set; } //text display on lightbulb control
         public int Length { get; set; }
@@ -14,5 +15,14 @@
         /// </summary>
         public string ErrorCode { get; set; }
         public string ErrorMessage { get; set; }
+        public List<ReplaceCodeInfomation> ReplaceCode { get; set; }
+        public bool HasReplace
+        {
+            get
+            {
+                if (this.ReplaceCode != null) return true;
+                else return false;
+            }
+        }
     }
 }

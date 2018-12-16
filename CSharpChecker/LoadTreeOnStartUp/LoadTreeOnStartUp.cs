@@ -44,23 +44,23 @@ namespace CSharpChecker.LoadTreeOnStartUp
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [Guid(LoadTreeOnStartUp.PackageGuidString)]
-    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string, PackageAutoLoadFlags.BackgroundLoad)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class LoadTreeOnStartUp : AsyncPackage
     {
         /// <summary>
         /// VSPackage1 GUID string.
         /// </summary>
         public const string PackageGuidString = "38639e3d-226b-4544-a4d6-eea6cb71ac0b";
-        private IVsSolution solService;
-        private WorkSpace _workSpace;
-        private DTE dTE;
+        private IVsSolution _solService;
+        public WorkSpace WorkSpace;
+        private DTE _dTE;
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadTreeOnStartUp"/> class.
         /// </summary>
         public LoadTreeOnStartUp()
         {
-            _workSpace = WorkSpace.Instance;
+            WorkSpace = WorkSpace.Instance;
             SolutionEvents.OnAfterBackgroundSolutionLoadComplete += HandleOpenSolution;
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but
@@ -84,6 +84,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             bool isSolutionLoad = await IsSolutionLoadedAsync(cancellationToken);
             if (isSolutionLoad) HandleOpenSolution();
+            await CSharpChecker.LoadTreeOnStartUp.MenuContext.InitializeAsync(this);
 
             
 
@@ -91,9 +92,9 @@ namespace CSharpChecker.LoadTreeOnStartUp
         private async Task<bool> IsSolutionLoadedAsync(CancellationToken cancellationToken)
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            solService = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
-            dTE = await GetServiceAsync(typeof(DTE)) as DTE;
-            ErrorHandler.ThrowOnFailure(solService.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object value));
+            _solService = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
+            _dTE = await GetServiceAsync(typeof(DTE)) as DTE;
+            ErrorHandler.ThrowOnFailure(_solService.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object value));
 
 
             //solService.GetProjectFilesInSolution(1, projectCount, projectNames.ToArray(), out numProjects);
@@ -106,7 +107,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
 
             List<string> filePaths;
             List<string> projectPaths = new List<string>();
-            var item = dTE.Solution.Projects.GetEnumerator();
+            var item = _dTE.Solution.Projects.GetEnumerator();
             while (item.MoveNext())
             {
                 var project = item.Current as EnvDTE.Project;
@@ -116,10 +117,10 @@ namespace CSharpChecker.LoadTreeOnStartUp
             GetFilePathFromProject(projectPaths, out filePaths);
             foreach (var path in filePaths)
             {
-                _workSpace.InitOrUpdateParserTreeOfFile(path, GetFileContent(path));
+                WorkSpace.InitOrUpdateParserTreeOfFile(path, GetFileContent(path));
             }
-            _workSpace.RunRulesAllFile();
-            var errors = _workSpace.GetErrors();
+            WorkSpace.RunRulesAllFile();
+            var errors = WorkSpace.GetErrors();
             // Handle the open solution and try to do as much work
             // on a background thread as possible
         }

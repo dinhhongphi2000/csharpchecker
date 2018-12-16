@@ -22,13 +22,22 @@ namespace BuildArchitecture.Rules
            var existSymbol = currentScope.Resolve(identifierContext.GetText());
             if (existSymbol != null && existSymbol.GetScope().GetName() != "local")
             {
+                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>()
+                {
+                    new ReplaceCodeInfomation()
+                    {
+                        Start = identifierContext.Start.StartIndex,
+                        Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
+                        ReplaceCode = identifierContext.GetText() + "1"
+                    }
+                };
                 //warning
                 error = new ErrorInformation()
                 {
                     ErrorCode = "WA0001",
                     ErrorMessage = "You should declare variable " + identifierContext.GetText() + " with difference name to avoid override value",
                     StartIndex = identifierContext.Start.StartIndex,
-                    ReplaceCode = identifierContext.GetText() + "1",
+                    ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1
                 };
             }

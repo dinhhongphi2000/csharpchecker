@@ -84,16 +84,16 @@ namespace BuildArchitecture
             else
                 errorTable[filePath] = new List<ErrorInformation>();
             ParserRuleContext tree = _parserRuleContextOfFile[filePath];
-            try
-            {
+            //try
+            //{
                 //Run semetic 
                 analysis.Run(filePath, tree);
                 errorTable[filePath].AddRange(analysis.GetErrors());
-            }
-            catch (Exception ex)
-            {
+            //}
+            //catch (Exception ex)
+            //{
 
-            }
+            //}
 
             //Run rule
             //Walker tree to check rule and add error to error list
@@ -121,6 +121,11 @@ namespace BuildArchitecture
         public Dictionary<string, List<ErrorInformation>> GetErrors()
         {
             return errorTable;
+        }
+
+        public string FindDuplicateFunction()
+        {
+            return analysis.FindDuplicateFunction();
         }
 
         public List<ErrorInformation> GetErrors(string filePath)

@@ -29,11 +29,6 @@ namespace BuildArchitecture.Rules
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="error"></param>
         [Export(typeof(Struct_member_declarationContext))]
         public void CheckCommentFunctionInStruct(ParserRuleContext context, out ErrorInformation error)
         {
@@ -48,22 +43,48 @@ namespace BuildArchitecture.Rules
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="function"></param>
+        /// <returns></returns>
         private ErrorInformation CreateError(IdentifierContext function)
         {
-            var memberContext = GetMemberContext(function);
+            ParserRuleContext method = (ParserRuleContext)function.Parent.Parent.Parent.Parent;
+            if (method is Common_member_declarationContext)
+                method = (ParserRuleContext)method.Parent;
+            int spaceBefore = method.Start.Column;
+            List<ReplaceCodeInfomation> replaceCode = new List<ReplaceCodeInfomation>()
+            {
+                new ReplaceCodeInfomation()
+                {
+                    Start = method.Start.StartIndex - 1,
+                    Length = 1,
+                    ReplaceCode = " /// <summary>\r\n"
+                                  + InsertSpace(spaceBefore) +"/// " + function.GetText() + "\r\n"
+                                  + InsertSpace(spaceBefore) + "/// </summary>\r\n" + InsertSpace(spaceBefore)
+                }
+            };
             return new ErrorInformation()
             {
                 ErrorCode = "IF0002",
                 ErrorMessage = "You should add comment for method " + function.GetText(),
-                StartIndex = memberContext.Start.StartIndex,
-                Length = memberContext.Stop.StopIndex - memberContext.Start.StartIndex + 1,
-                ReplaceCode = @"/// <summary>
-                                ///
-                                /// </summary>
-                                " + memberContext.GetText()
+                DisplayText = "Add comment before function",
+                StartIndex = function.Start.StartIndex,
+                Length = 1,
+                ReplaceCode = replaceCode
             };
         }
 
+        private string InsertSpace(int length)
+        {
+            string s = "";
+            for(int i = 0; i < length; i++)
+            {
+                s += " ";
+            }
+            return s;
+        }
 
         private bool IsMethod(Common_member_declarationContext context)
         {
@@ -85,14 +106,6 @@ namespace BuildArchitecture.Rules
                 var identifiers = context.method_declaration().method_member_name().identifier();
                 return identifiers[identifiers.Length - 1];
             }
-        }
-
-        private ParserRuleContext GetMemberContext(ParserRuleContext context)
-        {
-            if (context is Class_member_declarationContext
-                || context is Struct_member_declarationContext)
-                return context;
-            return GetMemberContext((ParserRuleContext)context.Parent);
         }
 
         [Export("TokenStreamChanged")]

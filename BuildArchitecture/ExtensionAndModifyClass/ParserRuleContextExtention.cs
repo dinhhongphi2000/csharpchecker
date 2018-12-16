@@ -7,7 +7,7 @@ namespace BuildArchitecture
     {
         public static bool InRule(this ParserRuleContext parserContext, RuleContextType contextType)
         {
-            RuleContext current = parserContext;
+            RuleContext current = parserContext.Parent;
             while(current != null)
             {
                 if (current.GetType().Name.ToUpper() == contextType.ToString())
@@ -19,6 +19,19 @@ namespace BuildArchitecture
             return false;
         }
 
+        public static RuleContext GoOutRule(this ParserRuleContext parserContext, RuleContextType contextType)
+        {
+            RuleContext current = parserContext;
+            while (current != null)
+            {
+                if (current.GetType().Name.ToUpper() == contextType.ToString())
+                {
+                    return current;
+                }
+                current = current.Parent;
+            }
+            return null;
+        }
         public static bool InRule(this ParserRuleContext parserContext, Type contextType)
         {
             RuleContext current = parserContext;
