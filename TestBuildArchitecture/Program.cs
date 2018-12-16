@@ -35,6 +35,11 @@ namespace TestBuildArchitecture
             }
         }
 
+        public int Funi(int f)
+        {
+            if (f == 0) return 1;
+            return Funi(f) * Funi(f - 1);
+        }
         
 
         static void GetContext()

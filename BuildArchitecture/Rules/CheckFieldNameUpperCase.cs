@@ -102,15 +102,15 @@ namespace BuildArchitecture.Rules
             if (UppercaseFirst(s) == s) return true;
             else return false;
         }
-        static string UppercaseFirst(string s)
+        static string UppercaseFirst(string ss)
         {
             // Check for empty string.
-            if (string.IsNullOrEmpty(s))
+            if (string.IsNullOrEmpty(ss))
             {
                 return string.Empty;
             }
             // Return char and concat substring.
-            return char.ToUpper(s[0]) + s.Substring(1);
+            return char.ToUpper(ss[0]) + ss.Substring(1);
         }
         static string LowercaseFirst(string s)
         {

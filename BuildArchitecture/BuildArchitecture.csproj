@@ -114,6 +114,7 @@
     <Compile Include="Rules\CheckArrayConstantInit.cs" />
     <Compile Include="Rules\CheckCatchStatementEmpty.cs" />
     <Compile Include="Rules\CheckFieldNameUpperCase.cs" />
+    <Compile Include="Rules\CheckRecursiveFuncLoop.cs" />
     <Compile Include="Rules\CheckVariableOverrideValue.cs" />
     <Compile Include="Rules\ClassFormat.cs" />
     <Compile Include="Rules\RemoveBoolVarInConditionalStatment.cs" />
