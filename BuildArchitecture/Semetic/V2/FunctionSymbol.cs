@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using System.Collections.Generic;
 
 namespace BuildArchitecture.Semetic.V2
 {
@@ -37,6 +38,11 @@ namespace BuildArchitecture.Semetic.V2
         public int GetNumberOfParameters()
         {
             return Utils.Filter(symbols.Values, s => s is ParameterSymbol).Count;
+        }
+
+        public virtual HashSet<ISymbol> GetParameterSymbol()
+        {
+            return Utils.Filter(symbols.Values, s => s is ParameterSymbol);
         }
 
         public override string ToString() { return name + ":" + base.ToString(); }

@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using BuildArchitecture.Semetic.V2;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -62,7 +63,10 @@ namespace BuildArchitecture.Rules
                     Length = 1,
                     ReplaceCode = " /// <summary>\r\n"
                                   + InsertSpace(spaceBefore) +"/// " + function.GetText() + "\r\n"
-                                  + InsertSpace(spaceBefore) + "/// </summary>\r\n" + InsertSpace(spaceBefore)
+                                  + InsertSpace(spaceBefore) + "/// </summary>\r\n"
+                                  + InsertParameterComment(function.Symbol as MethodSymbol, spaceBefore)
+                                  + InsertSpace(spaceBefore) + "/// <returns></returns>\r\n"
+                                  + InsertSpace(spaceBefore)
                 }
             };
             return new ErrorInformation()
@@ -84,6 +88,19 @@ namespace BuildArchitecture.Rules
                 s += " ";
             }
             return s;
+        }
+
+        private string InsertParameterComment(MethodSymbol method, int spacebefore)
+        {
+            string buildString = "";
+            var parameters = method.GetParameterSymbol();
+            foreach(var item in parameters)
+            {
+                buildString += String.Format("{0}/// <param name=\"{1}\"></param>\r\n", 
+                    InsertSpace(spacebefore), 
+                    item.GetName());
+            }
+            return buildString;
         }
 
         private bool IsMethod(Common_member_declarationContext context)
