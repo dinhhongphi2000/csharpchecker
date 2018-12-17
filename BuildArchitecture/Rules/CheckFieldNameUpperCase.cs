@@ -9,6 +9,8 @@ namespace BuildArchitecture.Rules
 {
     class CheckFieldNameUpperCase
     {
+        public static readonly int f = 4;
+
         [Export(typeof(Field_declarationContext))]
         public void CheckField(ParserRuleContext context, out ErrorInformation error)
         {
@@ -16,44 +18,71 @@ namespace BuildArchitecture.Rules
             var identifierContext = ((Field_declarationContext)context).variable_declarators().variable_declarator()[0].identifier();
             var identifier = identifierContext.GetText();
             var varSymbol = identifierContext.Symbol as FieldSymbol;
-            if (varSymbol.HaveModifier("private") && !IsUnderScoreAndLowerCase(identifier))
+            if (varSymbol.HaveModifier("private") && !varSymbol.HaveModifier("readonly"))
             {
-                
-                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
+                if (!IsUnderScoreAndLowerCase(identifier) && !identifierContext.InRule(RuleContextType.DELEGATE_DEFINITIONCONTEXT) && !identifierContext.InRule(RuleContextType.CONSTANT_DECLARATORSCONTEXT))
+                {
+                    List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
                             Start = identifierContext.Start.StartIndex,
                             Length = identifierContext.Stop.StopIndex - context.Start.StartIndex + 1,
                             ReplaceCode = string.Format("_{0}",LowercaseFirst(identifier))
                         }
                     };
-                error = new ErrorInformation
-                {
-                    ErrorCode = "IF0007",
-                    DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[1].ReplaceCode),
-                    StartIndex = identifierContext.Start.StartIndex,
-                    ReplaceCode = replaceCodes,
-                    Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
-                    ErrorMessage = "Private Field member should be begin with _ and lower case character"
-                };
+                    error = new ErrorInformation
+                    {
+                        ErrorCode = "IF0007",
+                        DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                        StartIndex = identifierContext.Start.StartIndex,
+                        ReplaceCode = replaceCodes,
+                        Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
+                        ErrorMessage = "Private Field member should be begin with _ and lower case character"
+                    };
+                }
             }
-            else if((varSymbol.HaveModifier("public") || varSymbol.HaveModifier("protected")) && !IsUpperCase(identifier))
+            else if (!varSymbol.HaveModifier("readonly") && (varSymbol.HaveModifier("public") || varSymbol.HaveModifier("protected")) )
             {
-                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
+                if (!IsUpperCase(identifier))
+                {
+                    List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
                             Start = identifierContext.Start.StartIndex,
                             Length = identifierContext.Stop.StopIndex - context.Start.StartIndex + 1,
                             ReplaceCode = UppercaseFirst(identifier)
                         }
                     };
-                error = new ErrorInformation
+                    error = new ErrorInformation
+                    {
+                        ErrorCode = "IF0007",
+                        StartIndex = identifierContext.Start.StartIndex,
+                        DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                        ReplaceCode = replaceCodes,
+                        Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
+                        ErrorMessage = "Public, Protected Field member should be begin with Uppercase character"
+                    };
+                }
+            }
+            else if (varSymbol.HaveModifier("readonly"))
+            {
+                if (!IsUpperCase(identifier))
                 {
-                    ErrorCode = "IF0007",
-                    StartIndex = identifierContext.Start.StartIndex,
-                    DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[1].ReplaceCode),
-                    ReplaceCode = replaceCodes,
-                    Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
-                    ErrorMessage = "Public, Protected Field member should be begin with Uppercase character"
-                };
+                    List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
+                        new ReplaceCodeInfomation(){
+                            Start = identifierContext.Start.StartIndex,
+                            Length = identifierContext.Stop.StopIndex - context.Start.StartIndex + 1,
+                            ReplaceCode = UppercaseFirst(identifier)
+                        }
+                    };
+                    error = new ErrorInformation
+                    {
+                        ErrorCode = "IF0007",
+                        StartIndex = identifierContext.Start.StartIndex,
+                        DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                        ReplaceCode = replaceCodes,
+                        Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
+                        ErrorMessage = "Readonly Field member should be begin with Uppercase character"
+                    };
+                }
             }
         }
 
@@ -77,10 +106,64 @@ namespace BuildArchitecture.Rules
                 {
                     ErrorCode = "IF0008",
                     StartIndex = identifierContext.Start.StartIndex,
-                    DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[1].ReplaceCode),
+                    DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
                     ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                     ErrorMessage = "Property Name should be begin with Uppercase Character"
+                };
+            }
+        }
+
+        [Export(typeof(Delegate_definitionContext))]
+        public void CheckDelegate(ParserRuleContext context, out ErrorInformation error)
+        {
+            error = null;
+            var identifierContext = ((Delegate_definitionContext)context).identifier();
+            var identifier = identifierContext.GetText();
+            if (!IsUpperCase(identifier))
+            {
+                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
+                        new ReplaceCodeInfomation(){
+                            Start = identifierContext.Start.StartIndex,
+                            Length = identifierContext.Stop.StopIndex - context.Start.StartIndex + 1,
+                            ReplaceCode = UppercaseFirst(identifier)
+                        }
+                    };
+                error = new ErrorInformation
+                {
+                    ErrorCode = "IF0008",
+                    StartIndex = identifierContext.Start.StartIndex,
+                    DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                    ReplaceCode = replaceCodes,
+                    Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
+                    ErrorMessage = "Delegates should be begin with Uppercase Character"
+                };
+            }
+        }
+
+        [Export(typeof(Constant_declaratorContext))]
+        public void CheckConstant(ParserRuleContext context, out ErrorInformation error)
+        {
+            error = null;
+            var identifierContext = ((Constant_declaratorContext)context).identifier();
+            var identifier = identifierContext.GetText();
+            if (!IsUpperCase(identifier))
+            {
+                List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
+                        new ReplaceCodeInfomation(){
+                            Start = identifierContext.Start.StartIndex,
+                            Length = identifierContext.Stop.StopIndex - context.Start.StartIndex + 1,
+                            ReplaceCode = UppercaseFirst(identifier)
+                        }
+                    };
+                error = new ErrorInformation
+                {
+                    ErrorCode = "IF0008",
+                    StartIndex = identifierContext.Start.StartIndex,
+                    DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                    ReplaceCode = replaceCodes,
+                    Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
+                    ErrorMessage = "Constant should be begin with Uppercase Character"
                 };
             }
         }
