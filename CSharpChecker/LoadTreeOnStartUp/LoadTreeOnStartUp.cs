@@ -46,6 +46,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
     [Guid(LoadTreeOnStartUp.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideToolWindow(typeof(CSharpChecker.LoadTreeOnStartUp.FindDuplicate))]
     public sealed class LoadTreeOnStartUp : AsyncPackage
     {
         /// <summary>
@@ -85,7 +86,8 @@ namespace CSharpChecker.LoadTreeOnStartUp
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             bool isSolutionLoad = await IsSolutionLoadedAsync(cancellationToken);
             if (isSolutionLoad) HandleOpenSolution();
-            await CSharpChecker.LoadTreeOnStartUp.DuplicateFuncToolCommand.InitializeAsync(this);
+            await CSharpChecker.LoadTreeOnStartUp.MenuContext.InitializeAsync(this);
+            await CSharpChecker.LoadTreeOnStartUp.FindDuplicateCommand.InitializeAsync(this);
 
             
 
