@@ -2,6 +2,7 @@
 {
     using System;
     using System.Runtime.InteropServices;
+    using System.Windows.Forms;
     using Microsoft.VisualStudio.Shell;
 
     /// <summary>
@@ -18,17 +19,26 @@
     [Guid("e57acbc5-094c-4d1f-b355-4fe9e4463f94")]
     public class FindDuplicate : ToolWindowPane
     {
+        private FindDuplicateControl control;
         /// <summary>
         /// Initializes a new instance of the <see cref="FindDuplicate"/> class.
         /// </summary>
         public FindDuplicate() : base(null)
         {
             this.Caption = "FindDuplicate";
-
+            control = new FindDuplicateControl();
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
             // the object returned by the Content property.
-            this.Content = new FindDuplicateControl();
+            this.Content = control;
+        }
+
+        public override IWin32Window Window
+        {
+            get
+            {
+                return control;
+            }
         }
     }
 }
