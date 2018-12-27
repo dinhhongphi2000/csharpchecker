@@ -46,6 +46,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
     [Guid(LoadTreeOnStartUp.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideToolWindow(typeof(CSharpChecker.LoadTreeOnStartUp.FindDuplicate))]
     public sealed class LoadTreeOnStartUp : AsyncPackage
     {
         /// <summary>
@@ -55,6 +56,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
         private IVsSolution _solService;
         public WorkSpace WorkSpace;
         private DTE _dTE;
+        private List<string> _filePaths;
         /// <summary>
         /// Initializes a new instance of the <see cref="LoadTreeOnStartUp"/> class.
         /// </summary>
@@ -85,6 +87,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
             bool isSolutionLoad = await IsSolutionLoadedAsync(cancellationToken);
             if (isSolutionLoad) HandleOpenSolution();
             await CSharpChecker.LoadTreeOnStartUp.MenuContext.InitializeAsync(this);
+            await CSharpChecker.LoadTreeOnStartUp.FindDuplicateCommand.InitializeAsync(this);
 
             
 
@@ -105,17 +108,17 @@ namespace CSharpChecker.LoadTreeOnStartUp
             IVsActivityLog log = GetService(typeof(SVsActivityLog)) as IVsActivityLog;
             
 
-            List<string> filePaths;
+            
             List<string> projectPaths = new List<string>();
-            var item = _dTE.Solution.Projects.GetEnumerator();
-            while (item.MoveNext())
+            var items = _dTE.Solution.Projects;
+            foreach (var item in items)
             {
-                var project = item.Current as EnvDTE.Project;
+                var project = item as EnvDTE.Project;
                 projectPaths.Add(project.FullName);
             }
 
-            GetFilePathFromProject(projectPaths, out filePaths);
-            foreach (var path in filePaths)
+            GetFilePathFromProject(projectPaths, out _filePaths);
+            foreach (var path in _filePaths)
             {
                 WorkSpace.InitOrUpdateParserTreeOfFile(path, GetFileContent(path));
             }
@@ -162,6 +165,36 @@ namespace CSharpChecker.LoadTreeOnStartUp
 
             }
 
+        }
+
+        public void TestButton()
+        {
+            OpenSourceFile(_filePaths[0]);
+        }
+
+        public void OpenSourceFile(string path)
+        {
+            EnvDTE.ProjectItem file = _dTE.Solution.FindProjectItem(path);
+            var fileName = Path.GetFileName(path);
+            Window window;
+            TextDocument txtDoc;
+            TextSelection textSelection;
+            if (file.IsOpen[EnvDTE.Constants.vsViewKindCode])
+            {
+                window = _dTE.Windows.Item(fileName);
+                window.Visible = true;
+                txtDoc = window.Document.Object() as TextDocument;
+                textSelection = txtDoc.Selection;
+                textSelection.MoveToLineAndOffset(20, 0);
+            }
+            else
+            {
+                window = file.Open(EnvDTE.Constants.vsViewKindCode);
+                window.Visible = true;
+                txtDoc = window.Document.Object() as TextDocument;
+                textSelection = txtDoc.Selection;
+                textSelection.MoveToDisplayColumn(20, 0);
+            }
         }
 
         public string GetFileContent(string filePath)

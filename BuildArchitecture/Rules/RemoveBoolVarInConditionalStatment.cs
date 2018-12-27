@@ -12,10 +12,14 @@ namespace BuildArchitecture.Rules
         public void CheckIfInsideHasNumber(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
+            var relationalExpressionContext = ((Equality_expressionContext)context).relational_expression();
             bool isBoolConditional = (context.GetText().Contains("true") || context.GetText().Contains("false"));
-            bool isCheckContext = !context.InRule(RuleContextType.VARIABLE_INITIALIZERCONTEXT) && !context.InRule(RuleContextType.EQUALITY_EXPRESSIONCONTEXT)
-                && !context.InRule(RuleContextType.LOCAL_VARIABLE_INITIALIZERCONTEXT) && !context.InRule(RuleContextType.RETURNSTATEMENTCONTEXT);
-            if (isBoolConditional && isCheckContext)
+            bool isCheckContext = !context.InRule(RuleContextType.VARIABLE_INITIALIZERCONTEXT)
+                && !context.InRule(RuleContextType.EQUALITY_EXPRESSIONCONTEXT)
+                && !context.InRule(RuleContextType.LOCAL_VARIABLE_INITIALIZERCONTEXT)
+                && !context.InRule(RuleContextType.RETURNSTATEMENTCONTEXT);
+
+            if (isBoolConditional && isCheckContext && relationalExpressionContext.Length > 1)
             {
                 List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>()
                 {

@@ -30,7 +30,7 @@ namespace BuildArchitecture.Rules
                         StartIndex = context.Start.StartIndex,
                         ErrorCode = "IF0005",
                         ReplaceCode = replaceCodes,
-                        DisplayText = string.Format("Rename {0} to {1}", _identifier, replaceCodes[1].ReplaceCode),
+                        DisplayText = string.Format("Rename {0} to {1}", _identifier, replaceCodes[0].ReplaceCode),
                         Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
                         ErrorMessage = "Local variable name should not be upper case"
                     };
