@@ -86,7 +86,7 @@ namespace BuildArchitecture.Semetic.V2
                 {
                     var identifierContext = (x as MethodSymbol).DefNode;
                     var functionContext = identifierContext.Parent.Parent.Parent;
-                    return functionContext.GetText();
+                    return functionContext.GetText().Replace(identifierContext.GetText(), "");
                 }).Where(g => g.Count() > 1)
                 .Select(y => y)
                 .ToList();
