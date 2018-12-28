@@ -30,7 +30,7 @@ namespace BuildArchitecture.Rules
                     error = new ErrorInformation
                     {
                         ErrorCode = "IF0007",
-                        DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                        DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
                         StartIndex = identifierContext.Start.StartIndex,
                         ReplaceCode = replaceCodes,
                         Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
@@ -53,7 +53,7 @@ namespace BuildArchitecture.Rules
                     {
                         ErrorCode = "IF0011",
                         StartIndex = identifierContext.Start.StartIndex,
-                        DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                        DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
                         ReplaceCode = replaceCodes,
                         Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                         ErrorMessage = "UIT: Naming rule violation: public, protected Field member should be begin with uppercase character "

@@ -24,7 +24,7 @@ namespace BuildArchitecture.Rules
                         error = new ErrorInformation()
                         {
                             ErrorCode = "WA0005",
-                            ErrorMessage = "Recursive function should have conditional statement to stop recursive",
+                            ErrorMessage = "UIT: Recursive function should have conditional statement to stop recursive",
                             StartIndex = contxt.Start.StartIndex,
                             Length = contxt.Stop.StopIndex - contxt.Start.StartIndex + 1
                         };

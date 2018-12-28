@@ -31,7 +31,7 @@ namespace BuildArchitecture.Rules
                         StartIndex = identifierContext.Start.StartIndex,
                         ErrorCode = "IF0005",
                         ReplaceCode = replaceCodes,
-                        DisplayText = string.Format("Rename {0} to {1}", _identifier, replaceCodes[0].ReplaceCode),
+                        DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
                         Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                         ErrorMessage = "UIT: Naming rule violation: Local variable should begin with lower case characters."
                     };

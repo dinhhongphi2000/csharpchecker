@@ -48,7 +48,7 @@ namespace BuildArchitecture.Rules
             {
                 ErrorCode = errorCode,
                 StartIndex = context.Start.StartIndex,
-                DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
                 ReplaceCode = replaceCodes,
                 Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
                 ErrorMessage = errorMessage
