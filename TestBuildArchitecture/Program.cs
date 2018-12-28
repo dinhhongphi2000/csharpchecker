@@ -17,20 +17,19 @@ namespace TestBuildArchitecture
         void Main(string[] args)
         {
             int _d = 4;
-            using (SqlConnection a = new SqlConnection())
-            {
-                _d = 
-            }
             WorkSpace nsg = WorkSpace.Instance;
             nsg.InitOrUpdateParserTreeOfFile(V, GetFileContent(V));
             nsg.RunRules(V);
+            int SoThuTu;
             try
             {
-                _d = _d++;
+                SoThuTu = GetSoThuTuFromInput();
             }
             catch (Exception e)
             {
+
             }
+
         }
 
         public static string GetFileContent(string filePath)
