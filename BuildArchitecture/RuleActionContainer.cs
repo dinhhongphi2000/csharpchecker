@@ -757,14 +757,20 @@ namespace BuildArchitecture
         {
             PropertyInfo pro = this.GetType().GetProperty(context.GetType().Name);
             dynamic data = pro.GetValue(this);
-            foreach(var x in data)
+            foreach (var x in data)
             {
-                var action = x.Value;
-                ErrorInformation error;
-                action(context, out error);
-                if(error != null && errorInformationList != null)
+                try
                 {
-                    errorInformationList.Add(error);
+                    var action = x.Value;
+                    ErrorInformation error;
+                    action(context, out error);
+                    if (error != null && errorInformationList != null)
+                    {
+                        errorInformationList.Add(error);
+                    }
+                }catch(Exception ex)
+                {
+
                 }
             }
         }
@@ -775,8 +781,15 @@ namespace BuildArchitecture
             dynamic data = pro.GetValue(this);
             foreach (var x in data)
             {
-                var action = x.Value;
-                action((CommonTokenStream)tokenStream);
+                try
+                {
+                    var action = x.Value;
+                    action((CommonTokenStream)tokenStream);
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
         }
     }
