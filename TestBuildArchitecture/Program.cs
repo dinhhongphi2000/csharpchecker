@@ -2,6 +2,7 @@
 using BuildArchitecture;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 
@@ -11,16 +12,21 @@ namespace TestBuildArchitecture
     {
         private const string V = @"C:\Users\ACER\Desktop\luanvan\started\TestBuildArchitecture\TestClass.cs";
         private bool _a = true;
+        private int _d = 5;
         private string[] _asdf = new string[5];
-        static void Main(string[] args)
+        void Main(string[] args)
         {
-
+            int _d = 4;
+            using (SqlConnection a = new SqlConnection())
+            {
+                _d = 
+            }
             WorkSpace nsg = WorkSpace.Instance;
             nsg.InitOrUpdateParserTreeOfFile(V, GetFileContent(V));
             nsg.RunRules(V);
             try
             {
-
+                _d = _d++;
             }
             catch (Exception e)
             {

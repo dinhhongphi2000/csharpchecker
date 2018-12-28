@@ -10,10 +10,10 @@
              d:DesignHeight="300" d:DesignWidth="300"
              Name="MyToolWindow">
     <Grid Margin="0,0,-11040,-4416">
-        <DataGrid HorizontalAlignment="Left" Height="4386" Margin="10,10,0,0" VerticalAlignment="Top" Width="11042">
+        <DataGrid x:Name="gridview" HorizontalAlignment="Left" ColumnWidth="*"  Height="4696" Margin="0,10,0,0" VerticalAlignment="Top" Width="11330">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Function Name"/>
-                <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="File Name"/>
+                <DataGridTextColumn Header="Function Name"/>
+                <DataGridTextColumn Header="File"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

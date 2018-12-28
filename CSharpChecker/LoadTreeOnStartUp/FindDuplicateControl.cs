@@ -1,25 +1,25 @@
-﻿namespace CSharpChecker.LoadTreeOnStartUp
-{
-    using BuildArchitecture;
-    using EnvDTE;
-    using Microsoft.Build.Evaluation;
-    using Microsoft.VisualStudio;
-    using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Interop;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Windows;
-    using System.Windows.Controls;
-    using Project = Microsoft.Build.Evaluation.Project;
-    using ProjectItem = Microsoft.Build.Evaluation.ProjectItem;
-    using SolutionEvents = Microsoft.VisualStudio.Shell.Events.SolutionEvents;
-    using Task = System.Threading.Tasks.Task;
-    using Window = EnvDTE.Window;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Project = Microsoft.Build.Evaluation.Project;
+using ProjectItem = Microsoft.Build.Evaluation.ProjectItem;
+using BuildArchitecture;
+using EnvDTE;
+using Microsoft.Build.Evaluation;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Window = EnvDTE.Window;
+using System.IO;
 
-    /// <summary>
-    /// Interaction logic for FindDuplicateControl.
-    /// </summary>
+namespace CSharpChecker.LoadTreeOnStartUp
+{
     public partial class FindDuplicateControl : UserControl
     {
         private IVsSolution _solService;
@@ -70,6 +70,8 @@
 
         public void TestButton()
         {
+            List<ErrorInformation> errorInformation = new List<ErrorInformation> { new ErrorInformation { DisplayText = "asd",ErrorCode = "dasfw" } };
+            dataGridView1.DataSource = errorInformation;
             OpenSourceFile(_filePaths[0]);
         }
 
@@ -116,7 +118,7 @@
                 window.Visible = true;
                 txtDoc = window.Document.Object() as TextDocument;
                 textSelection = txtDoc.Selection;
-                textSelection.MoveToDisplayColumn(20,0);
+                textSelection.MoveToDisplayColumn(20, 0);
             }
             else
             {

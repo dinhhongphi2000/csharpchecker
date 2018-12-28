@@ -36,7 +36,7 @@ namespace BuildArchitecture.Rules
 
         public bool IsMethod(Unary_expressionContext unary_ExpressionContext)
         {
-            List<Unary_expressionContext> methodInvocationContext = unary_ExpressionContext.GetDeepChildContext<Unary_expressionContext>();
+            List<Method_invocationContext> methodInvocationContext = unary_ExpressionContext.GetDeepChildContext<Method_invocationContext>();
             return (methodInvocationContext.Count > 0) ? true : false;
         }
 
