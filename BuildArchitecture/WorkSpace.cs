@@ -3,6 +3,7 @@ using Antlr4.Runtime.Tree;
 using BuildArchitecture.Semetic.V2;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BuildArchitecture
 {
@@ -76,42 +77,48 @@ namespace BuildArchitecture
         /// Run semetic and rule for specific file
         /// </summary>
         /// <param name="filePath"></param>
-        public void RunRules(string filePath)
+        public async void RunRules(string filePath)
         {
-            //clear old error of this filePath
-            if (errorTable.ContainsKey(filePath))
-                errorTable[filePath].Clear();
-            else
-                errorTable[filePath] = new List<ErrorInformation>();
-            ParserRuleContext tree = _parserRuleContextOfFile[filePath];
-            //try
-            //{
+            await Task.Run(() =>
+            {
+                //clear old error of this filePath
+                if (errorTable.ContainsKey(filePath))
+                    errorTable[filePath].Clear();
+                else
+                    errorTable[filePath] = new List<ErrorInformation>();
+                ParserRuleContext tree = _parserRuleContextOfFile[filePath];
+                //try
+                //{
                 //Run semetic 
                 analysis.Run(filePath, tree);
                 errorTable[filePath].AddRange(analysis.GetErrors());
-            //}
-            //catch (Exception ex)
-            //{
+                //}
+                //catch (Exception ex)
+                //{
 
-            //}
+                //}
 
-            //Run rule
-            //Walker tree to check rule and add error to error list
-            _scanTree.SetCurrentTokenStream(tokenStreams[filePath]);
-            _treeWalker.Walk(_scanTree, tree);
-            errorTable[filePath].AddRange(_scanTree.GetErrors());
+                //Run rule
+                //Walker tree to check rule and add error to error list
+                _scanTree.SetCurrentTokenStream(tokenStreams[filePath]);
+                _treeWalker.Walk(_scanTree, tree);
+                errorTable[filePath].AddRange(_scanTree.GetErrors());
+            });
         }
 
         /// <summary>
         /// Run semetic and rule for all files
         /// </summary>
-        public void RunRulesAllFile()
+        public async void RunRulesAllFile()
         {
-            errorTable.Clear();
-            foreach (var item in _parserRuleContextOfFile)
+            await Task.Run(() =>
             {
-                RunRules(item.Key);
-            }
+                errorTable.Clear();
+                foreach (var item in _parserRuleContextOfFile)
+                {
+                    RunRules(item.Key);
+                }
+            });
         }
 
         /// <summary>
