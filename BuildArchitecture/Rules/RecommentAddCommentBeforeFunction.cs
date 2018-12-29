@@ -72,7 +72,7 @@ namespace BuildArchitecture.Rules
             return new ErrorInformation()
             {
                 ErrorCode = "IF0002",
-                ErrorMessage = "You should add comment for method " + function.GetText(),
+                ErrorMessage = "UIT: You should add comment for method " + function.GetText(),
                 DisplayText = "Add comment before function",
                 StartIndex = function.Start.StartIndex,
                 Length = 1,

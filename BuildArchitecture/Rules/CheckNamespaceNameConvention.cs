@@ -30,7 +30,7 @@ namespace BuildArchitecture.Rules
                     {
                         ErrorCode = "IF0012",
                         StartIndex = identifierContext.Start.StartIndex,
-                        DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                        DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
                         ReplaceCode = replaceCodes,
                         Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                         ErrorMessage = "UIT: Naming rule violation: Namespace should begin with upper case characters"
@@ -39,42 +39,23 @@ namespace BuildArchitecture.Rules
             }
         }
 
-        private static bool IsUnderScoreAndLowerCase(string s)
-        {
-            if (s[0] == '_')
-            {
-                var str = s.TrimStart('_');
-                if (LowercaseFirst(str) == str) return true;
-                else return false;
-            }
-            else return false;
-        }
-
         private static bool IsUpperCase(string s)
         {
-            s = s.Trim('_');
+            s = s.Replace("_","");
             if (UppercaseFirst(s) == s) return true;
             else return false;
         }
-        static string UppercaseFirst(string ss)
+        static string UppercaseFirst(string s)
         {
-            // Check for empty string.
-            if (string.IsNullOrEmpty(ss))
-            {
-                return string.Empty;
-            }
-            // Return char and concat substring.
-            return char.ToUpper(ss[0]) + ss.Substring(1);
-        }
-        static string LowercaseFirst(string s)
-        {
+            s = s.Replace("_", "");
             // Check for empty string.
             if (string.IsNullOrEmpty(s))
             {
                 return string.Empty;
             }
             // Return char and concat substring.
-            return char.ToLower(s[0]) + s.Substring(1);
+            return char.ToUpper(s[0]) + s.Substring(1);
         }
+
     }
 }

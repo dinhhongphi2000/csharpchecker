@@ -14,22 +14,22 @@ namespace TestBuildArchitecture
         private bool _a = true;
         private int _d = 5;
         private string[] _asdf = new string[5];
-        static void Main(string[] args)
+        void Main(string[] args)
         {
             int _d = 4;
-            using (SqlConnection a = new SqlConnection())
-            {
-            }
             WorkSpace nsg = WorkSpace.Instance;
             nsg.InitOrUpdateParserTreeOfFile(V, GetFileContent(V));
             nsg.RunRules(V);
+            int SoThuTu;
             try
             {
-                _d = _d++;
+                SoThuTu = GetSoThuTuFromInput();
             }
             catch (Exception e)
             {
+
             }
+
         }
 
         public static string GetFileContent(string filePath)

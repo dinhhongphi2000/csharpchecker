@@ -14,12 +14,8 @@ namespace BuildArchitecture.Rules
             error = null;
             var relationalExpressionContext = ((Equality_expressionContext)context).relational_expression();
             bool isBoolConditional = (context.GetText().Contains("true") || context.GetText().Contains("false"));
-            bool isCheckContext = !context.InRule(RuleContextType.VARIABLE_INITIALIZERCONTEXT)
-                && !context.InRule(RuleContextType.EQUALITY_EXPRESSIONCONTEXT)
-                && !context.InRule(RuleContextType.LOCAL_VARIABLE_INITIALIZERCONTEXT)
-                && !context.InRule(RuleContextType.RETURNSTATEMENTCONTEXT);
 
-            if (isBoolConditional && isCheckContext && relationalExpressionContext.Length > 1)
+            if (isBoolConditional && relationalExpressionContext.Length == 2)
             {
                 List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>()
                 {
@@ -33,10 +29,10 @@ namespace BuildArchitecture.Rules
 
                 error = new ErrorInformation()
                 {
-                    ErrorCode = "WA0003",
+                    ErrorCode = "IF0001",
                     ReplaceCode = replaceCodes,
                     DisplayText = "Simply statement",
-                    ErrorMessage = "Bool return type in conditional statement could be simplied",
+                    ErrorMessage = "UIT: Bool return type in conditional statement could be simplied",
                     StartIndex = context.Start.StartIndex,
                     Length = context.Stop.StopIndex - context.Start.StartIndex + 1
                 };

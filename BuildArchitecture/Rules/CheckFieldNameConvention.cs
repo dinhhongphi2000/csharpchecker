@@ -30,11 +30,11 @@ namespace BuildArchitecture.Rules
                     error = new ErrorInformation
                     {
                         ErrorCode = "IF0007",
-                        DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                        DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
                         StartIndex = identifierContext.Start.StartIndex,
                         ReplaceCode = replaceCodes,
                         Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
-                        ErrorMessage = "UIT: Naming rule violation: private field member should be begin with _ and lower case character"
+                        ErrorMessage = "UIT: Naming rule violation: private, internal field member should be begin with _ and lower case character"
                     };
                 }
             }
@@ -53,7 +53,7 @@ namespace BuildArchitecture.Rules
                     {
                         ErrorCode = "IF0011",
                         StartIndex = identifierContext.Start.StartIndex,
-                        DisplayText = string.Format("Rename {0} to {1}", identifier, replaceCodes[0].ReplaceCode),
+                        DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
                         ReplaceCode = replaceCodes,
                         Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                         ErrorMessage = "UIT: Naming rule violation: public, protected Field member should be begin with uppercase character "
@@ -66,7 +66,7 @@ namespace BuildArchitecture.Rules
         {
             if (s[0] == '_')
             {
-                var str = s.TrimStart('_');
+                var str = s.Replace("_","");
                 if (LowercaseFirst(str) == str) return true;
                 else return false;
             }
@@ -75,22 +75,24 @@ namespace BuildArchitecture.Rules
 
         private static bool IsUpperCase(string s)
         {
-            s = s.Trim('_');
+            if (s[0] == '_') return false;
             if (UppercaseFirst(s) == s) return true;
             else return false;
         }
-        static string UppercaseFirst(string ss)
+        static string UppercaseFirst(string s)
         {
+            s = s.Replace("_","");
             // Check for empty string.
-            if (string.IsNullOrEmpty(ss))
+            if (string.IsNullOrEmpty(s))
             {
                 return string.Empty;
             }
             // Return char and concat substring.
-            return char.ToUpper(ss[0]) + ss.Substring(1);
+            return char.ToUpper(s[0]) + s.Substring(1);
         }
         static string LowercaseFirst(string s)
         {
+            s = s.Replace("_", "");
             // Check for empty string.
             if (string.IsNullOrEmpty(s))
             {

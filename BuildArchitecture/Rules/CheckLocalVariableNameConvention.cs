@@ -17,7 +17,7 @@ namespace BuildArchitecture.Rules
             if (identifierContext != null)
             {
                 _identifier = identifierContext.GetText();
-                if (_identifier == UppercaseFirst(_identifier))
+                if (!IsLowerCase(_identifier) || _identifier[0] == '_')
                 {
                     List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
@@ -31,7 +31,7 @@ namespace BuildArchitecture.Rules
                         StartIndex = identifierContext.Start.StartIndex,
                         ErrorCode = "IF0005",
                         ReplaceCode = replaceCodes,
-                        DisplayText = string.Format("Rename {0} to {1}", _identifier, replaceCodes[0].ReplaceCode),
+                        DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
                         Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                         ErrorMessage = "UIT: Naming rule violation: Local variable should begin with lower case characters."
                     };
@@ -39,18 +39,16 @@ namespace BuildArchitecture.Rules
             }
         }
 
-        static string UppercaseFirst(string s)
+        private static bool IsLowerCase(string s)
         {
-            // Check for empty string.
-            if (string.IsNullOrEmpty(s))
-            {
-                return string.Empty;
-            }
-            // Return char and concat substring.
-            return char.ToUpper(s[0]) + s.Substring(1);
+            s = s.Replace("_", "");
+            if (LowercaseFirst(s) == s) return true;
+            else return false;
         }
+
         static string LowercaseFirst(string s)
         {
+            s = s.Replace("_","");
             // Check for empty string.
             if (string.IsNullOrEmpty(s))
             {

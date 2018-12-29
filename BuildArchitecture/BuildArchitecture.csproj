@@ -123,7 +123,7 @@
     <Compile Include="Rules\ClassFormat.cs" />
     <Compile Include="Rules\LockStatementWarning.cs" />
     <Compile Include="Rules\RemoveBoolVarInConditionalStatment.cs" />
-    <Compile Include="Rules\SuggestNameBoolVariable.cs" />
+    <None Include="Rules\SuggestNameBoolVariable.cs" />
     <Compile Include="Rules\CheckLocalVariableNameConvention.cs" />
     <Compile Include="Rules\ForStatement_LoopDontRun.cs" />
     <Compile Include="Gui\TreeViewer.cs" />

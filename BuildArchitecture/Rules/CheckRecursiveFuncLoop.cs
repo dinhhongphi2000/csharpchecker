@@ -24,14 +24,13 @@ namespace BuildArchitecture.Rules
                         error = new ErrorInformation()
                         {
                             ErrorCode = "WA0005",
-                            ErrorMessage = "Recursive function should have conditional statement to stop recursive",
-                            StartIndex = context.Start.StartIndex,
-                            Length = context.Stop.StopIndex - context.Start.StartIndex + 1
+                            ErrorMessage = "UIT: Recursive function should have conditional statement to stop recursive",
+                            StartIndex = contxt.Start.StartIndex,
+                            Length = contxt.Stop.StopIndex - contxt.Start.StartIndex + 1
                         };
                     }
                 }
             }
-
         }
 
         public bool IsMethod(Unary_expressionContext unary_ExpressionContext)
@@ -76,12 +75,17 @@ namespace BuildArchitecture.Rules
                         return true;
                     }
                 }
+                else return false;
             }
 
             if (memberAccessContext.Count > 0)
             {
-                IdentifierContext identifier = memberAccessContext[0].identifier();
-                return methodName == identifier.GetText() ? true : false;
+                var thisContext = unary_ExpressionContext.GetDeepChildContext<ThisReferenceExpressionContext>();
+                if (thisContext.Count > 0)
+                {
+                    IdentifierContext identifier = memberAccessContext[0].identifier();
+                    return methodName == identifier.GetText() ? true : false;
+                }
             }
 
             return false;

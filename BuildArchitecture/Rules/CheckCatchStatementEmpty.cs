@@ -22,7 +22,7 @@ namespace BuildArchitecture.Rules
                         StartIndex = blockContext.Start.StartIndex,
                         ErrorCode = "WA0003",
                         Length = blockContext.Stop.StopIndex - blockContext.Start.StartIndex + 1,
-                        ErrorMessage = "Catch Statement should not be empty"
+                        ErrorMessage = "UIT: Catch Statement should not be empty"
                     };
             }
         }
