@@ -77,10 +77,8 @@ namespace BuildArchitecture
         /// Run semetic and rule for specific file
         /// </summary>
         /// <param name="filePath"></param>
-        public async void RunRules(string filePath)
+        public void RunRules(string filePath)
         {
-            await Task.Run(() =>
-            {
                 //clear old error of this filePath
                 if (errorTable.ContainsKey(filePath))
                     errorTable[filePath].Clear();
@@ -103,24 +101,19 @@ namespace BuildArchitecture
                 _scanTree.SetCurrentTokenStream(tokenStreams[filePath]);
                 _treeWalker.Walk(_scanTree, tree);
                 errorTable[filePath].AddRange(_scanTree.GetErrors());
-            });
         }
 
         /// <summary>
         /// Run semetic and rule for all files
         /// </summary>
-        public async void RunRulesAllFile()
+        public void RunRulesAllFile()
         {
-            await Task.Run(() =>
-            {
                 errorTable.Clear();
                 foreach (var item in _parserRuleContextOfFile)
                 {
                     RunRules(item.Key);
                 }
-            });
         }
-
         /// <summary>
         /// Get error list after run rule
         /// </summary>
