@@ -16,18 +16,13 @@ namespace TestBuildArchitecture
         private string[] _asdf = new string[5];
         void Main(string[] args)
         {
-            int _d = 4;
-            WorkSpace nsg = WorkSpace.Instance;
-            nsg.InitOrUpdateParserTreeOfFile(V, GetFileContent(V));
-            nsg.RunRules(V);
-            int SoThuTu;
-            try
+            if(MyFuncion.HasValue == true && MyClass.HasChecked == true && MyFunction.isUsed == false )
             {
-                SoThuTu = GetSoThuTuFromInput();
+                //do anything
             }
-            catch (Exception e)
+            if(MyFuncion.HasValue && MyClass.HasChecked && !MyFunction.isUsed)
             {
-
+                //do anything
             }
 
         }

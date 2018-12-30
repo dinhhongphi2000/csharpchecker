@@ -43,11 +43,10 @@ namespace CSharpChecker.LoadTreeOnStartUp
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
-    [Guid(LoadTreeOnStartUp.PackageGuidString)]
+    [Guid(AsyncPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(CSharpChecker.LoadTreeOnStartUp.FindDuplicate))]
-    public sealed class LoadTreeOnStartUp : AsyncPackage
+    public sealed class AsyncPackage : Microsoft.VisualStudio.Shell.AsyncPackage
     {
         /// <summary>
         /// VSPackage1 GUID string.
@@ -58,9 +57,9 @@ namespace CSharpChecker.LoadTreeOnStartUp
         private DTE _dTE;
         private List<string> _filePaths;
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoadTreeOnStartUp"/> class.
+        /// Initializes a new instance of the <see cref="AsyncPackage"/> class.
         /// </summary>
-        public LoadTreeOnStartUp()
+        public AsyncPackage()
         {
             WorkSpace = WorkSpace.Instance;
             SolutionEvents.OnAfterBackgroundSolutionLoadComplete += HandleOpenSolution;
@@ -87,7 +86,6 @@ namespace CSharpChecker.LoadTreeOnStartUp
             bool isSolutionLoad = await IsSolutionLoadedAsync(cancellationToken);
             if (isSolutionLoad) HandleOpenSolution();
             await CSharpChecker.LoadTreeOnStartUp.MenuContext.InitializeAsync(this);
-            await CSharpChecker.LoadTreeOnStartUp.FindDuplicateCommand.InitializeAsync(this);
 
             
 

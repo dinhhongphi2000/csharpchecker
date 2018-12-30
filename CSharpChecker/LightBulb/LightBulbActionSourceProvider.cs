@@ -10,10 +10,8 @@ namespace CSharpChecker.LightBulb
     [Export(typeof(ISuggestedActionsSourceProvider))]
     [Name("Light Bulb Suggested Actions")]
     [ContentType("text")]
-    internal class TestSuggestedActionsSourceProvider : ISuggestedActionsSourceProvider
+    internal class LightBulbActionsSourceProvider : ISuggestedActionsSourceProvider
     {
-        [Import(typeof(ITextStructureNavigatorSelectorService))]
-        internal ITextStructureNavigatorSelectorService NavigatorService { get; set; }
         public ISuggestedActionsSource CreateSuggestedActionsSource(ITextView textView, ITextBuffer textBuffer)
         {
             if (textBuffer == null && textView == null)

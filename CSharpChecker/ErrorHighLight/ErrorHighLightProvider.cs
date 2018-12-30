@@ -23,10 +23,10 @@ namespace CSharpChecker.ErrorHighLight
     [TextViewRole(PredefinedTextViewRoles.Analyzable)]
     internal sealed class ErrorHighLightProvider : IViewTaggerProvider, ITableDataSource
     {
-        internal readonly ITableManager ErrorTableManager;
-        internal readonly ITextDocumentFactoryService TextDocumentFactoryService;
+        public readonly ITableManager ErrorTableManager;
+        public readonly ITextDocumentFactoryService TextDocumentFactoryService;
 
-        const string _errorCheckerDataSource = "ErrorChecker";
+        const string ErrorCheckerDataSource = "ErrorChecker";
 
         private readonly List<SinkManager> _managers = new List<SinkManager>();      // Also used for locks
         private readonly List<ErrorHighLightChecker> _errorCheckers = new List<ErrorHighLightChecker>();
@@ -80,7 +80,7 @@ namespace CSharpChecker.ErrorHighLight
         {
             get
             {
-                return _errorCheckerDataSource;
+                return ErrorCheckerDataSource;
             }
         }
 

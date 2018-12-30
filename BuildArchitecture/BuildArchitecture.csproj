@@ -111,7 +111,6 @@
     <Compile Include="ExtensionAndModifyClass\ParserRuleContextExtention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuleContextType.cs" />
-    <None Include="Rules\CheckArrayConstantInit.cs" />
     <Compile Include="Rules\CheckArgumentNameConvention.cs" />
     <Compile Include="Rules\CheckCatchStatementEmpty.cs" />
     <Compile Include="Rules\CheckConstantNameConvention.cs" />
@@ -120,12 +119,9 @@
     <Compile Include="Rules\CheckNamespaceNameConvention.cs" />
     <Compile Include="Rules\CheckRecursiveFuncLoop.cs" />
     <Compile Include="Rules\CheckVariableOverrideValue.cs" />
-    <Compile Include="Rules\ClassFormat.cs" />
     <Compile Include="Rules\LockStatementWarning.cs" />
     <Compile Include="Rules\RemoveBoolVarInConditionalStatment.cs" />
-    <None Include="Rules\SuggestNameBoolVariable.cs" />
     <Compile Include="Rules\CheckLocalVariableNameConvention.cs" />
-    <Compile Include="Rules\ForStatement_LoopDontRun.cs" />
     <Compile Include="Gui\TreeViewer.cs" />
     <Compile Include="Rules\RecommentAddCommentBeforeFunction.cs" />
     <Compile Include="Semetic\V2\ArrayType.cs" />
@@ -163,7 +159,6 @@
     <Compile Include="Semetic\V2\TypedSymbol.cs" />
     <Compile Include="Semetic\V2\Utils.cs" />
     <Compile Include="Semetic\V2\VariableSymbol.cs" />
-    <None Include="Rules\CheckVariableNameAllUpperCase.cs" />
     <Compile Include="WorkSpace.cs" />
   </ItemGroup>
   <ItemGroup>

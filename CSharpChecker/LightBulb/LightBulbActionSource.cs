@@ -17,13 +17,12 @@ namespace CSharpChecker.LightBulb
     class LightBulbActionsSource : ISuggestedActionsSource
     {
         private ErrorHighLightChecker _errorChecker;
-        private readonly TestSuggestedActionsSourceProvider _factory;
+        private readonly LightBulbActionsSourceProvider _factory;
         private readonly ITextBuffer _textBuffer;
         private readonly ITextView _textView;
         List<ErrorInformation> _errors;
-        public LightBulbActionsSource(TestSuggestedActionsSourceProvider testSuggestedActionsSourceProvider, ITextView textView, ITextBuffer textBuffer)
+        public LightBulbActionsSource(LightBulbActionsSourceProvider testSuggestedActionsSourceProvider, ITextView textView, ITextBuffer textBuffer)
         {
-            //Dte = System.Runtime.InteropServices.Marshal.GetActiveObject("VisualStudio.DTE") as DTE;
             _factory = testSuggestedActionsSourceProvider;
             _textBuffer = textBuffer;
             _textView = textView;
@@ -47,13 +46,11 @@ namespace CSharpChecker.LightBulb
                     Span span = new Span(err.StartIndex, err.Length);
                     if (span.Contains(_textView.Caret.Position.BufferPosition.Position) && err.HasReplace)
                     {
-
                         ITrackingSpan trackingSpan = range.Snapshot.CreateTrackingSpan(span, SpanTrackingMode.EdgeInclusive);
                         var action = new LightBulbSuggestedAction(trackingSpan, err.ReplaceCode,err.DisplayText);
                         suggestedActionSets.Add(new SuggestedActionSet(new ISuggestedAction[] { action }));
                     }
                 }
-
                 return suggestedActionSets;
             }
             else return null;
@@ -65,7 +62,6 @@ namespace CSharpChecker.LightBulb
             {
                 if (TryGetHighLightChecker(out _errors))
                 {
-
                     List<Span> span = new List<Span>();
                     foreach (ErrorInformation err in _errors)
                     {
@@ -74,8 +70,6 @@ namespace CSharpChecker.LightBulb
                             span.Add(new Span(err.StartIndex, err.Length));
                         }
                     }
-                    IEnumerable<SuggestedActionSet> suggestedActionSets = new List<SuggestedActionSet>();
-
                     foreach (Span sp in span)
                     {
                         if (sp.Contains(_textView.Caret.Position.BufferPosition.Position))
@@ -86,7 +80,6 @@ namespace CSharpChecker.LightBulb
                 }
                 return false;
             });
-
         }
     
         public bool TryGetHighLightChecker(out List<ErrorInformation> errors)

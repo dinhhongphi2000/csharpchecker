@@ -67,19 +67,8 @@
     <Compile Include="LightBulb\LightBulbActionSource.cs" />
     <Compile Include="LightBulb\LightBulbActionSourceProvider.cs" />
     <Compile Include="LightBulb\LightBulbSuggestedAction.cs" />
-    <Compile Include="LoadTreeOnStartUp\FindDuplicate.cs" />
-    <Compile Include="LoadTreeOnStartUp\FindDuplicateCommand.cs" />
-    <Compile Include="LoadTreeOnStartUp\FindDuplicateControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LoadTreeOnStartUp\FindDuplicateControl.Designer.cs">
-      <DependentUpon>FindDuplicateControl.cs</DependentUpon>
-    </Compile>
-    <None Include="LoadTreeOnStartUp\FindDuplicateControl.xaml.cs">
-      <DependentUpon>FindDuplicateControl.xaml</DependentUpon>
-    </None>
-    <Compile Include="LoadTreeOnStartUp\LoadTreeOnStartUp.cs" />
-    <Compile Include="LoadTreeOnStartUp\MenuContext.cs" />
+    <Compile Include="AsyncPackage\AsyncPackage.cs" />
+    <Compile Include="AsyncPackage\MenuContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,12 +82,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <VSCTCompile Include="LoadTreeOnStartUp\LoadTreeOnStartUp.vsct">
+    <VSCTCompile Include="AsyncPackage\LoadTreeOnStartUp.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
-    <Content Include="LoadTreeOnStartUp\Resources\FindDuplicateCommand.png" />
-    <Content Include="LoadTreeOnStartUp\Resources\MenuContext.png" />
-    <Content Include="LoadTreeOnStartUp\Resources\VSPackage1.ico" />
+    <Content Include="AsyncPackage\Resources\FindDuplicateCommand.png" />
+    <Content Include="AsyncPackage\Resources\MenuContext.png" />
+    <Content Include="AsyncPackage\Resources\VSPackage1.ico" />
     <Content Include="stylesheet.css" />
   </ItemGroup>
   <ItemGroup>
@@ -206,19 +195,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LoadTreeOnStartUp\FindDuplicateControl.resx">
-      <DependentUpon>FindDuplicateControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LoadTreeOnStartUp\VSPackage.resx">
+    <EmbeddedResource Include="AsyncPackage\VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>
       <ManifestResourceName>VSPackage</ManifestResourceName>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="LoadTreeOnStartUp\FindDuplicateControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
