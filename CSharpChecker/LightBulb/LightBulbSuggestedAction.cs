@@ -81,10 +81,6 @@ namespace CSharpChecker.LightBulb
 
         public Task<object> GetPreviewAsync(CancellationToken cancellationToken)
         {
-            //var textBlock = new TextBlock();
-            //textBlock.Padding = new Thickness(5);
-            //textBlock.Inlines.Add(new Run() { Text = _replaceText });
-            //return Task.FromResult<object>(textBlock);
             return null;
         }
 
