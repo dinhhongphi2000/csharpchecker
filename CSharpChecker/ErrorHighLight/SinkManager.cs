@@ -28,12 +28,12 @@ namespace CSharpChecker.ErrorHighLight
 
         internal void AddErrorChecker(ErrorHighLightChecker spellChecker)
         {
-            _sink.AddFactory(spellChecker.Factory);
+            _sink.AddFactory(spellChecker._factory);
         }
 
         internal void RemoveErrorChecker(ErrorHighLightChecker errorChecker)
         {
-            _sink.RemoveFactory(errorChecker.Factory);
+            _sink.RemoveFactory(errorChecker._factory);
         }
 
         internal void UpdateSink()

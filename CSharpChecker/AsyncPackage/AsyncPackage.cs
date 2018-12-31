@@ -52,17 +52,11 @@ namespace CSharpChecker.LoadTreeOnStartUp
         /// VSPackage1 GUID string.
         /// </summary>
         public const string PackageGuidString = "38639e3d-226b-4544-a4d6-eea6cb71ac0b";
-        private IVsSolution _solService;
-        public WorkSpace WorkSpace;
-        private DTE _dTE;
-        private List<string> _filePaths;
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncPackage"/> class.
         /// </summary>
         public AsyncPackage()
         {
-            WorkSpace = WorkSpace.Instance;
-            SolutionEvents.OnAfterBackgroundSolutionLoadComplete += HandleOpenSolution;
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
@@ -83,124 +77,7 @@ namespace CSharpChecker.LoadTreeOnStartUp
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            bool isSolutionLoad = await IsSolutionLoadedAsync(cancellationToken);
-            if (isSolutionLoad) HandleOpenSolution();
             await CSharpChecker.LoadTreeOnStartUp.MenuContext.InitializeAsync(this);
-
-            
-
-        }
-        private async Task<bool> IsSolutionLoadedAsync(CancellationToken cancellationToken)
-        {
-            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-            _solService = await GetServiceAsync(typeof(SVsSolution)) as IVsSolution;
-            _dTE = await GetServiceAsync(typeof(DTE)) as DTE;
-            ErrorHandler.ThrowOnFailure(_solService.GetProperty((int)__VSPROPID.VSPROPID_IsSolutionOpen, out object value));
-
-
-            //solService.GetProjectFilesInSolution(1, projectCount, projectNames.ToArray(), out numProjects);
-            return value is bool;
-        }
-        private void HandleOpenSolution(object sender = null, EventArgs e = null)
-        {
-            IVsActivityLog log = GetService(typeof(SVsActivityLog)) as IVsActivityLog;
-            
-
-            
-            List<string> projectPaths = new List<string>();
-            var items = _dTE.Solution.Projects;
-            foreach (var item in items)
-            {
-                var project = item as EnvDTE.Project;
-                projectPaths.Add(project.FullName);
-            }
-
-            GetFilePathFromProject(projectPaths, out _filePaths);
-            foreach (var path in _filePaths)
-            {
-                WorkSpace.InitOrUpdateParserTreeOfFile(path, GetFileContent(path));
-            }
-            WorkSpace.RunRulesAllFile();
-            var errors = WorkSpace.GetErrors();
-            // Handle the open solution and try to do as much work
-            // on a background thread as possible
-        }
-        private T GetPropertyValue<T>(IVsSolution solutionInterface, __VSPROPID solutionProperty)
-        {
-            object value = null;
-            T result = default(T);
-            if (solutionInterface.GetProperty((int)solutionProperty, out value) == VSConstants.S_OK)
-            {
-                result = (T)value;
-            }
-            return result;
-        }
-        private void GetFilePathFromProject(List<string> projectPaths, out List<string> filePaths)
-        {
-            filePaths = new List<string>();
-            foreach (string path in projectPaths)
-            {
-                if (path != null)
-                {
-                    Project[] projects = new Project[ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).Count];
-                    ProjectCollection.GlobalProjectCollection.GetLoadedProjects(path).CopyTo(projects, 0);
-                    foreach (Project pro in projects)
-                    {
-                        ProjectItem[] projectItem = new ProjectItem[pro.GetItems("Compile").Count];
-                        pro.GetItems("Compile").CopyTo(projectItem, 0);
-
-                        foreach (ProjectItem item in projectItem)
-                        {
-                            if (!item.EvaluatedInclude.StartsWith("Properties\\"))
-                            {
-                                var itempath = pro.DirectoryPath + "\\" + item.EvaluatedInclude;
-                                filePaths.Add(itempath);
-                            }
-
-                        }
-                    }
-                }
-
-            }
-
-        }
-
-        public void TestButton()
-        {
-            OpenSourceFile(_filePaths[0]);
-        }
-
-        public void OpenSourceFile(string path)
-        {
-            EnvDTE.ProjectItem file = _dTE.Solution.FindProjectItem(path);
-            var fileName = Path.GetFileName(path);
-            Window window;
-            TextDocument txtDoc;
-            TextSelection textSelection;
-            if (file.IsOpen[EnvDTE.Constants.vsViewKindCode])
-            {
-                window = _dTE.Windows.Item(fileName);
-                window.Visible = true;
-                txtDoc = window.Document.Object() as TextDocument;
-                textSelection = txtDoc.Selection;
-                textSelection.MoveToLineAndOffset(20, 0);
-            }
-            else
-            {
-                window = file.Open(EnvDTE.Constants.vsViewKindCode);
-                window.Visible = true;
-                txtDoc = window.Document.Object() as TextDocument;
-                textSelection = txtDoc.Selection;
-                textSelection.MoveToDisplayColumn(20, 0);
-            }
-        }
-
-        public string GetFileContent(string filePath)
-        {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                return reader.ReadToEnd();
-            }
         }
         #endregion
     }

@@ -18,7 +18,7 @@ using ProjectItem = Microsoft.Build.Evaluation.ProjectItem;
 namespace CSharpChecker.ErrorHighLight
 {
     ///<summary>
-    /// Finds the spelling errors in comments for a specific buffer.
+    /// Finds the errors in code for a specific buffer.
     ///</summary>
     /// <remarks><para>The lifespan of this object is tied to the lifespan of the taggers on the view. On creation of the first tagger, the SpellChecker starts doing
     /// work to find errors in the file. On the disposal of the last tagger, it shuts down.</para>
@@ -30,8 +30,6 @@ namespace CSharpChecker.ErrorHighLight
         private readonly Dispatcher _uiThreadDispatcher;
         private readonly ITextView _textview;      // Used to do spell checking.
 
-        private IClassifier _classifier;
-
         private ITextSnapshot _currentSnapshot;
 
         private bool _isUpdating = false;
@@ -39,10 +37,9 @@ namespace CSharpChecker.ErrorHighLight
 
         private readonly List<ErrorHighLightTagger> _activeTaggers = new List<ErrorHighLightTagger>();
         private List<ErrorInformation> _spanErrors = new List<ErrorInformation>();
-        internal readonly string FilePath;
-        internal readonly ErrorFactory Factory;
+        internal readonly string _filePath;
+        internal readonly ErrorFactory _factory;
         private WorkSpace _workSpace = WorkSpace.Instance;
-        private IVsSolution solution;
 
         internal ErrorHighLightChecker(ErrorHighLightProvider provider, ITextView textView, ITextBuffer buffer)
         {
@@ -54,14 +51,14 @@ namespace CSharpChecker.ErrorHighLight
             ITextDocument document;
             if (provider.TextDocumentFactoryService.TryGetTextDocument(textView.TextDataModel.DocumentBuffer, out document))
             {
-                this.FilePath = document.FilePath;
+                this._filePath = document.FilePath;
                 // TODO we should listen for the file changing its name (ITextDocument.FileActionOccurred)
             }
 
 
             // We're assuming we're created on the UI thread so capture the dispatcher so we can do all of our updates on the UI thread.
             _uiThreadDispatcher = Dispatcher.CurrentDispatcher;
-            this.Factory = new ErrorFactory(this, new ErrorSnapShot(this.FilePath, 0));
+            this._factory = new ErrorFactory(this, new ErrorSnapShot(this._filePath, 0));
         }
 
         internal void AddTagger(ErrorHighLightTagger tagger)
@@ -95,11 +92,6 @@ namespace CSharpChecker.ErrorHighLight
                 _isDisposed = true;
 
                 _buffer.Properties.RemoveProperty(typeof(ErrorHighLightChecker));
-
-                if (_classifier is IDisposable classifierDispose)
-                    classifierDispose.Dispose();
-
-                _classifier = null;
             }
         }
 
@@ -108,8 +100,8 @@ namespace CSharpChecker.ErrorHighLight
             _currentSnapshot = e.After;
 
             // Translate all errors to the new snapshot (and remove anything that is a dirty region since we will need to check that again).
-            var oldErrors = this.Factory.CurrentSnapshot;
-            var newErrors = new ErrorSnapShot(this.FilePath, oldErrors.VersionNumber + 1);
+            var oldErrors = this._factory.CurrentSnapshot;
+            var newErrors = new ErrorSnapShot(this._filePath, oldErrors.VersionNumber + 1);
 
             // Copy all of the old errors to the new errors unless the error was affected by the text change
             foreach (var error in oldErrors.Errors)
@@ -152,8 +144,8 @@ namespace CSharpChecker.ErrorHighLight
             {
                 if (_buffer.Equals(_textview.TextBuffer))
                 {
-                    ErrorSnapShot oldErrors = this.Factory.CurrentSnapshot;
-                    ErrorSnapShot newErrors = new ErrorSnapShot(this.FilePath, oldErrors.VersionNumber + 1);
+                    ErrorSnapShot oldErrors = this._factory.CurrentSnapshot;
+                    ErrorSnapShot newErrors = new ErrorSnapShot(this._filePath, oldErrors.VersionNumber + 1);
                     List<ErrorInformation> newSpanErrors;
                     // Go through the existing errors. If they are on the line we are currently parsing then
                     // copy them to oldLineErrors, otherwise they go to the new errors.
@@ -198,7 +190,7 @@ namespace CSharpChecker.ErrorHighLight
         private void UpdateErrors(ErrorSnapShot errors)
         {
             // Tell our factory to snap to a new snapshot.
-            this.Factory.UpdateErrors(errors);
+            this._factory.UpdateErrors(errors);
 
             // Tell the provider to mark all the sinks dirty (so, as a side-effect, they will start an update pass that will get the new snapshot
             // from the factory).
@@ -224,9 +216,9 @@ namespace CSharpChecker.ErrorHighLight
         public List<ErrorInformation> GetErrorInformation(string buffer)
         {
             
-            _workSpace.InitOrUpdateParserTreeOfFile(this.FilePath, buffer);
-            _workSpace.RunRules(this.FilePath);
-            return _workSpace.GetErrors(this.FilePath);
+            _workSpace.InitOrUpdateParserTreeOfFile(this._filePath, buffer);
+            _workSpace.RunRules(this._filePath);
+            return _workSpace.GetErrors(this._filePath);
         }
         public List<ErrorInformation> GetSpanErrors()
         {

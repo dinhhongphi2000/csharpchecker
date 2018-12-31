@@ -14,7 +14,7 @@ namespace CSharpChecker.ErrorHighLight
     /// <summary>
     /// Factory for the <see cref="ITagger{T}"/>. There will be one instance of this class/VS session.
     /// 
-    /// It is also the <see cref="ITableDataSource"/> that reports spelling errors in comments.
+    /// It is also the <see cref="ITableDataSource"/> that reports errors in code.
     /// </summary>
     [Export(typeof(IViewTaggerProvider))]
     [TagType(typeof(IErrorTag))]
@@ -26,7 +26,7 @@ namespace CSharpChecker.ErrorHighLight
         public readonly ITableManager ErrorTableManager;
         public readonly ITextDocumentFactoryService TextDocumentFactoryService;
 
-        const string ErrorCheckerDataSource = "ErrorChecker";
+        private const string ErrorCheckerDataSource = "CSharpChecker";
 
         private readonly List<SinkManager> _managers = new List<SinkManager>();      // Also used for locks
         private readonly List<ErrorHighLightChecker> _errorCheckers = new List<ErrorHighLightChecker>();
@@ -44,23 +44,18 @@ namespace CSharpChecker.ErrorHighLight
         }
 
         /// <summary>
-        /// Create a tagger that does spell checking on the view/buffer combination.
+        /// Create a tagger that does error checking on the view/buffer combination.
         /// </summary>
         public ITagger<T> CreateTagger<T>(ITextView textView, ITextBuffer buffer) where T : ITag
         {
             ITagger<T> tagger = null;
-
             // Only attempt to spell check on the view's edit buffer (and multiple views could have that buffer open simultaneously so
             // only create one instance of the spell checker.
             if ((buffer == textView.TextBuffer) && (typeof(T) == typeof(IErrorTag)))
             {
                 ErrorHighLightChecker errorChecker = buffer.Properties.GetOrCreateSingletonProperty(typeof(ErrorHighLightChecker), () => new ErrorHighLightChecker(this, textView, buffer));
-
-                // This is a thin wrapper around the SpellChecker that can be disposed of without shutting down the SpellChecker
-                // (unless it was the last tagger on the spell checker).
                 tagger = new ErrorHighLightTagger(errorChecker) as ITagger<T>;
             }
-
             return tagger;
         }
 
@@ -69,10 +64,7 @@ namespace CSharpChecker.ErrorHighLight
         {
             get
             {
-                // This string should, in general, be localized since it is what would be displayed in any UI that lets the end user pick
-                // which ITableDataSources should be subscribed to by an instance of the table control. It really isn't needed for the error
-                // list however because it autosubscribes to all the ITableDataSources.
-                return "Error Checker";
+                return "CSharp Checker";
             }
         }
 
@@ -103,7 +95,7 @@ namespace CSharpChecker.ErrorHighLight
         public void AddSinkManager(SinkManager manager)
         {
             // This call can, in theory, happen from any thread so be appropriately thread safe.
-            // In practice, it will probably be called only once from the UI thread (by the error list tool window).
+            // it will probably be called only once from the UI thread (by the error list tool window).
             lock (_managers)
             {
                 _managers.Add(manager);
@@ -119,7 +111,7 @@ namespace CSharpChecker.ErrorHighLight
         public void RemoveSinkManager(SinkManager manager)
         {
             // This call can, in theory, happen from any thread so be appropriately thread safe.
-            // In practice, it will probably be called only once from the UI thread (by the error list tool window).
+            // it will probably be called only once from the UI thread (by the error list tool window).
             lock (_managers)
             {
                 _managers.Remove(manager);

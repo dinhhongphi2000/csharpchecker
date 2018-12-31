@@ -15,9 +15,9 @@ namespace CSharpChecker.ErrorHighLight
         private readonly string _filePath;
         private readonly int _versionNumber;
 
-        // We're not using an immutable list here but we cannot modify the list in any way once we've published the snapshot.
         public readonly List<ErrorSpan> Errors = new List<ErrorSpan>();
 
+        // We're not using an immutable list here but we cannot modify the list in any way once we've published the snapshot.
         public ErrorSnapShot NextSnapshot;
 
         internal ErrorSnapShot(string filePath, int versionNumber)
@@ -156,17 +156,6 @@ namespace CSharpChecker.ErrorHighLight
             return false;
         }
 
-        public override bool CanCreateDetailsContent(int index)
-        {
-            return false;
-        }
-
-        public override bool TryCreateDetailsStringContent(int index, out string content)
-        {
-            content = null;
-
-            return false;
-        }
         private __VSERRORCATEGORY CheckErrorType(ErrorSpan errorSpan)
         {
             if (errorSpan.ErrorCode.StartsWith("WA")) return __VSERRORCATEGORY.EC_WARNING;
