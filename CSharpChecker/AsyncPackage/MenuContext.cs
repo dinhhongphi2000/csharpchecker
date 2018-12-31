@@ -136,16 +136,6 @@ namespace CSharpChecker.LoadTreeOnStartUp
             }
             _workSpace.RunRulesAllFile();
         }
-        private T GetPropertyValue<T>(IVsSolution solutionInterface, __VSPROPID solutionProperty)
-        {
-            object value = null;
-            T result = default(T);
-            if (solutionInterface.GetProperty((int)solutionProperty, out value) == VSConstants.S_OK)
-            {
-                result = (T)value;
-            }
-            return result;
-        }
         private void GetFilePathFromProject(List<string> projectPaths, out List<string> filePaths)
         {
             filePaths = new List<string>();

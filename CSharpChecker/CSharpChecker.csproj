@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <VSCTCompile Include="AsyncPackage\LoadTreeOnStartUp.vsct">
+    <VSCTCompile Include="AsyncPackage\MenuContext.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
     <Content Include="AsyncPackage\Resources\FindDuplicateCommand.png" />
