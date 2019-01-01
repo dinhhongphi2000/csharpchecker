@@ -10,7 +10,7 @@ namespace BuildArchitecture.Rules
     class CheckCatchStatementEmpty
     {
         [Export(typeof(Catch_clausesContext))]
-        public void VisitIdentifierContext(ParserRuleContext context, out ErrorInformation error)
+        public void VisitCatchContext(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
             var blockContext = context.GetDeepChildContext<BlockContext>()[0];

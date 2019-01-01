@@ -10,7 +10,7 @@ namespace BuildArchitecture.Rules
         string _identifier;
 
         [Export(typeof(Arg_declarationContext))]
-        public void sisitIdentifierContext2(ParserRuleContext context, out ErrorInformation error)
+        public void CheckArg(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
             var identifierContext = ((Arg_declarationContext)context).identifier();

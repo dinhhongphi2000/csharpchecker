@@ -10,7 +10,7 @@ namespace BuildArchitecture.Rules
         string _identifier;
 
         [Export(typeof(Local_variable_declaratorContext))]
-        public void VisitIdentifierContext(ParserRuleContext context, out ErrorInformation error)
+        public void CheckLocalVariable(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
             var identifierContext = ((Local_variable_declaratorContext)context).identifier();
