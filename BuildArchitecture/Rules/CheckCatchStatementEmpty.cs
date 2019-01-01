@@ -16,7 +16,7 @@ namespace BuildArchitecture.Rules
             var blockContext = context.GetDeepChildContext<BlockContext>()[0];
             if (blockContext.GetText() == "{}")
             {
-                var _identifier = blockContext.GetText();
+                var identifier = blockContext.GetText();
                     error = new ErrorInformation
                     {
                         StartIndex = blockContext.Start.StartIndex,

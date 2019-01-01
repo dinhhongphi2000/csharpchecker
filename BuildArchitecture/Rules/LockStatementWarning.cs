@@ -34,7 +34,7 @@ namespace BuildArchitecture.Rules
                 StartIndex = context.Start.StartIndex,
                 ErrorCode = "WA0006",
                 Length = context.Stop.StopIndex - context.Start.StartIndex + 1,
-                ErrorMessage = "UIT: Types and this should not be used for locking "
+                ErrorMessage = "UIT: Types and this keyword should not be used for locking "
            };
         }
     }

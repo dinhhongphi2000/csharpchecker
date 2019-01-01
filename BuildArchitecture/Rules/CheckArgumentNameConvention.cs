@@ -31,7 +31,7 @@ namespace BuildArchitecture.Rules
                         StartIndex = identifierContext.Start.StartIndex,
                         Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                         ErrorCode = "IF0006",
-                        DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
+                        DisplayText = string.Format("Fix name violation: {0}", replaceCodes[0].ReplaceCode),
                         ReplaceCode = replaceCodes,
                         ErrorMessage = "UIT: Naming rule violation: argument should begin with lower case characters."
                     };

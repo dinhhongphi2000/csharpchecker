@@ -28,7 +28,7 @@ namespace BuildArchitecture.Rules
                 {
                     ErrorCode = "IF0008",
                     StartIndex = identifierContext.Start.StartIndex,
-                    DisplayText = string.Format("Fix name violation {0}", replaceCodes[0].ReplaceCode),
+                    DisplayText = string.Format("Fix name violation: {0}", replaceCodes[0].ReplaceCode),
                     ReplaceCode = replaceCodes,
                     Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                     ErrorMessage = "UIT: Naming rule violation: Constant should begin with upper case characters"
