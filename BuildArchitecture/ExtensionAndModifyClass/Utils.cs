@@ -1,11 +1,12 @@
 ﻿using Antlr4.Runtime;
+using BuildArchitecture.Semetic.V2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace BuildArchitecture.Semetic.V2
+namespace BuildArchitecture
 {
     public class Utils
     {

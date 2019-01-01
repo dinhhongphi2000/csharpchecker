@@ -35,7 +35,7 @@ namespace BuildArchitecture.Rules
                 error = new ErrorInformation()
                 {
                     ErrorCode = "WA0001",
-                    ErrorMessage = "You should declare variable " + identifierContext.GetText() + " with difference name to avoid override value",
+                    ErrorMessage = "UIT: You should declare variable " + identifierContext.GetText() + " with difference name to avoid override value",
                     StartIndex = identifierContext.Start.StartIndex,
                     DisplayText = string.Format("Rename {0} to {1}", identifierContext.GetText(),replaceCodes[0].ReplaceCode),
                     ReplaceCode = replaceCodes,
