@@ -22,7 +22,7 @@ namespace BuildArchitecture.Rules
                     List<ReplaceCodeInfomation> replaceCodes = new List<ReplaceCodeInfomation>() {
                         new ReplaceCodeInfomation(){
                             Start = identifierContext.Start.StartIndex,
-                            Length = identifierContext.Stop.StopIndex - context.Start.StartIndex + 1,
+                            Length = identifierContext.Stop.StopIndex - identifierContext.Start.StartIndex + 1,
                             ReplaceCode = LowercaseFirst(_identifier)
                         }
                     };
