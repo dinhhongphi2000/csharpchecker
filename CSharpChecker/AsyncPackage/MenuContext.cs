@@ -15,7 +15,7 @@ using Project = Microsoft.Build.Evaluation.Project;
 using ProjectItem = Microsoft.Build.Evaluation.ProjectItem;
 using SolutionEvents = Microsoft.VisualStudio.Shell.Events.SolutionEvents;
 using Task = System.Threading.Tasks.Task;
-namespace CSharpChecker.LoadTreeOnStartUp
+namespace CSharpChecker.AsyncPackage
 {
     /// <summary>
     /// Command handler

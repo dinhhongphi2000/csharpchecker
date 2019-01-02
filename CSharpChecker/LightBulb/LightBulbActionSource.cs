@@ -36,7 +36,7 @@ namespace CSharpChecker.LightBulb
         {
         }
 
-        public IEnumerable<SuggestedActionSet> GetSuggestedActions(ISuggestedActionCategorySet requestedActionCategories, SnapshotSpan range, CancellationToken cancellationToken)
+        public IEnumerable<SuggestedActionSet> GetSuggestedActions(ISuggestedActionCategorySet req, SnapshotSpan range, CancellationToken token)
         {
             if (TryGetHighLightChecker(out _errors))
             {

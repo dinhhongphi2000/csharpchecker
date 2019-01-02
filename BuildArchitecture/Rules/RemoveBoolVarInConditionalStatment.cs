@@ -9,7 +9,7 @@ namespace BuildArchitecture.Rules
     internal class RemoveBoolVarInConditionalStatment
     {
         [Export(typeof(Equality_expressionContext))]
-        public void CheckIfInsideHasNumber(ParserRuleContext context, out ErrorInformation error)
+        public void CheckConditionalStatement(ParserRuleContext context, out ErrorInformation error)
         {
             error = null;
             var relationalExpressionContext = ((Equality_expressionContext)context).relational_expression();
